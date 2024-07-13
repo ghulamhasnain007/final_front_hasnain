@@ -1,0 +1,28 @@
+.table-container {
+    overflow-x: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0 16px;
+  }
+  
+  @media screen and (max-width: 576px) {
+    .ant-table {
+      font-size: 12px; /* Adjust font size for smaller screens */
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .ant-table {
+      font-size: 14px; /* Adjust font size for tablets */
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .ant-table {
+      font-size: 16px; /* Adjust font size for small desktops */
+    }
+  }
+  
+
+  
+

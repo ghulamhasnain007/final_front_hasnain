@@ -1,0 +1,235 @@
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form, Input, Card, message, Tooltip, Empty, Dropdown, Menu } from 'antd';
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Link, useParams } from 'react-router-dom';
+import { FaUsers } from "react-icons/fa6";
+import { PiDotsSixVertical } from "react-icons/pi";
+import axios from 'axios';
+import Tnavi from '../Teachercomp/Tnavi';
+
+const CreateClassComponent = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [classDetailsList, setClassDetailsList] = useState([]);
+  const [clickedCardIndex, setClickedCardIndex] = useState(null);
+  const [dropid, setDropid] = useState('');
+  const [teacherprofile, setteacherprofile] = useState('')
+  const getData = () => {
+    axios.get('http://localhost:3000/api/creteclass/getclass')
+      .then(response => {
+        setClassDetailsList(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching class details:', error);
+      });
+  }
+
+  useEffect(() => {
+    getData();
+    getuserdatbyid()
+  }, []);
+
+  const showModal = () => {
+    setIsOpen(true);
+    generateClassCode();
+  };
+
+  let getuserdatbyid = () => {
+    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const id = teacherData.userData.id
+    try {
+      axios.get(`http://localhost:3000/api/users/${id}`)
+        .then(res => {
+          console.log(res.data.profileurl)
+          setteacherprofile(res.data.profileurl)
+        })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleOk = () => {
+    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    form.validateFields().then((values) => {
+      const generatedClassDetails = {
+        className: values.className,
+        description: values.description,
+        class_code: generateClassCode(),
+        teacher_id: teacherData.userData.id,
+        teacher_name: teacherData.userData.teacher_name ,// Ensure 'teacher_name' is correctly set in localStorage
+        teacher_profile : teacherprofile 
+      }
+
+      axios.post('http://localhost:3000/api/creteclass', generatedClassDetails)
+        .then(response => {
+          setClassDetailsList([...classDetailsList, response.data]);
+          message.success(response.data.message);
+          setIsOpen(false);
+          form.resetFields();
+          getData();
+        })
+        .catch(error => {
+          console.error('Error creating class:', error);
+          message.error(error.response.data.message);
+        });
+
+    }).catch((errorInfo) => {
+      console.log('Validation failed:', errorInfo);
+    });
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
+  const generateClassCode = () => {
+    const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+    form.setFieldsValue({ classCode: code });
+    return code;
+  };
+
+  const handleCopyCode = (code) => {
+    navigator.clipboard.writeText(code)
+      .then(() => {
+        message.success('Class code copied!');
+      })
+      .catch((err) => {
+        console.error('Failed to copy class code:', err);
+        message.error('Failed to copy class code!');
+      });
+  };
+
+  const showDeleteConfirm = (classId) => {
+    Modal.confirm({
+      title: 'Are you sure delete this class?',
+      content: 'This action will delete all tasks and submissions associated with this class.',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        handleDelete(classId);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  const handleDelete = (classId) => {
+    axios.delete(`http://localhost:3000/api/creteclass/${classId}`)
+      .then(() => {
+        message.success('Class deleted successfully!');
+        getData();
+      })
+      .catch(error => {
+        console.error('Error deleting class:', error);
+        message.error('Failed to delete class.');
+      });
+  };
+
+  const menuItems = (classId) => [
+    {
+      key: '1',
+      label: (
+        <Link to={`/teacher/createclasswork/${classId}/studentreport`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <center> <p><FaUsers /> All students</p></center>
+        </Link>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <Button type="text" danger icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(classId)}>
+          Delete Class
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <Tnavi /> <br /><br /><br /><br /><br /><br />
+      <center>
+        <Button type="primary" onClick={showModal} style={{ position: 'sticky', marginLeft: 20 }}>
+          Create Class
+        </Button>
+      </center>
+      <br />
+      <Modal
+        title="Create Class"
+        open={isOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Create"
+        cancelText="Cancel"
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            name="className"
+            label="Class Name"
+            rules={[{ required: true, message: 'Please enter the class name' }]}
+          >
+            <Input placeholder="Enter the class name" />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Description"
+          >
+            <Input.TextArea placeholder="Enter a description for the class" rows={4} />
+          </Form.Item>
+          <Form.Item
+            name="classCode"
+            label="Class Code"
+          >
+            <Input readOnly />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {classDetailsList.length > 0 ? (
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {classDetailsList.map((classDetails, index) => (
+            <Card key={index}
+              title={`${index + 1} : ${classDetails.className}`}
+              style={{ width: 300, margin: '20px', textAlign: 'center', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis' }}
+              hoverable
+            >
+              {clickedCardIndex !== index && (
+                <>
+                  <p style={{ textDecorationLine: 'none' }}>
+                    <strong>Class Code:</strong> {classDetails.class_code}
+                    <Tooltip title="Copy code">
+                      <Button type="link" size="small" icon={<CopyOutlined />} onClick={(e) => { e.preventDefault(); handleCopyCode(classDetails.class_code); }} />
+                    </Tooltip>
+                  </p>
+                  <p style={{ marginBottom: 10 }}><strong>Create date:</strong> {`${classDetails.created_at ? classDetails.created_at.slice(0, 10) : 'N/A'} `}</p><br />
+                  <div>
+                    <Tooltip title="Go to the task">
+                      <Link style={{ textDecorationLine: 'none' }} to={`/teacher/createclasswork/${classDetails._id}`} onClick={() => setClickedCardIndex(index)}>
+                        Go to the Task
+                      </Link>
+                      <br /> <hr />
+                    </Tooltip>
+                    <Dropdown
+                      menu={{ items: menuItems(classDetails._id) }}
+                      placement="bottomLeft"
+                      trigger={['click']}
+                    >
+                      <Button style={{ marginLeft: 205 }} onClick={() => setDropid(classDetails._id)}>
+                        <PiDotsSixVertical style={{ color: "blue" }} />
+                      </Button>
+                    </Dropdown>
+                  </div>
+                </>
+              )}
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Empty description="No class created" />
+      )}
+    </div>
+  );
+};
+
+export default CreateClassComponent;
