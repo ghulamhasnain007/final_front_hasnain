@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import Tnavi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { CopyOutlined } from '@ant-design/icons';
-
+import teacher from '../token/teacher.js'
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,7 +79,7 @@ const ALL_task = () => {
       teacher_name: teacher_name
     };
 
-    axios.post('http://localhost:3000/api/createtask', newTask)
+    teacher.post('/createtask', newTask)
       .then((response) => {
         message.success('Task created successfully');
         getTasks();
@@ -101,7 +101,7 @@ const ALL_task = () => {
       instructions: values.instructions,
       last_date: values.lastDate.format('YYYY-MM-DD HH:mm:ss'),
     };
-    axios.put(`http://localhost:3000/api/createtask/update`, updatedTask)
+    teacher.put(`/createtask/update`, updatedTask)
       .then((response) => {
         message.success('Task updated successfully');
         getTasks();
@@ -148,7 +148,7 @@ const ALL_task = () => {
   };
 
   const handleDelete = (item) => {
-    axios.delete(`http://localhost:3000/api/createtask/${item}`)
+    teacher.delete(`/createtask/${item}`)
       .then((response) => {
         message.success(response.data.message);
         getTasks();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Row, Col } from 'antd';
 import axios from 'axios';
-
+import student from '../token/student.js'
 const Dashboard = () => {
   const [data,setdata] = useState('')
   const [totalclass,settotalclass] = useState('')
@@ -9,7 +9,7 @@ const Dashboard = () => {
   let getpoint = async() =>{
     let user = JSON.parse(localStorage.getItem('user'))
     let id = user.userData.id
-    await axios.get(`http://localhost:3000/api/point/${id}`)
+    await student.get(`/point/${id}`)
     .then((res)=>{
       // console.log(res.data);
       setdata(res.data)
@@ -21,7 +21,7 @@ const Dashboard = () => {
   let totalClasses = async() =>{
     let user = JSON.parse(localStorage.getItem('user'))
     let id = user.userData.id
-    await axios.get(`http://localhost:3000/api/point/get/${id}`)
+    await student.get(`/point/get/${id}`)
     .then((res)=>{
       // console.log(res.data);
       settotalclass(res.data)

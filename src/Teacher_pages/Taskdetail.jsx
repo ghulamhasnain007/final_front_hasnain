@@ -5,7 +5,7 @@ import { FaRobot } from "react-icons/fa";
 import axios from 'axios';
 import { RxReload } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
-
+import teacher from '../token/teacher.js'
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -49,7 +49,7 @@ const App = () => {
   };
 
   const handleAddPoint = () => {
-    axios.put(`http://localhost:3000/api/createtask/point/${selectedItem._id}`, { point: selectedItem.point })
+    teacher.put(`/createtask/point/${selectedItem._id}`, { point: selectedItem.point })
       .then(response => {
         message.success('Point updated successfully');
         getSubmissions();

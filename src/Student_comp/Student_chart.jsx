@@ -3,7 +3,7 @@ import { Card, Row, Col, Input, Button, List } from 'antd';
 import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
+import student from '../token/student.js'
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,
@@ -77,11 +77,11 @@ const Dashboard = () => {
         const id = user.userData.id;
 
         // Fetch Total Points
-        const pointsResponse = await axios.get(`http://localhost:3000/api/point/${id}`);
+        const pointsResponse = await student.get(`/point/${id}`);
         setTotalPoints(pointsResponse.data);
         console.log(pointsResponse.data);
         // Fetch Total Classes Joined
-        const classesResponse = await axios.get(`http://localhost:3000/api/point/get/${id}`)
+        const classesResponse = await student.get(`/point/get/${id}`)
         setTotalClasses(classesResponse.data.totalclassjoin);
         console.log(classesResponse.data);
       } catch (error) {

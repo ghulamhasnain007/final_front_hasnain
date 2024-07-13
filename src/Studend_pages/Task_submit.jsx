@@ -5,7 +5,7 @@ import { PiBracketsCurlyLight } from "react-icons/pi";
 import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+import student from '../token/student.js'
 const { TextArea } = Input;
 
 const TaskSubmission = () => {
@@ -70,7 +70,7 @@ const TaskSubmission = () => {
     formData.append('student_name', userid.userData.username);
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/api/tasksubmit', formData);
+      const response = await student.post('/tasksubmit', formData);
       message.success(response.data.message);
       // Clear form fields after submission
       setText('');

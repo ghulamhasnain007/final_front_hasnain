@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Statistic } from 'antd';
 import axios from 'axios';
-
+import teacher from '../token/teacher.js'
 
 const DashboardPage = () => {
   const [data,setdata] = useState('')
   // Mock data for total counts
-  const totalStudents = data.totalstudent ?  data.totalstudent : '0'
+  const totalstudent = data.totalstudent ?  data.totalstudent : '0'
   const totalClasses = data.totalclass ?  data.totalclass :  '0'
   const totalQuizzes = 150; 
   const totalTasks = data.totaltask ?   data.totaltask :  '0'
@@ -14,7 +14,7 @@ const DashboardPage = () => {
   
   let get = () =>{
     const teacher_id = JSON.parse(localStorage.getItem('techerdata')).userData.id
-    axios.get(`http://localhost:3000/api/joinclass/get/${teacher_id}`)
+    teacher.get(`/joinclass/get/${teacher_id}`)
     .then((res)=>{
       console.log(res.data)
       setdata(res.data)
@@ -36,7 +36,7 @@ const DashboardPage = () => {
             <Card>
               <Statistic
                 title="Total Students"
-                value={totalStudents}
+                value={totalstudent}
                 valueStyle={{ color: '#3f8600' }}
               />
             </Card>

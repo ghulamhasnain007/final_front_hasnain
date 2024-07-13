@@ -6,7 +6,7 @@ import { FaUsers } from "react-icons/fa6";
 import { PiDotsSixVertical } from "react-icons/pi";
 import axios from 'axios';
 import Tnavi from '../Teachercomp/Tnavi';
-
+import teacher from '../token/teacher.js'
 const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ const CreateClassComponent = () => {
   const [dropid, setDropid] = useState('');
   const [teacherprofile, setteacherprofile] = useState('')
   const getData = () => {
-    axios.get('http://localhost:3000/api/creteclass/getclass')
+    teacher.get('/creteclass/getclass')
       .then(response => {
         setClassDetailsList(response.data);
       })
@@ -47,7 +47,19 @@ const CreateClassComponent = () => {
       console.log(error);
     }
   }
-
+  let chart = async () => {
+    let totalStudents = 0;
+    let totalTasks = 0;
+    let totalClasses = 1;
+    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherId = teacherData.userData.id;
+    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId })
+      .then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+      });
+  };
   const handleOk = () => {
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     form.validateFields().then((values) => {
@@ -60,13 +72,14 @@ const CreateClassComponent = () => {
         teacher_profile : teacherprofile 
       }
 
-      axios.post('http://localhost:3000/api/creteclass', generatedClassDetails)
+      teacher.post('/creteclass', generatedClassDetails)
         .then(response => {
           setClassDetailsList([...classDetailsList, response.data]);
           message.success(response.data.message);
           setIsOpen(false);
           form.resetFields();
           getData();
+          chart()
         })
         .catch(error => {
           console.error('Error creating class:', error);
@@ -116,7 +129,7 @@ const CreateClassComponent = () => {
   };
 
   const handleDelete = (classId) => {
-    axios.delete(`http://localhost:3000/api/creteclass/${classId}`)
+    teacher.delete(`/creteclass/${classId}`)
       .then(() => {
         message.success('Class deleted successfully!');
         getData();

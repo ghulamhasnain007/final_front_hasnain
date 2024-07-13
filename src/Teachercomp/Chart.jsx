@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Select, Spin, Button } from 'antd';
 import axios from 'axios';
 import { Line } from '@ant-design/charts';
-
+import teacher from '../token/teacher.js'
 const { Option } = Select;
 
 const DashboardPage = () => {
@@ -15,7 +15,7 @@ const DashboardPage = () => {
     try {
       const teacherData = JSON.parse(localStorage.getItem('techerdata'));
       const teacherId = teacherData.userData.id
-      const response = await axios.get(`http://localhost:3000/api/tchart/chart${teacherId}`)
+      const response = await teacher.get(`/tchart/chart${teacherId}`)
       console.log('Fetched data:', response.data); // Log fetched data
       setData(response.data);
       setFilteredData(response.data);
