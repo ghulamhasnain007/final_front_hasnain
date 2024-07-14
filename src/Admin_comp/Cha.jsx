@@ -1,71 +1,73 @@
-import React from 'react';
-import { Column } from '@ant-design/charts';
-import moment from 'moment';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const ColumnChart = () => {
-  const data = [
-    { date: '2024-07-01', category: 'Assignments', count: 5 },
-    { date: '2024-07-01', category: 'Points', count: 10 },
-    { date: '2024-07-01', category: 'Quiz Points', count: 7 },
-    { date: '2024-07-01', category: 'Tasks Completed', count: 4 },
-    { date: '2024-07-01', category: 'Projects', count: 6 },
-    { date: '2024-07-01', category: 'Exams', count: 9 },
-    { date: '2024-07-02', category: 'Assignments', count: 3 },
-    { date: '2024-07-02', category: 'Points', count: 8 },
-    { date: '2024-07-02', category: 'Quiz Points', count: 5 },
-    { date: '2024-07-02', category: 'Tasks Completed', count: 6 },
-    { date: '2024-07-02', category: 'Projects', count: 4 },
-    { date: '2024-07-02', category: 'Exams', count: 7 },
-    { date: '2024-07-03', category: 'Assignments', count: 7 },
-    { date: '2024-07-03', category: 'Points', count: 15 },
-    { date: '2024-07-03', category: 'Quiz Points', count: 10 },
-    { date: '2024-07-03', category: 'Tasks Completed', count: 9 },
-    { date: '2024-07-03', category: 'Projects', count: 8 },
-    { date: '2024-07-03', category: 'Exams', count: 11 },
-    // Add more daily data here
+const SpellCheckForm = () => {
+  const [results, setResults] = useState([]);
+  const [prompt, setPrompt] = useState('');
+  
+  // Predefined array of assignments
+  const ass = [
+    { text: 'dscd', _id: '6693ef93f6e60d32d7b9757f' },
+    { text: 'This i a book', _id: '6693ef93f6e60d32d7b97580' },
+    { text: 'This is a boo', _id: '6693ef93f6e60d32d7b97581' },
   ];
 
-  const config = {
-    data,
-    xField: 'date',
-    yField: 'count',
-    seriesField: 'category',
-    colorField: 'category',
-    isGroup: true,
-    columnWidthRatio: 0.8,
-    xAxis: {
-      type: 'timeCat',
-      tickCount: 5,
-      label: {
-        formatter: (v) => moment(v).format('MM-DD'),
-      },
-    },
-    yAxis: {
-      label: {
-        formatter: (v) => `${v}`,
-      },
-    },
-    tooltip: {
-      customContent: (title, items) => {
-        return `<div style="padding: 10px;">
-                  <div style="margin-bottom: 5px; font-weight: bold;">${title}</div>
-                  ${items.map(item => (
-                    `<div key={item.name} style="color:${item.color};">
-                       <span style="margin-right: 10px;">${item.name}:</span>
-                       <span>${item.value}</span>
-                     </div>`
-                  )).join('')}
-                </div>`;
-      },
-    },
-    legend: { position: 'top-left' },
+  const handleSubmit = async () => {
+    try {
+      let fullPrompt = prompt;
+      
+      // Append each assignment's text to the full prompt
+      ass.forEach((assignment, index) => {
+        fullPrompt += `${index + 1}. ${assignment.text}\n`;
+      });
+
+      // Update the prompt state with the full prompt including assignments
+      setPrompt(fullPrompt);
+
+      // Sending request with prompt and assignments
+      const res = await axios.post('http://localhost:5000/check-assignments', { prompt: fullPrompt, assignments: ass });
+      
+      // Assuming res.data is an array of objects { _id, score }
+      const updatedAssignments = ass.map((assignment, index) => ({
+        ...assignment,
+        score: res.data[index].score,
+      }));
+
+      setResults(updatedAssignments);
+      updateScoresInMongoDB(updatedAssignments);
+
+    } catch (error) {
+      console.error('Error checking spelling:', error);
+      // Handle error gracefully, e.g., show error message to the user
+    }
+  };
+
+  const updateScoresInMongoDB = async (data) => {
+    try {
+      const res = await axios.post('http://localhost:5000/update-scores', { assignments : data });
+      console.log('Updated in MongoDB:', res.data);
+    } catch (error) {
+      console.error('Error updating in MongoDB:', error);
+      // Handle error updating in MongoDB, e.g., show error message to the user
+    }
   };
 
   return (
     <div>
-      <Column {...config} />
+      <textarea onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt here"></textarea><br /><br />
+      <button onClick={handleSubmit}>Check Spelling & Update Scores</button>
+      {results.length > 0 && (
+        <div>
+          <h3>Results:</h3>
+          {results.map((result, index) => (
+            <div key={index}>
+              <p>User ID: {result._id} - Score: {result.score}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default ColumnChart;
+export default SpellCheckForm;
