@@ -21,6 +21,7 @@ import Task_submit from './Studend_pages/Task_submit';
 import Student_reg from './Studend_pages/Student_reg';
 import Student_login from './Studend_pages/Student_login';
 import Teacher_login from './Teacher_pages/Teacher_login';
+import Mysub from './Studend_pages/Mysub'
 import HomePage from './Home/Home';
 import Cha from './Admin_comp/Cha';
 import Page from './Home/Page'
@@ -74,6 +75,7 @@ function App() {
             <Route path='dashboard' element={user ?  <Sdashboard /> : <Nologin/>   } />
             <Route path='profile' element={user ? <Profile /> : <Nologin/>   } />
             <Route path='join' element={user ? <Join_class /> : <Nologin/>   } />
+            <Route path='mysubmission' element={user ? <Mysub /> : <Nologin/>   } />
             <Route path='register' element={ <Student_reg />} />
             <Route path='login' element={<Student_login />} />
             <Route path='join/:classid' element={ user ? <Student_task />: <Nologin/>  } />

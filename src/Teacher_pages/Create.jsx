@@ -1,19 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form, Input, Card, message, Tooltip, Empty, Dropdown, Menu } from 'antd';
+import { Button, Modal, Form, Input, Card, message, Tooltip, Empty, Dropdown, Select } from 'antd';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaUsers } from "react-icons/fa6";
 import { PiDotsSixVertical } from "react-icons/pi";
 import axios from 'axios';
 import Tnavi from '../Teachercomp/Tnavi';
-import teacher from '../token/teacher.js'
+import teacher from '../token/teacher.js';
+
+const { Option } = Select;
+
 const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
   const [classDetailsList, setClassDetailsList] = useState([]);
   const [clickedCardIndex, setClickedCardIndex] = useState(null);
   const [dropid, setDropid] = useState('');
-  const [teacherprofile, setteacherprofile] = useState('')
+  const [teacherprofile, setteacherprofile] = useState('');
+
+  const themes = [
+    {name : 'Theme 1',
+      url : 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608'
+    },
+    {name : 'Theme 2',
+      url : 'https://storage.googleapis.com/kami-uploads-public/library-resource-egxYhSV74CxA-vdSy9m-google-classroom-banner-paint-splats-png'
+    },
+    {name : ' Theme 3',
+      url : 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/mother%27s-day%2C-event%2C-greeting%2Cretail-design-template-3d3dbf8ff17ea5821edb60d082c02406_screen.jpg?ts=1698430100'
+    }
+  ]; // Define your themes here
+
   const getData = () => {
     teacher.get('/creteclass/getclass')
       .then(response => {
@@ -26,7 +42,7 @@ const CreateClassComponent = () => {
 
   useEffect(() => {
     getData();
-    getuserdatbyid()
+    getuserdatbyid();
   }, []);
 
   const showModal = () => {
@@ -34,20 +50,20 @@ const CreateClassComponent = () => {
     generateClassCode();
   };
 
-  let getuserdatbyid = () => {
+  const getuserdatbyid = () => {
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
-    const id = teacherData.userData.id
+    const id = teacherData.userData.id;
     try {
       axios.get(`http://localhost:3000/api/users/${id}`)
         .then(res => {
-          console.log(res.data.profileurl)
-          setteacherprofile(res.data.profileurl)
-        })
+          setteacherprofile(res.data.profileurl);
+        });
     } catch (error) {
       console.log(error);
     }
   }
-  let chart = async () => {
+
+  const chart = async () => {
     let totalStudents = 0;
     let totalTasks = 0;
     let totalClasses = 1;
@@ -60,6 +76,7 @@ const CreateClassComponent = () => {
         console.log(err);
       });
   };
+
   const handleOk = () => {
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     form.validateFields().then((values) => {
@@ -67,10 +84,11 @@ const CreateClassComponent = () => {
         className: values.className,
         description: values.description,
         class_code: generateClassCode(),
+        theme: values.theme,
         teacher_id: teacherData.userData.id,
-        teacher_name: teacherData.userData.teacher_name ,// Ensure 'teacher_name' is correctly set in localStorage
-        teacher_profile : teacherprofile 
-      }
+        teacher_name: teacherData.userData.teacher_name, // Ensure 'teacher_name' is correctly set in localStorage
+        teacher_profile: teacherprofile 
+      };
 
       teacher.post('/creteclass', generatedClassDetails)
         .then(response => {
@@ -79,7 +97,7 @@ const CreateClassComponent = () => {
           setIsOpen(false);
           form.resetFields();
           getData();
-          chart()
+          chart();
         })
         .catch(error => {
           console.error('Error creating class:', error);
@@ -191,6 +209,17 @@ const CreateClassComponent = () => {
             <Input.TextArea placeholder="Enter a description for the class" rows={4} />
           </Form.Item>
           <Form.Item
+            name="theme"
+            label="Theme"
+            rules={[{ required: true, message: 'Please select a theme' }]}
+          >
+            <Select placeholder="Select a theme">
+              {themes.map((theme, index) => (
+                <Option key={index} value={theme.url }>{theme.name}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
             name="classCode"
             label="Class Code"
           >
@@ -198,6 +227,7 @@ const CreateClassComponent = () => {
           </Form.Item>
         </Form>
       </Modal>
+
 
       {classDetailsList.length > 0 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>

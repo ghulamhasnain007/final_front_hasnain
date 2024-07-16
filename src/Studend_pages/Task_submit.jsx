@@ -58,19 +58,43 @@ const TaskSubmission = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    const userid = JSON.parse(localStorage.getItem('user'));
-    const formData = new FormData();
-    formData.append('text', text);
-    formData.append('file', imgFile);
-    formData.append('task_id', id);
-    formData.append('url', url);
-    formData.append('class_id', classid);
-    formData.append('student_id', userid.userData.id);
-    formData.append('student_name', userid.userData.username);
-    setLoading(true);
-    try {
-      const response = await student.post('/tasksubmit', formData);
+
+ let studentcard = (classid) =>{
+  const userid = JSON.parse(localStorage.getItem('user')).userData.id
+    // console.log(userid.userData.id);
+  try {
+    axios.post(`http://localhost:3000/api/point/student/${userid}`, {
+      submission: 1,
+      class_id : classid
+      
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.error('Error in adminchart:', error);
+  }
+ }
+
+ const handleSubmit = async () => {
+  const userid = JSON.parse(localStorage.getItem('user'));
+  const formData = new FormData();
+  formData.append('text', text);
+  formData.append('file', imgFile);
+  formData.append('task_id', id);
+  formData.append('url', url);
+  formData.append('class_id', classid);
+  formData.append('student_id', userid.userData.id);
+  formData.append('student_name', userid.userData.username);
+  setLoading(true);
+
+  try {
+    const response = await student.post('/tasksubmit', formData);
+
+    if (response && response.data) {
       message.success(response.data.message);
       // Clear form fields after submission
       setText('');
@@ -78,12 +102,23 @@ const TaskSubmission = () => {
       setImgFile(null);
       setUrl('');
       adminchart();
-    } catch (error) {
-      message.error(error.response.data.message);
-    } finally {
-      setLoading(false);
+
+      if (response.data.message === 'Submission send successfully') {
+        studentcard(response.data.file.class_id);
+      }
+    } else {
+      message.error('Unexpected response from server');
     }
-  };
+  } catch (error) {
+    if (error.response && error.response.data) {
+      message.error(error.response.data.message);
+    } else {
+      message.error('An error occurred while submitting the task');
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   const getTask = async () => {
     try {

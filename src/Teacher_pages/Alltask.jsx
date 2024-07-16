@@ -179,11 +179,13 @@ const ALL_task = () => {
     return lastDate.isBefore(today, 'day');
   };
 
+
+  
   return (
     <>
       <Tnavi />
       <div style={{ padding: '20px', marginTop: 80 }}>
-        <Card title={`Teacher name : ${classdata.teacher_name}`} style={{ marginBottom: '20px' }}>
+        <Card  title={`Teacher name : ${classdata.teacher_name}`} style={{ marginBottom: '20px' ,  backgroundImage: `url('https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg')`, }}>
           <p>
             <strong>Class Name: </strong> {classdata.className}
           </p>

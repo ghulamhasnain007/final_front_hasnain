@@ -45,6 +45,25 @@ const Join_class = () => {
       })
   }
 
+  let studentcard = (classid) =>{
+    const userid = JSON.parse(localStorage.getItem('user')).userData.id
+      // console.log(userid.userData.id);
+    try {
+      axios.post(`http://localhost:3000/api/point/student/${userid}`, {
+        total_class: 1,
+        class_id : classid
+        
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.error('Error in adminchart:', error);
+    }
+   }
 
   const handleOk = async () => {
     try {
@@ -58,6 +77,7 @@ const Join_class = () => {
            console.log(res.data.class.teacher_id)
           joininguserdata(res.data.class._id, userId)
           chart(res.data.class.teacher_id)
+          studentcard(res.data.class._id)
         })
         .catch((error) => message.error(error.response.data.message))
     } catch (error) {
@@ -69,6 +89,8 @@ const Join_class = () => {
     setIsModalOpen(false);
 
   };
+
+
 
   const getClassData = async () => {
     try {
@@ -130,7 +152,7 @@ const Join_class = () => {
                   <Card
                     style={{ width: 300 }}
                     hoverable
-                    cover={<img style={{ width: 300, height: 130 }} alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                    cover={<img style={{ width: 300, height: 130 }} alt="example" src={item.theme ? item.theme : 'https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg'  } />}
                   >
                     <Meta
                       avatar={<Avatar src={item.teacher_profile ? item.teacher_profile : 'https://api.dicebear.com/7.x/miniavs/svg?seed=8'} />}

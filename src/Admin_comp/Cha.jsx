@@ -27,7 +27,7 @@ const SpellCheckForm = () => {
       // Sending request with prompt and assignments
       const res = await axios.post('http://localhost:5000/check-assignments', { prompt: fullPrompt, assignments: ass });
       
-      // Assuming res.data is an array of objects { _id, score }
+      // Assuming res.data is an array of objects { userId, score }
       const updatedAssignments = ass.map((assignment, index) => ({
         ...assignment,
         score: res.data[index].score,
@@ -44,7 +44,7 @@ const SpellCheckForm = () => {
 
   const updateScoresInMongoDB = async (data) => {
     try {
-      const res = await axios.post('http://localhost:5000/update-scores', { assignments : data });
+      const res = await axios.post('http://localhost:5000/update-scores', { assignments: data });
       console.log('Updated in MongoDB:', res.data);
     } catch (error) {
       console.error('Error updating in MongoDB:', error);

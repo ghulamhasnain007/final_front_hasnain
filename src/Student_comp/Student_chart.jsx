@@ -67,8 +67,8 @@ const TodoList = () => {
 };
 
 const Dashboard = () => {
-  const [totalPoints, setTotalPoints] = useState('');
-  const [totalClasses, setTotalClasses] = useState('');
+  const [data, setdata] = useState('');
+  // const [totalClasses, setTotalClasses] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,13 +77,13 @@ const Dashboard = () => {
         const id = user.userData.id;
 
         // Fetch Total Points
-        const pointsResponse = await student.get(`/point/${id}`);
-        setTotalPoints(pointsResponse.data);
-        console.log(pointsResponse.data);
+        const response = await student.get(`/point/${id}`);
+       setdata(response.data)
+        console.log(response.data);
         // Fetch Total Classes Joined
-        const classesResponse = await student.get(`/point/get/${id}`)
-        setTotalClasses(classesResponse.data.totalclassjoin);
-        console.log(classesResponse.data);
+        // const classesResponse = await student.get(`/point/get/${id}`)
+        // // setTotalClasses(classesResponse.data.totalclassjoin);
+        // console.log(classesResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -95,9 +95,9 @@ const Dashboard = () => {
   
 
   const chartData = [
-    { type: 'Total Points', value: totalPoints.totalPoints },
-    { type: 'Total Classes Joined', value: totalClasses},
-    { type: 'Total submmisions', value: totalPoints.totalSubmissions },
+    { type: 'Total Points', value: data.total_point},
+    { type: 'Total Classes Joined', value: data.total_class},
+    { type: 'Total submmisions', value: data.submission },
   ];
 
   return (
