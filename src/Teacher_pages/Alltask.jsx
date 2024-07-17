@@ -79,7 +79,8 @@ const ALL_task = () => {
       points: values.points,
       class_id: id,
       teacher_id: teacher_id,
-      teacher_name: teacher_name
+      teacher_name: teacher_name,
+      class_name : classdata.className
     };
 
     teacher.post('/createtask', newTask)
@@ -132,6 +133,7 @@ const ALL_task = () => {
     axios.get(`http://localhost:3000/api/creteclass/getclass/${id}`)
       .then(response => {
         setClassData(response.data);
+        
       })
       .catch(error => {
         console.error('Error fetching class details:', error);

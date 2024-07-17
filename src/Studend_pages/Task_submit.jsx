@@ -90,6 +90,8 @@ const TaskSubmission = () => {
   formData.append('student_id', userid.userData.id);
   formData.append('student_name', userid.userData.username);
   formData.append('total_points' , task.points)
+  formData.append('class_name' , task.class_name)
+  formData.append('task_name' , task.title)
   setLoading(true);
 
   try {
@@ -128,6 +130,7 @@ const TaskSubmission = () => {
       if (response.data.length > 0) {
         const taskData = response.data[0];
         setTask(taskData);
+        // console.log(task.class_name , task.title)
         const currentDate = new Date();
         const lastDate = new Date(taskData.last_date);
         if (currentDate > lastDate) {

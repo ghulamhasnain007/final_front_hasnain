@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Input, Button, List } from 'antd';
+import { Card, Row, Col, Input, Button, List, message } from 'antd';
 import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import student from '../token/student.js'
+import student from '../token/student.js';
+
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,
@@ -22,15 +23,47 @@ const TodoList = () => {
   const [items, setItems] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
-  const addItem = () => {
-    if (inputValue) {
-      setItems([...items, inputValue]);
-      setInputValue('');
+  useEffect(() => {
+    // Fetch initial data from backend when component mounts
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    try {
+      const response = await axios.get(`http://localhost:3000/api/todo/${id}`); // Replace with your endpoint
+      setItems(response.data); // Assuming response.data is an array of items
+    } catch (error) {
+      console.error('Error fetching items:', error);
     }
   };
 
-  const deleteItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+  const addItem = async () => {
+    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    if (inputValue) {
+      try {
+        const response = await axios.post('http://localhost:3000/api/todo', { task: inputValue, user_id: id }); // Replace with your endpoint
+        setItems([...items, response.data]); // Assuming response.data is the added item
+        setInputValue('');
+        message.success('Task added successfully');
+        fetchItems();
+      } catch (error) {
+        console.error('Error adding item:', error);
+        message.error('Failed to add task');
+      }
+    }
+  };
+
+  const deleteItem = async (id) => {
+   console.log(id);
+    try {
+      await axios.delete(`http://localhost:3000/api/todo/${id}`); // Replace with your endpoint and item ID
+      message.success('Task deleted successfully');
+      fetchItems();
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      message.error('Failed to delete task');
+    }
   };
 
   return (
@@ -54,11 +87,11 @@ const TodoList = () => {
               <Button
                 type="text"
                 icon={<DeleteOutlined />}
-                onClick={() => deleteItem(index)}
+                onClick={() => deleteItem(item._id)}
               />,
             ]}
           >
-            {item}
+            {item.task} {/* Assuming your item structure has a `task` field */}
           </List.Item>
         )}
       />
@@ -67,8 +100,7 @@ const TodoList = () => {
 };
 
 const Dashboard = () => {
-  const [data, setdata] = useState('');
-  // const [totalClasses, setTotalClasses] = useState('');
+  const [data, setData] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,14 +108,10 @@ const Dashboard = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         const id = user.userData.id;
 
-        // Fetch Total Points
+        // Fetch Total Points, Total Classes Joined, Total Submissions
         const response = await student.get(`/point/${id}`);
-       setdata(response.data)
+        setData(response.data);
         console.log(response.data);
-        // Fetch Total Classes Joined
-        // const classesResponse = await student.get(`/point/get/${id}`)
-        // // setTotalClasses(classesResponse.data.totalclassjoin);
-        // console.log(classesResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -91,13 +119,11 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-  
-  
 
   const chartData = [
-    { type: 'Total Points', value: data.total_point},
-    { type: 'Total Classes Joined', value: data.total_class},
-    { type: 'Total submmisions', value: data.submission },
+    { type: 'Total Points', value: data.total_point || 0 },
+    { type: 'Total Classes Joined', value: data.total_class || 0 },
+    { type: 'Total Submissions', value: data.submission || 0 },
   ];
 
   return (

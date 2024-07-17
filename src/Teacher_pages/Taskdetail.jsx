@@ -6,7 +6,7 @@ import axios from 'axios';
 import { RxReload } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
 import teacher from '../token/teacher.js';
-
+import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -253,9 +253,11 @@ const App = () => {
                       hoverable
                       style={{ cursor: 'pointer' }}
                     >
-                      {`Submit Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
+                      {`Sub Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
                       <hr />
-                      <p style={{ color: 'red' }}>Task pending</p>
+                      <p>
+                    <ClockCircleOutlined style={{ color: '#faad14' }} /> Pending
+                  </p>
                     </Card>
                   </List.Item>
                 )}
@@ -285,9 +287,12 @@ const App = () => {
                   hoverable
                   style={{ cursor: 'pointer' }}
                 >
-                  {`Submit Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
+                  {`Sub Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
                   <hr />
-                  <p style={{ color: 'blueviolet' }}> Point {item.point}</p>
+                  <p style={{ color: 'blueviolet' }}> Point {item.point} /{item.total_points} </p>
+                  <p>
+                    <CheckCircleOutlined style={{ color: '#52c41a' }} /> Checked
+                  </p>
                 </Card>
               </List.Item>
             )}
@@ -348,7 +353,7 @@ const App = () => {
           <br /><br />
         </div>
         <div style={{ textAlign: 'center' }}>
-          <InputNumber  max={10} value={selectedItem.point || 0} onChange={handlePointChange} />
+          <InputNumber   max={selectedItem.total_points} value={selectedItem.point || 0} onChange={handlePointChange} /> /{selectedItem.total_points}
           <br /><br />
           <Button onClick={handleAddPoint}>Add Point</Button>
         </div>
