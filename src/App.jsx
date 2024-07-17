@@ -26,6 +26,10 @@ import HomePage from './Home/Home';
 import Cha from './Admin_comp/Cha';
 import Page from './Home/Page'
 import Nologin from './Home/Nologin'
+import QuizForm from './Teacher_pages/Createquiz';
+import Allquiz from './Teacher_pages/Quizdata'
+import Quiz from './Studend_pages/Quiz'
+import Start from './Studend_pages/Start'
 function App() {
   const [user, setUser] = useState('');
   const [teacher, setTeacher] = useState('');
@@ -61,6 +65,9 @@ function App() {
 
           {/* Teacher Route */}
           <Route path="/teacher">
+          <Route path='quiz' element={<QuizForm/>} />
+          <Route path='allquiz' element={<Allquiz/>} />
+          
             <Route path="dashboard" element={teacher  ?  <Tdashboard /> : <Nologin/> } />
             {/* <Route path="studentreport" element={<Studentrep />} /> */}
             <Route path="profile" element={ teacher  ? <Tprofile /> : <Nologin/>  } />
@@ -72,6 +79,8 @@ function App() {
           </Route>
           {/* Student Route */}
           <Route path='/student' >
+          <Route path='quiz' element={  <Quiz />} />
+          <Route path='start/:id' element={  < Start/>} />
             <Route path='dashboard' element={user ?  <Sdashboard /> : <Nologin/>   } />
             <Route path='profile' element={user ? <Profile /> : <Nologin/>   } />
             <Route path='join' element={user ? <Join_class /> : <Nologin/>   } />
