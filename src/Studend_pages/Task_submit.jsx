@@ -89,6 +89,7 @@ const TaskSubmission = () => {
   formData.append('class_id', classid);
   formData.append('student_id', userid.userData.id);
   formData.append('student_name', userid.userData.username);
+  formData.append('total_points' , task.points)
   setLoading(true);
 
   try {
@@ -119,7 +120,8 @@ const TaskSubmission = () => {
     setLoading(false);
   }
 };
-
+// console.log(task.points
+// );
   const getTask = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/createtask/task/${id}`);

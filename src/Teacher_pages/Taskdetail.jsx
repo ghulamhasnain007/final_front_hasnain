@@ -162,6 +162,7 @@ const App = () => {
     axios.get(`http://localhost:3000/api/createtask/submittask/${taskId}`)
       .then((res) => {
         setIns(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -176,7 +177,7 @@ const App = () => {
         setPending(res.data.pending);
         setChecked(res.data.checked);
         setLoading(false);
-        // console.log(submissions);
+        console.log(submissions);
       })
       .catch((err) => {
         console.log(err);
@@ -205,6 +206,10 @@ const App = () => {
         <Col>
           <h3>Task instruction : {ins.instructions}</h3>
         </Col>
+        {/* <Col>
+          <h3>Total points : {ins.points
+          }</h3>
+        </Col> */}
         <Col>
           <Button type="primary" onClick={getSubmissions}>Reload <RxReload /> </Button>
         </Col>
@@ -213,6 +218,9 @@ const App = () => {
       <h4 style={{ marginLeft: 10 }}><strong>Total Submissions: {data.length}</strong></h4>
       <h4 style={{ marginLeft: 10 }}><strong>Total Submissions checked: {checked.length}</strong></h4>
       <h4 style={{ marginLeft: 10 }}><strong>Total Submissions pending: {pending.length}</strong></h4>
+      <h4 style={{ marginLeft: 10 }}><strong>Total points : {ins.points ? ins.points : 'Not set' }</strong></h4>
+        <br />
+
       <br />
 
       {loading ? (

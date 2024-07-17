@@ -5,7 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import Tnavi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { CopyOutlined } from '@ant-design/icons';
-import teacher from '../token/teacher.js'
+import teacher from '../token/teacher.js';
+
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +29,7 @@ const ALL_task = () => {
       taskTitle: task.title,
       instructions: task.instructions,
       lastDate: moment(task.last_date),
+      points: task.points,
     });
   };
 
@@ -74,6 +76,7 @@ const ALL_task = () => {
       title: values.taskTitle,
       instructions: values.instructions,
       last_date: values.lastDate.format('YYYY-MM-DD HH:mm:ss'),
+      points: values.points,
       class_id: id,
       teacher_id: teacher_id,
       teacher_name: teacher_name
@@ -100,6 +103,7 @@ const ALL_task = () => {
       title: values.taskTitle,
       instructions: values.instructions,
       last_date: values.lastDate.format('YYYY-MM-DD HH:mm:ss'),
+      points: values.points,
     };
     teacher.put(`/createtask/update`, updatedTask)
       .then((response) => {
@@ -179,13 +183,14 @@ const ALL_task = () => {
     return lastDate.isBefore(today, 'day');
   };
 
-
-  
   return (
     <>
       <Tnavi />
       <div style={{ padding: '20px', marginTop: 80 }}>
-        <Card  title={`Teacher name : ${classdata.teacher_name}`} style={{ marginBottom: '20px' ,  backgroundImage: `url('https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg')`, }}>
+        <Card
+          title={`Teacher name : ${classdata.teacher_name}`}
+          style={{ marginBottom: '20px', backgroundImage: `url('https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg')`, }}
+        >
           <p>
             <strong>Class Name: </strong> {classdata.className}
           </p>
@@ -201,9 +206,7 @@ const ALL_task = () => {
             </Tooltip>
           </p>
           <p>
-            <strong>
-              Total Students: {`${classdata?.students?.length ?? '0'}`}
-            </strong>
+            <strong>Total Students: {`${classdata?.students?.length ?? '0'}`}</strong>
           </p>
           <p>
             <strong>Class Created At: {`${classdata.created_at ? classdata.created_at.slice(0, 10) : 'N/A'}`}</strong>
@@ -241,12 +244,19 @@ const ALL_task = () => {
                         <strong>Last Date: {`${task.last_date ? task.last_date.slice(0, 10) : 'N/A'}`}</strong>
                       </p>
                       <hr /><br />
-                      <Button style={{ marginRight: 10 }} type="dashed" onClick={(e) => {
-                        e.preventDefault();
-                        showEditModal(task);
-                      }}>Edit</Button>
                       <Button
-                        danger type="text"
+                        style={{ marginRight: 10 }}
+                        type="dashed"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          showEditModal(task);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        danger
+                        type="text"
                         onClick={(e) => {
                           e.preventDefault();
                           handleDelete(task._id);
@@ -294,6 +304,13 @@ const ALL_task = () => {
                 showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
               />
             </Form.Item>
+            <Form.Item
+              name="points"
+              label="Points"
+              rules={[{ required: true, message: 'Please enter points' }]}
+            >
+              <Input placeholder="Enter points" type="number" />
+            </Form.Item>
           </Form>
         </Modal>
 
@@ -326,6 +343,13 @@ const ALL_task = () => {
                 format="YYYY-MM-DD HH:mm:ss"
                 showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
               />
+            </Form.Item>
+            <Form.Item
+              name="points"
+              label="Points"
+              rules={[{ required: true, message: 'Please enter points' }]}
+            >
+              <Input placeholder="Enter points" type="number" />
             </Form.Item>
           </Form>
         </Modal>
