@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Button, message, Row, Col, Card } from 'antd';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-
+import Navi from '../Student_comp/Student_nav'
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
@@ -22,7 +22,7 @@ const App = () => {
 
       const userId = user.userData.id;
       const response = await axios.get(`http://localhost:3000/api/quiz/student/${userId}`);
-      console.log('Quizzes fetched:', response.data);
+      // console.log('Quizzes fetched:', response.data);
       setQuizzes(response.data.quizzes); // Assuming response structure includes quizzes array
     } catch (error) {
       console.error('Error fetching quizzes:', error);
@@ -41,7 +41,7 @@ const App = () => {
         quizKey: values.quizKey,
         studentId: id,
       });
-      console.log('Quiz joined:', response.data);
+      // console.log('Quiz joined:', response.data);
       message.success('Quiz joined successfully');
       form.resetFields();
       setModalVisible(false);
@@ -52,19 +52,21 @@ const App = () => {
     }
   };
 
-  const startQuiz = (quizId) => {
-    // Implement logic to start the quiz session or navigate to quiz taking page
-    console.log('Starting quiz:', quizId);
-    // Example: Redirect to quiz page with quizId
-    // Replace with your actual logic to start the quiz
-  };
+
 
 
   return (
+
+    <>
+    
+   <Navi/> <br /><br /><br /><br /><br /><br />
     <div>
-      <Button onClick={() => setModalVisible(true)}>Join Quiz</Button>
+      <center>
+        <Button onClick={() => setModalVisible(true)}>Join Quiz</Button>
+      </center>
+      
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title="Join Quiz"
         onCancel={handleCancel}
         footer={null}
@@ -78,9 +80,12 @@ const App = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <center>
+              <Button type="primary" htmlType="submit">
               Join Quiz
             </Button>
+            </center>
+            
           </Form.Item>
         </Form>
       </Modal>
@@ -90,12 +95,13 @@ const App = () => {
           <Col span={8} key={quiz._id}>
             <Card
               hoverable
-              title={quiz.quizName}
+              title={` Quiz name :  ${quiz.quizName}`}
               style={{ marginBottom: '16px' }}
             >
+              <p>Teacher name : {quiz.teacher_name}</p>
               <p>Quiz Key: {quiz.quizKey}</p>
               
-              <Button type="primary" onClick={() => startQuiz(quiz._id)}>
+              <Button type="primary">
                 <Link to={`/student/start/${quiz._id}`} > 
                 Start Quiz
                  </Link>
@@ -105,6 +111,7 @@ const App = () => {
         ))}
       </Row>
     </div>
+     </>
   );
 };
 

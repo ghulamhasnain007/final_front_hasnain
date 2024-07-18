@@ -8,7 +8,7 @@ const DashboardPage = () => {
   // Mock data for total counts
   const totalstudent = data.totalstudent ?  data.totalstudent : '0'
   const totalClasses = data.totalclass ?  data.totalclass :  '0'
-  const totalQuizzes = 150; 
+  const totalQuizzes = data.totalQuiz  ? data.totalQuiz : '0'  ; 
   const totalTasks = data.totaltask ?   data.totaltask :  '0'
 
   

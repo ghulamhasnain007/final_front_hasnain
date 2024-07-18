@@ -11,6 +11,7 @@ import { FaHandsClapping } from "react-icons/fa6";
 import { SiGoogleclassroom } from "react-icons/si";
 import { TbMessageReport } from "react-icons/tb";
 import { MdAssignment } from "react-icons/md";
+import { MdOutlineQuiz } from "react-icons/md";
 import axios from 'axios';
 const Student_nav = () => {
   const navigate = useNavigate()
@@ -136,6 +137,13 @@ const Student_nav = () => {
                 label: 'My submissions',
                 // Add to property for future use (optional)
                 to: '/student/mysubmission', // Replace with your desired route path
+              },
+              {
+                key: '/student/quiz',
+                icon: <MdOutlineQuiz />,
+                label: 'Join quiz',
+                // Add to property for future use (optional)
+                to: '/student/quiz', // Replace with your desired route path
               },
 
             ]}

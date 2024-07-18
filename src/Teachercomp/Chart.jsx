@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, Select, Spin, Button } from 'antd';
 import axios from 'axios';
 import { Line } from '@ant-design/charts';
-import teacher from '../token/teacher.js'
+import teacher from '../token/teacher.js';
+
 const { Option } = Select;
 
 const DashboardPage = () => {
@@ -13,9 +14,9 @@ const DashboardPage = () => {
 
   const fetchData = async () => {
     try {
-      const teacherData = JSON.parse(localStorage.getItem('techerdata'));
-      const teacherId = teacherData.userData.id
-      const response = await teacher.get(`/tchart/chart${teacherId}`)
+      const teacherData = JSON.parse(localStorage.getItem('teacherdata'));
+      const teacherId = teacherData.userData.id;
+      const response = await teacher.get(`/tchart/chart${teacherId}`);
       console.log('Fetched data:', response.data); // Log fetched data
       setData(response.data);
       setFilteredData(response.data);
@@ -33,14 +34,14 @@ const DashboardPage = () => {
   useEffect(() => {
     if (filter === 'all') {
       setFilteredData(data.map(item => ({
-        date: item.created_at.slice(0,10) ? item.created_at.slice(0,10) : item.created_at ,
-        value: item.totalStudents + item.totalTasks + item.totalClasses,
+        date: item.created_at.slice(0, 10) ? item.created_at.slice(0, 10) : item.created_at,
+        value: (item.totalStudents || 0) + (item.totalTasks || 0) + (item.totalClasses || 0) + (item.totalquiz || 0),
         category: 'total',
       })));
     } else {
       setFilteredData(data.map(item => ({
-        date: item.created_at.slice(0,10) ? item.created_at.slice(0,10) : item.created_at ,
-        value: item[filter],
+        date: item.created_at.slice(0, 10) ? item.created_at.slice(0, 10) : item.created_at,
+        value: item[filter] || 0,
         category: filter,
       })));
     }
@@ -72,7 +73,8 @@ const DashboardPage = () => {
         <Option value="all">All</Option>
         <Option value="totalStudents">Total Students</Option>
         <Option value="totalTasks">Total Tasks Created</Option>
-        <Option value="totalClasses">Total Classes Created </Option>
+        <Option value="totalClasses">Total Classes Created</Option>
+        <Option value="totalquiz">Total Quiz</Option> {/* Added totalquiz option */}
       </Select>
       <Button onClick={fetchData} type='primary' style={{ marginLeft: 10 }} >Reload</Button>
       {loading ? (

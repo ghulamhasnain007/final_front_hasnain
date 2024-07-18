@@ -10,6 +10,7 @@ import { CiLogout } from "react-icons/ci";
 import { FaHandsClapping } from "react-icons/fa6";
 import { SiGoogleclassroom } from "react-icons/si";
 import { TbMessageReport } from "react-icons/tb";
+import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
 const Navi = () => {
   const navigate = useNavigate()
@@ -129,10 +130,10 @@ const Navi = () => {
                 to: '/teacher/createclasswork', // Replace with your desired route path
               },
               {
-                key: '/teacher/studentreport',
-                icon: <TbMessageReport />,
-                label: 'Student Report',
-                to: '/teacher/studentreport', // Replace with your desired route path
+                key: '/teacher/quiz',
+                icon: <MdQuiz />,
+                label: 'Create quiz',
+                to: '/teacher/quiz', // Replace with your desired route path
               },
             ]}
 

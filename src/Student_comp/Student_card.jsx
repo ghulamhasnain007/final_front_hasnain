@@ -54,11 +54,11 @@ const Dashboard = () => {
         </Col>
         <Col xs={24} sm={12} md={12} lg={6} xl={6}>
           <Card
-            title="Total Tasks Completed"
+            title="Total Quiz point"
             bordered={false}
             style={{ backgroundColor: '#00a854', color: '#fff' }}
           >
-            <p style={{ fontSize: '24px' }}>10</p>
+            <p style={{ fontSize: '24px' }}>{data.totalQuizScore ? data.totalQuizScore : 0  }</p>
           </Card>
         </Col>
       </Row>

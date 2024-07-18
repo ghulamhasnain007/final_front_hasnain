@@ -30,6 +30,8 @@ import QuizForm from './Teacher_pages/Createquiz';
 import Allquiz from './Teacher_pages/Quizdata'
 import Quiz from './Studend_pages/Quiz'
 import Start from './Studend_pages/Start'
+import Result from './Student_comp/Result'
+import Studentresult from './Teacher_pages/Quizresult'
 function App() {
   const [user, setUser] = useState('');
   const [teacher, setTeacher] = useState('');
@@ -67,7 +69,7 @@ function App() {
           <Route path="/teacher">
           <Route path='quiz' element={<QuizForm/>} />
           <Route path='allquiz' element={<Allquiz/>} />
-          
+          <Route path='quizresult/:id' element={<Studentresult/>} />
             <Route path="dashboard" element={teacher  ?  <Tdashboard /> : <Nologin/> } />
             {/* <Route path="studentreport" element={<Studentrep />} /> */}
             <Route path="profile" element={ teacher  ? <Tprofile /> : <Nologin/>  } />
@@ -79,6 +81,7 @@ function App() {
           </Route>
           {/* Student Route */}
           <Route path='/student' >
+          <Route path='result' element={<Result/>} />
           <Route path='quiz' element={  <Quiz />} />
           <Route path='start/:id' element={  < Start/>} />
             <Route path='dashboard' element={user ?  <Sdashboard /> : <Nologin/>   } />
