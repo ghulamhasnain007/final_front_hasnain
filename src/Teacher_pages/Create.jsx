@@ -65,11 +65,12 @@ const CreateClassComponent = () => {
 
   const chart = async () => {
     let totalStudents = 0;
-    let totalTasks = 0;
+    let totalTasks = 0 ;
     let totalClasses = 1;
+    let totalquiz = 0
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     const teacherId = teacherData.userData.id;
-    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId })
+    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId ,totalquiz })
       .then((res) => {
         console.log(res);
       }).catch((err) => {

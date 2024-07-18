@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Row, Col, Spin, Modal, Button, message, Tooltip } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Nav from '../Teachercomp/Tnavi'
+import Nav from '../Teachercomp/Tnavi';
 const { Meta } = Card;
 
 const QuizList = () => {
@@ -12,25 +12,29 @@ const QuizList = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
+
+  const fetchQuizzes = async () => {
+    let id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    try {
+      const response = await axios.get(`http://localhost:3000/api/quiz/teacher/${id}`);
+      setQuizzes(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching quizzes:', error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuizzes = async () => {
-      let id = JSON.parse(localStorage.getItem('techerdata')).userData.id
-      try {
-        const response = await axios.get(`http://localhost:3000/api/quiz/teacher/${id}`);
-        setQuizzes(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching quizzes:', error);
-        setLoading(false);
-      }
-    };
 
     fetchQuizzes();
   }, []);
 
   const updateQuizActiveStatus = async (quizId, activeStatus) => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/quiz/active/${quizId}`, { active: activeStatus });
+      const response = await axios.put(`http://localhost:3000/api/quiz/active/${quizId}`, {
+        active: activeStatus,
+      });
       console.log('Quiz updated:', response.data);
 
       // Update local state to reflect the change
@@ -43,6 +47,22 @@ const QuizList = () => {
     } catch (error) {
       console.error('Error updating quiz:', error);
       message.error('Failed to update quiz');
+    }
+  };
+
+  const deleteQuiz = async (quizId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/quiz/quiz_delete/${quizId}`);
+      console.log('Quiz deleted:', response.data);
+
+      // Remove the deleted quiz from local state
+      const updatedQuizzes = quizzes.filter((quiz) => quiz._id !== quizId);
+      setQuizzes(updatedQuizzes);
+      fetchQuizzes();
+      message.success('Quiz deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting quiz:', error);
+      message.error('Failed to delete quiz');
     }
   };
 
@@ -70,26 +90,29 @@ const QuizList = () => {
 
   return (
     <>
-    <Nav/> <br /><br /><br /><br /><br /><br />
-    <center>
-      <h1>All Quizes</h1>
-    </center>
+      <Nav />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <center>
+        <h1>All Quizes</h1>
+      </center>
       <Row gutter={16}>
-        {quizzes.map((quiz) => (
+        {quizzes.map((quiz,index) => (
           <Col span={8} key={quiz._id}>
-            <Card
-              hoverable
-              style={{ marginBottom: '16px' }}
-            >
+            <Card hoverable style={{ marginBottom: '16px' }}>
               <Meta
-                title={`Quiz name : ${quiz.quizName}`}
+                title={`${index + 1} : Quiz name : ${quiz.quizName}`}
                 description={
                   <>
                     <div>
                       <h4>{`Quiz Key: ${quiz.quizKey}`} <CopyOutlined key="copy" onClick={() => copyToClipboard(quiz.quizKey)} /></h4>
-                      <h5> Created_date :  {quiz.createdAt ? quiz.createdAt : ''}</h5>
+                      <h5> Created_date : {quiz.createdAt ? quiz.createdAt : ''}</h5>
                     </div>
-                    <Button  onClick={() => showModal(quiz)}>View Quiz</Button> <br /><br />
+                    <Button onClick={() => showModal(quiz)}>View Quiz</Button> <br /><br />
                     {quiz.active ? (
                       <Button onClick={() => updateQuizActiveStatus(quiz._id, false)} type="primary" danger ghost>
                         Disable Quiz
@@ -98,12 +121,14 @@ const QuizList = () => {
                       <Button onClick={() => updateQuizActiveStatus(quiz._id, true)} type="primary">
                         Enable Quiz
                       </Button>
-                    )} <br /> <br />
-                    <hr />
-                    <Link to={`/teacher/quizresult/${quiz._id}`} >
-                    <h4>See student result</h4>
-                    </Link>
+                    )}  <Button onClick={() => deleteQuiz(quiz._id)} type="danger" icon={<DeleteOutlined />}>
+                      Delete Quiz
+                    </Button>
                     
+                    <hr />
+                    <Link to={`/teacher/quizresult/${quiz._id}`}>
+                      <h4>See student result</h4>
+                    </Link>
                   </>
                 }
               />
@@ -135,11 +160,11 @@ const QuizList = () => {
         </Modal>
       )}
       <Link to={'/teacher/quiz'}>
-      <center>
-        <Button type='primary' >Back</Button>
-      </center>
+        <center>
+          <Button type='primary'>Back</Button>
+        </center>
       </Link>
-      
+
     </>
   );
 };

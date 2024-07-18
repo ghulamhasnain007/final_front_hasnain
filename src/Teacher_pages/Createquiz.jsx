@@ -3,26 +3,11 @@ import { Form, Input, Button, Row, Col, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Nav from '../Teachercomp/Tnavi'
+import Nav from '../Teachercomp/Tnavi';
+
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');
-
-  const chart = async () => {
-    let totalStudents = 0;
-    let totalTasks = 0;
-    let totalClasses = 0;
-    let totalquiz = 1
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
-    const teacherId = teacherData.userData.id;
-    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId,totalquiz })
-      .then((res) => {
-        console.log(res.data);
-      }).catch((err) => {
-        // console.log(err);
-      });
-  };
-
 
   const onFinish = async (values) => {
     // Transform options into an array
@@ -30,17 +15,20 @@ const QuizForm = () => {
       ...question,
       options: [question.option1, question.option2, question.option3, question.option4],
     }));
-    const name = JSON.parse(localStorage.getItem('techerdata')).userData.teacher_name;
-    const teacher_id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+
+    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherId = teacherData.userData.id;
+
     const data = {
       quizName: values.quizName,
       quizKey: generateQuizKey(), // Generate unique quiz key
       question_point: values.point,
       passing_point: values.passingPoint,
-      teacher_name: name,
+      teacher_name: teacherData.userData.teacher_name,
       timer: values.timer, // Include the timer value
       active: false,
-      teacher_id: teacher_id,
+      teacher_id: teacherId,
+      total_point: values.totalPoint, // Include total points from form input
       questions,
     };
 
@@ -50,7 +38,6 @@ const QuizForm = () => {
       form.resetFields();
       setQuizKey(data.quizKey); // Update state with generated quiz key
       message.success('Quiz created successfully!');
-      chart()
     } catch (error) {
       console.error('There was an error creating the quiz!', error);
       message.error('Failed to create quiz');
@@ -69,144 +56,150 @@ const QuizForm = () => {
 
   return (
     <>
-    <Nav/>
-    <br /><br /><br /><br /> <br />
-    <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px' }}>
-      
-      <Link to="/teacher/allquiz">
-        <Button>All quizes</Button> 
-      </Link><br /><br />
-      <Form form={form} onFinish={onFinish} layout="vertical">
-        <Form.Item
-          name="quizName"
-          label="Quiz Name"
-          rules={[{ required: true, message: 'Please enter the quiz name' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="timer"
-          label="Quiz Timer (minutes)"
-          rules={[{ required: true, message: 'Please enter the quiz timer in minutes' }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="point"
-              label="Each Question Point"
-              rules={[{ required: true, message: 'Please enter the question point' }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="passingPoint"
-              label="Passing Point"
-              rules={[{ required: true, message: 'Please enter the passing point' }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Form.List name="questions">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, fieldKey, ...restField }) => (
-                <div key={key}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'question']}
-                    fieldKey={[fieldKey, 'question']}
-                    label={`Question ${name + 1}`}
-                    rules={[{ required: true, message: 'Please enter the question' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'option1']}
-                        fieldKey={[fieldKey, 'option1']}
-                        label="Option 1"
-                        rules={[{ required: true, message: 'Please enter option 1' }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'option2']}
-                        fieldKey={[fieldKey, 'option2']}
-                        label="Option 2"
-                        rules={[{ required: true, message: 'Please enter option 2' }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'option3']}
-                        fieldKey={[fieldKey, 'option3']}
-                        label="Option 3"
-                        rules={[{ required: true, message: 'Please enter option 3' }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'option4']}
-                        fieldKey={[fieldKey, 'option4']}
-                        label="Option 4"
-                        rules={[{ required: true, message: 'Please enter option 4' }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'correctAnswer']}
-                    fieldKey={[fieldKey, 'correctAnswer']}
-                    label="Correct Answer"
-                    rules={[{ required: true, message: 'Please enter the correct answer' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Button type="danger" onClick={() => remove(name)} icon={<MinusCircleOutlined />}>
-                    Remove Question
-                  </Button>
-                  <hr />
-                </div>
-              ))}
-              <Form.Item>
-                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                  Add Question
-                </Button>
+      <Nav />
+      <br /><br /><br /><br /> <br />
+      <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px' }}>
+        <Link to="/teacher/allquiz">
+          <Button>All quizes</Button>
+        </Link>
+        <br /><br />
+        <Form form={form} onFinish={onFinish} layout="vertical">
+          <Form.Item
+            name="quizName"
+            label="Quiz Name"
+            rules={[{ required: true, message: 'Please enter the quiz name' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="timer"
+            label="Quiz Timer (minutes)"
+            rules={[{ required: true, message: 'Please enter the quiz timer in minutes' }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="point"
+                label="Each Question Point"
+                rules={[{ required: true, message: 'Please enter the question point' }]}
+              >
+                <Input />
               </Form.Item>
-            </>
-          )}
-        </Form.List>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="passingPoint"
+                label="Passing Point"
+                rules={[{ required: true, message: 'Please enter the passing point' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            name="totalPoint"
+            label="Total Points"
+            rules={[{ required: true, message: 'Please enter the total points' }]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Create Quiz
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
-</>
+          <Form.List name="questions">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                  <div key={key}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'question']}
+                      fieldKey={[fieldKey, 'question']}
+                      label={`Question ${name + 1}`}
+                      rules={[{ required: true, message: 'Please enter the question' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'option1']}
+                          fieldKey={[fieldKey, 'option1']}
+                          label="Option 1"
+                          rules={[{ required: true, message: 'Please enter option 1' }]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'option2']}
+                          fieldKey={[fieldKey, 'option2']}
+                          label="Option 2"
+                          rules={[{ required: true, message: 'Please enter option 2' }]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'option3']}
+                          fieldKey={[fieldKey, 'option3']}
+                          label="Option 3"
+                          rules={[{ required: true, message: 'Please enter option 3' }]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'option4']}
+                          fieldKey={[fieldKey, 'option4']}
+                          label="Option 4"
+                          rules={[{ required: true, message: 'Please enter option 4' }]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'correctAnswer']}
+                      fieldKey={[fieldKey, 'correctAnswer']}
+                      label="Correct Answer"
+                      rules={[{ required: true, message: 'Please enter the correct answer' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Button type="danger" onClick={() => remove(name)} icon={<MinusCircleOutlined />}>
+                      Remove Question
+                    </Button>
+                    <hr />
+                  </div>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add Question
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
 
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Create Quiz
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
   );
 };
 

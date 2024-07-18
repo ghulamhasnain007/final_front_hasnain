@@ -14,9 +14,9 @@ const DashboardPage = () => {
 
   const fetchData = async () => {
     try {
-      const teacherData = JSON.parse(localStorage.getItem('teacherdata'));
-      const teacherId = teacherData.userData.id;
-      const response = await teacher.get(`/tchart/chart${teacherId}`);
+      const id = JSON.parse(localStorage.getItem('techerdata')).userData.id
+
+      const response = await teacher.get(`/tchart/chart/${id}`);
       console.log('Fetched data:', response.data); // Log fetched data
       setData(response.data);
       setFilteredData(response.data);
@@ -74,7 +74,7 @@ const DashboardPage = () => {
         <Option value="totalStudents">Total Students</Option>
         <Option value="totalTasks">Total Tasks Created</Option>
         <Option value="totalClasses">Total Classes Created</Option>
-        <Option value="totalquiz">Total Quiz</Option> {/* Added totalquiz option */}
+        <Option value="totalquiz">Total Quiz</Option>
       </Select>
       <Button onClick={fetchData} type='primary' style={{ marginLeft: 10 }} >Reload</Button>
       {loading ? (

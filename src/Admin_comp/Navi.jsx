@@ -132,12 +132,12 @@ const Navi = () => {
                 label: 'Manage Teachers',
                 to: '/admin/mteacher', // Replace with your desired route path
               },
-              {
-                key: '/admin/userreport',
-                icon: <GoReport />,
-                label: 'User Report',
-                to: '/admin/userreport', // Replace with your desired route path
-              },
+              // {
+              //   key: '/admin/userreport',
+              //   icon: <GoReport />,
+              //   label: 'User Report',
+              //   to: '/admin/userreport', // Replace with your desired route path
+              // },
             ]}
 
           >

@@ -37,7 +37,8 @@ const Join_class = () => {
     let totalStudents = 1
     let totalTasks = 0
     let totalClasses = 0
-    await student.post('/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId })
+    let totalquiz =  0
+    await student.post('/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId , totalquiz })
       .then((res) => {
         console.log(res);
       }).catch((err) => {

@@ -125,7 +125,7 @@ const Navi = () => {
               {
                 key: '/teacher/createclasswork',
                 icon: <SiGoogleclassroom />,
-                label: 'Create a Class Work',
+                label: 'Create a Class',
                 // Add to property for future use (optional)
                 to: '/teacher/createclasswork', // Replace with your desired route path
               },

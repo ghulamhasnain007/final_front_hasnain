@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Radio, Button, message, Alert } from 'antd';
+import { Card, Radio, Button, message, Alert, Progress } from 'antd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import QuizResult from '../Student_comp/Result';
@@ -11,10 +11,11 @@ const Quiz = () => {
   const [quizDetails, setQuizDetails] = useState({
     teacherName: '',
     quizName: '',
-    totalPoints: 0,
+    total_questions: 0,
     passingScore: 0,
     question_point: 0,
     timer: 0,
+    total_point: 0
   });
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -26,10 +27,10 @@ const Quiz = () => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [exitFullScreenWarning, setExitFullScreenWarning] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(true);
-  const [active , setactive] = useState('')
-  const [point,setpasing_point] = useState('')
+  const [active, setactive] = useState('')
+  const [point, setpasing_point] = useState('')
   const exitFullScreenTimer = useRef(null);
- 
+
   useEffect(() => {
     const checkQuizTaken = async () => {
       const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
@@ -58,16 +59,17 @@ const Quiz = () => {
         const quizData = response.data;
         setactive(quizData.active)
         console.log(quizData.passing_point);
-        setquizid(quizData._id );
+        setquizid(quizData._id);
         setpasing_point(quizData.passing_point)
         if (quizData) {
           setQuizDetails({
             teacherName: quizData.teacher_name,
             quizName: quizData.quizName,
-            totalPoints: quizData.questions.length,
+            total_questions: quizData.questions.length,
             passingScore: quizData.passing_point,
             question_point: quizData.question_point,
             timer: quizData.timer,
+            total_point: quizData.total_point
           });
           setQuestions(quizData.questions);
         } else {
@@ -93,7 +95,7 @@ const Quiz = () => {
       setTimeLeft(savedQuizState.timeLeft);
       setQuestions(savedQuizState.questions);
       setQuizDetails(savedQuizState.quizDetails);
-      enterFullScreen();
+      // enterFullScreen();
     }
   }, [id]);
 
@@ -240,9 +242,10 @@ const Quiz = () => {
           score,
           quiz_id: quizid,
           student_name: student_name,
-          passing_point : point
+          passing_point: point
         });
         // message.success('Quiz result saved successfully');
+        localStorage.removeItem('quizState');
       } catch (error) {
         console.error('Error saving quiz result:', error);
         // message.error('Failed to save quiz result');
@@ -250,6 +253,7 @@ const Quiz = () => {
     } else {
       message.warning('Please select an option before submitting.');
     }
+    localStorage.removeItem('quizState');
   };
 
   const formatTime = (seconds) => {
@@ -275,41 +279,62 @@ const Quiz = () => {
   }
 
   if (alreadyTaken) {
+    const percentage = (previousResult.score / quizDetails.total_point) * 100;
+    const status = previousResult.score >= quizDetails.passingScore ? 'success' : 'warning';
     return (
-      <Card title={`Quiz Result: ${quizDetails.quizName}`} style={{ textAlign: 'center' }}>
-        <p>
-          <strong>Teacher:</strong> {previousResult.teacherName}
-        </p>
-        <p>
-          <strong>Quiz Name:</strong> {previousResult.quizName}
-        </p>
-        <p>
-          <strong>Your Score:</strong> {previousResult.score}
-        </p>
-      </Card>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Card
+          title={`Quiz Result`}
+          style={{ width: 350, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius: 8 }}
+        >
+          <p>
+            <strong>Teacher :</strong> {previousResult.teacherName}
+          </p>
+          <p>
+            <strong>Quiz :</strong> {previousResult.quizName}
+          </p>
+          <p>
+            <strong>Your Score:</strong> {previousResult.score}
+          </p>
+                {previousResult.score >= quizDetails.passingScore ? 
+                <p style={{color : 'green'}} ><strong>Congratulations you pass</strong></p> :
+                <p style={{color : 'red'}} ><strong >Sorry you Fail</strong></p> 
+              }
+          
+          <Progress percent={percentage} status={status} />
+
+
+        </Card>
+      </div>
     );
   }
 
   if (!quizStarted) {
     return (
-      <Card title={`Quiz Name: ${quizDetails.quizName}`} style={{ textAlign: 'center' }}>
-        <p>
-          <strong>Teacher Name :</strong> {quizDetails.teacherName}
-        </p>
-        <p>
-          <strong>Total Questions :</strong> {quizDetails.totalPoints}
-        </p>
-        <p>
-          <strong> Total Time :</strong> {`${quizDetails.timer} min`} 
-        </p>
-        <p>
-          <strong>Passing Score:</strong> {quizDetails.passingScore}
-        </p> <br />
-        {active  ?  
-        <Button type="primary" onClick={handleStartQuiz}>
-          Start Quiz
-        </Button> : <h2 style={{color : 'red'}} >Quiz is disable</h2> }
-      </Card>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Card title={`Quiz Name: ${quizDetails.quizName}`} style={{ width: 350, textAlign: 'center' }}>
+          <p>
+            <strong>Teacher Name :</strong> {quizDetails.teacherName}
+          </p>
+          <p>
+            <strong>Total Questions :</strong> {quizDetails.total_questions}
+          </p>
+          <p>
+            <strong>Total Time :</strong> {`${quizDetails.timer} min`}
+          </p>
+          <p>
+            <strong>Passing Score:</strong> {quizDetails.passingScore}
+          </p>
+          <br />
+          {active ?
+            <Button type="primary" onClick={handleStartQuiz}>
+              Start Quiz
+            </Button>
+            :
+            <h2 style={{ color: 'red' }}>Quiz is disabled</h2>
+          }
+        </Card>
+      </div>
     );
   }
 
