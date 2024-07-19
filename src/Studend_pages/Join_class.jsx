@@ -51,7 +51,7 @@ const Join_class = () => {
       // console.log(userid.userData.id);
     try {
       axios.post(`http://localhost:3000/api/point/student/${userid}`, {
-        total_class: 1,
+        total_class : 1,
         class_id : classid
         
       })

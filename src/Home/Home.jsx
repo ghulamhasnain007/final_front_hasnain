@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Row, Col, Button, Card, theme, Carousel, Collapse, Modal } from 'antd';
+import { Layout, Row, Col, Button, Card, Carousel, Collapse, Modal } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AppFooter from './Footer';
@@ -62,23 +62,17 @@ const getTeacherItems = (panelStyle) => [
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { token } = theme.useToken();
   const panelStyle = {
     marginBottom: 24,
-    background: token.colorFillAlter,
-    borderRadius: token.borderRadiusLG,
-    border: 'none',
+    background: '#fff',
+    borderRadius: '10px',
+    border: '1px solid #d9d9d9',
   };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  
+
+  const showModal = () => setIsModalOpen(true);
+  const handleOk = () => setIsModalOpen(false);
+  const handleCancel = () => setIsModalOpen(false);
+
   return (
     <Layout>
       <Header
@@ -89,11 +83,10 @@ const App = () => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: 30,
           justifyContent: 'flex-end',
-          gap: 10,
           background: '#001529',
-          padding: '0 20px'
+          padding: '0 20px',
+          borderRadius: '0 0 30px 30px'
         }}
       >
         <Button type="primary" onClick={showModal}>
@@ -112,7 +105,7 @@ const App = () => {
           </div>
         </Modal>
       </Header>
-      <Content style={{ padding: '50px', background: '#f0f2f5' }}>
+      <Content style={{ padding: '50px', background: '#f0f2f5', borderRadius: '30px' }}>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} md={12}>
             <h1>Welcome to the SMIT Assignment Submission Portal</h1>
@@ -125,24 +118,25 @@ const App = () => {
             <img
               src="https://tse4.mm.bing.net/th?id=OIG2.ghqug.oXg8fzA9zIh0xA&pid=ImgGn"
               alt="Assignment Submission"
-              style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: 30 }}
+              style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '30px' }}
             />
           </Col>
         </Row>
         <br /><br />
         <center>
           <h2>ROLE & RESPONSIBILITIES</h2>
-          <Carousel autoplay style={{ maxWidth: 1000, borderRadius: 30 }}>
+          <Carousel autoplay style={{ maxWidth: 1000, borderRadius: '30px' }}>
             <div>
               <h2 style={{
                 height: '300px',
-                color: 'black',
+                color: 'white',
                 lineHeight: '160px',
                 textAlign: 'center',
                 background: '#364d79',
-                borderRadius: 20,
+                borderRadius: '20px',
                 backgroundImage: `url('https://png.pngtree.com/thumb_back/fw800/background/20231009/pngtree-3d-illustration-of-a-student-engaged-in-an-online-classroom-image_13559709.png')`,
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                backgroundSize: 'cover'
               }}>
                 ADMIN: <br /> Assess the Performance of Students
               </h2>
@@ -150,13 +144,14 @@ const App = () => {
             <div>
               <h2 style={{
                 height: '300px',
-                color: 'black',
+                color: 'white',
                 lineHeight: '160px',
                 textAlign: 'center',
                 background: '#364d79',
-                borderRadius: 20,
+                borderRadius: '20px',
                 backgroundImage: `url('https://img.freepik.com/free-photo/3d-portrait-businessman_23-2150793875.jpg?t=st=1720295757~exp=1720299357~hmac=c30ef5c1c4cd093f5d226aaa8fbe6aca75030d0ee0f892bbc26aecadd9804bb1&w=826')`,
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                backgroundSize: 'cover'
               }}>
                 TEACHER: <br /> Reading and marking student assignments. Choice of Checking assignments manually.
               </h2>
@@ -164,13 +159,14 @@ const App = () => {
             <div>
               <h2 style={{
                 height: '300px',
-                color: 'black',
+                color: 'white',
                 lineHeight: '160px',
                 textAlign: 'center',
                 background: '#364d79',
-                borderRadius: 20,
+                borderRadius: '20px',
                 backgroundImage: `url('https://img.pikbest.com/wp/202348/college-students-illustration-3d-of-a-tablet-wielding-student-taking-flight_9779228.jpg!w700wp')`,
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                backgroundSize: 'cover'
               }}>
                 STUDENT: <br /> Uploading Assignments Easily
               </h2>
@@ -180,7 +176,7 @@ const App = () => {
         <br /><br />
         <center>
           <h2>OUR MAIN FEATURE</h2> <br /><br />
-          <Card style={{ borderRadius: 30 }}>
+          <Card style={{ borderRadius: '30px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', maxWidth: '800px' }}>
             <h1>AI Integration</h1>
             <h4>Our advanced AI system automatically evaluates assignments, providing fast and accurate feedback to students and teachers.</h4>
           </Card>
@@ -189,19 +185,19 @@ const App = () => {
         <center>
           <h2>OUR OTHER FEATURES</h2>
           <br /><br />
-          <Row gutter={[16, 16]}>
-            <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-              <Card title="1 : ROLE MANAGEMENT" bordered={false}>
+          <Row gutter={[16, 16]} justify="center">
+            <Col xs={24} sm={12} md={8} lg={6}>
+              <Card title="1 : ROLE MANAGEMENT" bordered={false} style={{ borderRadius: '10px' }}>
                 4 : EASY SUBMISSION
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-              <Card title="2 : DEADLINE MANAGEMENT" bordered={false}>
+            <Col xs={24} sm={12} md={8} lg={6}>
+              <Card title="2 : DEADLINE MANAGEMENT" bordered={false} style={{ borderRadius: '10px' }}>
                 5 : PERFORMANCE ANALYTICS
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-              <Card title="3 : NOTIFICATION SYSTEM" bordered={false}>
+            <Col xs={24} sm={12} md={8} lg={6}>
+              <Card title="3 : NOTIFICATION SYSTEM" bordered={false} style={{ borderRadius: '10px' }}>
                 6 : Reporting the task
               </Card>
             </Col>
@@ -214,7 +210,7 @@ const App = () => {
             bordered={false}
             defaultActiveKey={['1']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-            style={{ background: token.colorBgContainer }}
+            style={{ background: '#f0f2f5' }}
             items={getItems(panelStyle)}
           />
         </center>
@@ -225,9 +221,26 @@ const App = () => {
             bordered={false}
             defaultActiveKey={['1']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-            style={{ background: token.colorBgContainer }}
+            style={{ background: '#f0f2f5' }}
             items={getTeacherItems(panelStyle)}
           />
+
+
+          <Card
+            style={{
+              borderRadius: '15px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              padding: '20px',
+              maxWidth: '900px',
+              margin: '0 auto',
+              background: '#f9f9f9',
+            }}
+            title={<h2 style={{ textAlign: 'center', color: '#1890ff' }}>Why Choose Our Portal?</h2>}
+          >
+            <p style={{ fontSize: '16px', lineHeight: '1.5', textAlign: 'center' }}>
+              Our portal leverages cutting-edge AI technology to provide accurate, unbiased, and quick evaluations, helping students to improve their skills and knowledge efficiently. Teachers can save valuable time and focus more on personalized instruction, knowing that the routine grading tasks are handled seamlessly by our AI system.
+            </p>
+          </Card>
         </center>
       </Content>
       <AppFooter />

@@ -100,7 +100,7 @@ const Quiz = () => {
       setQuizDetails(savedQuizState.quizDetails);
       // enterFullScreen();
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (quizStarted && quizDetails.timer > 0 && timeLeft === null) {
@@ -223,40 +223,45 @@ const Quiz = () => {
   };
 
   const handleQuizSubmit = async () => {
-    const currentQuestion = questions[currentIndex];
-    if (currentQuestion.selectedAnswer !== null) {
-      const isCorrect = currentQuestion.selectedAnswer === currentQuestion.correctAnswer;
-      if (isCorrect) {
-        setScore((prevScore) => prevScore + quizDetails.question_point);
-      }
-      setQuizSubmitted(true);
-      // message.success(`Your total score: ${score}`);
-      localStorage.removeItem('quizState');
-      exitFullScreen();
-
-      const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
-      const student_name = JSON.parse(localStorage.getItem('user')).userData.username
-      try {
+    try {
+      const currentQuestion = questions[currentIndex];
+      if (currentQuestion && currentQuestion.selectedAnswer !== null) {
+        const isCorrect = currentQuestion.selectedAnswer === currentQuestion.correctAnswer;
+        if (isCorrect) {
+          setScore((prevScore) => prevScore + quizDetails.question_point);
+        }
+  
+        setQuizSubmitted(true);
+        exitFullScreen();
+        
+        // Clear the quiz state from local storage
+        localStorage.removeItem('quizState');
+  
+        // Fetch user details
+        const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
+        const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
+  
+        // Save the result
         await axios.post('http://localhost:3000/api/result/save-result', {
           quizName: quizDetails.quizName,
           teacherName: quizDetails.teacherName,
           studentId,
           score,
           quiz_id: quizid,
-          student_name: student_name,
+          student_name: studentName,
           passing_point: point
         });
-        // message.success('Quiz result saved successfully');
-        localStorage.removeItem('quizState');
-      } catch (error) {
-        console.error('Error saving quiz result:', error);
-        // message.error('Failed to save quiz result');
+  
+        message.success('Quiz result saved successfully');
+      } else {
+        message.warning('Please select an option before submitting.');
       }
-    } else {
-      message.warning('Please select an option before submitting.');
+    } catch (error) {
+      console.error('Error saving quiz result:', error);
+      message.error('Failed to save quiz result');
     }
-    localStorage.removeItem('quizState');
   };
+  
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -282,8 +287,20 @@ const Quiz = () => {
 
   if (alreadyTaken) {
     const percentage = (previousResult.score / quizDetails.total_point) * 100;
+    // console.log(previousResult.score);
+    // const percentage= (score / (quizDetails.totalPoints * quizDetails.total_point)) * 100;
     const status = previousResult.score >= quizDetails.passingScore ? 'success' : 'warning';
+
+    let quiz = JSON.parse(localStorage.getItem('quizState'))
+
     return (
+
+      <>
+      {quiz ? <Button onClick={localStorage.removeItem('quizState')} >
+
+        See youre result
+      </Button> :  
+      
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Card
           title={`Quiz Result`}
@@ -308,6 +325,9 @@ const Quiz = () => {
 
         </Card>
       </div>
+      }
+      </>
+      
     );
   }
 
@@ -346,7 +366,7 @@ const Quiz = () => {
 
   if (currentIndex === -1 || currentIndex >= questions.length) {
     return null;
-  }
+  }  
 
   const currentQuestion = questions[currentIndex];
 

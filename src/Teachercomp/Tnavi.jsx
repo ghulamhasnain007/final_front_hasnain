@@ -21,28 +21,17 @@ const Navi = () => {
     navigate('/');
   };
 
-  const items = [
-    {
-      label: (
-        <Link to="/teacher/profile">
-          Profile
-        </Link>
-      ),
-      key: '1',
-      icon: <CgProfile />
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: 'Logout',
-      key: '3',
-      icon: <CiLogout />,
-      onClick: logout
-    },
-  ];
-
-  const menu = { items };
+  const menuItems = (
+    <Menu>
+      <Menu.Item key="1" icon={<CgProfile />}>
+        <Link to="/teacher/profile">Profile</Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="3" icon={<CiLogout />} onClick={logout}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
@@ -66,7 +55,7 @@ const Navi = () => {
           position: 'fixed',
           top: 0,
           zIndex: 1,
-          width: '100%',
+          width: '98%',
           display: 'flex',
           alignItems: 'center',
           borderRadius: 20,
@@ -106,7 +95,7 @@ const Navi = () => {
           ]}
         />
 
-        <Dropdown overlay={<Menu items={items} />}>
+        <Dropdown menu={menuItems}>
           <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
             <Space style={{ color: 'white' }}>
               <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} />

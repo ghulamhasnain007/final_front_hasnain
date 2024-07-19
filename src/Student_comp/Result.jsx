@@ -2,12 +2,19 @@ import React from 'react';
 import { Card, Progress } from 'antd';
 
 const QuizResult = ({ quizDetails, score }) => {
-  // const percent = (score / (quizDetails.totalPoints * quizDetails.question_point)) * 100;
-
+  // const percentage= (score / (quizDetails.totalPoints * quizDetails.total_point)) * 100;
+  // console.log(quizDetails,score)
   const percentage = (score / quizDetails.total_point) * 100;
+  // const percentage = (score / quizDetails.total_point) * 100;
   const progressColor = score >= quizDetails.passingScore ? 'green' : 'red';
-
+  
+    let quiz = JSON.parse(localStorage.getItem('quizState'))
+    if(quiz){
+      localStorage.removeItem('quizState')
+    }
   return (
+
+  
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}  >
       <Card
       title={`Quiz Results`}

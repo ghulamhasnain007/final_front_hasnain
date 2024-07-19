@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Statistic } from 'antd';
+import { Row, Col, Card, Statistic, Typography } from 'antd';
 import axios from 'axios';
 import admin from '../token/admin.js';
-
+const { Title } = Typography;
 const Dashboard = () => {
   const [data, setData] = useState({
     totalTeachers: 0,
@@ -46,6 +46,7 @@ const Dashboard = () => {
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#f0f2f5' ,  borderRadius: "36px 5px 59px 4px" }}>
+       <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>Admin Dashboard</Title>
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col xs={24} sm={12} md={8} lg={8}>
           <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#1890ff' }}>

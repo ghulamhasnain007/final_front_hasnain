@@ -43,7 +43,9 @@ const SubmissionData = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Spin size="large" tip="Loading submissions..." />
+        <Spin size="large" tip="Loading submissions...">
+          <Alert message="Please wait while we fetch the data" type="info" />
+        </Spin>
       </div>
     );
   }

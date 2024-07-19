@@ -32,15 +32,15 @@ const Navi = () => {
       key: '1',
       icon: <CgProfile />
     },
-    {
-      label: (
-        <Link to="/admin/setting">
-          Setting
-        </Link>
-      ),
-      key: '2',
-      icon: <SettingOutlined />
-    },
+    // {
+    //   label: (
+    //     <Link to="/admin/setting">
+    //       Setting
+    //     </Link>
+    //   ),
+    //   key: '2',
+    //   icon: <SettingOutlined />
+    // },
     {
       type: 'divider',
     },

@@ -120,11 +120,9 @@ const App = () => {
   };
 
   let studentcard = (item) =>{
-    // console.log(item.updatedDoc.class_id , item.updatedDoc.point );
-    const userid = JSON.parse(localStorage.getItem('user')).userData.id
     try {
-      axios.post(`http://localhost:3000/api/point/student/${userid}`, {
-        total_point : item.updatedDoc.point || 0  ,
+      axios.post(`http://localhost:3000/api/point/student/${item.updatedDoc.student_id }`, {
+        total_point : item.updatedDoc.point || 0 ,
         class_id : item.updatedDoc.class_id
         
       })
@@ -147,6 +145,7 @@ const App = () => {
         message.success('Point updated successfully');
         getSubmissions();
         setIsModalOpen(false);
+        console.log(response.data);
         studentcard(response.data)
         // Update the data to reflect the changes
         setData(prevData => prevData.map(item => item._id === selectedItem._id ? { ...item, point: selectedItem.point } : item));
