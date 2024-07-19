@@ -1,67 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Row, Col } from 'antd';
+import { Card, Row, Col, Typography } from 'antd';
 import axios from 'axios';
-import student from '../token/student.js'
-const Dashboard = () => {
-  const [data,setdata] = useState('')
-  
+import student from '../token/student.js';
 
-  let totalClasses = async() =>{
-    let user = JSON.parse(localStorage.getItem('user'))
-    let id = user.userData.id
-    await student.get(`/point/get/${id}`)
-    .then((res)=>{
-      // console.log(res.data);
-      setdata(res.data)
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
-  }
-  useEffect(()=>{
-    totalClasses()
-  },[])
-  
+const { Title } = Typography;
+
+const Dashboard = () => {
+  const [data, setData] = useState({});
+
+  const totalClasses = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const id = user.userData.id;
+    try {
+      const response = await student.get(`/point/get/${id}`);
+      setData(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    totalClasses();
+  }, []);
+
   return (
-    <div style={{ padding: '20px' }}>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={12} lg={6} xl={6}>
+    <div style={{ padding: '20px', backgroundColor: '#f0f2f5' }}>
+      <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>Student Dashboard</Title>
+      <Row gutter={[16, 16]} justify="center">
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
-            title="Total Class join"
+            title="Total Class Join"
             bordered={false}
-            style={{ backgroundColor: '#f56a00', color: '#fff' }}
+            style={{ backgroundColor: '#1890ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
-            <p style={{ fontSize: '24px' }}>{data.class_join ? data.class_join  : 0 }</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.class_join || 0}</p>
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={12} lg={6} xl={6}>
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
             title="Total Submission"
             bordered={false}
-            style={{ backgroundColor: '#7265e6', color: '#fff' }}
+            style={{ backgroundColor: '#ff4d4f', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
-            <p style={{ fontSize: '24px' }}>{data.submission ? data.submission : 0}</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.submission || 0}</p>
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={12} lg={6} xl={6}>
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
-            title="Total  Points"
+            title="Total Points"
             bordered={false}
-            style={{ backgroundColor: '#ffbf00', color: '#fff' }}
+            style={{ backgroundColor: '#52c41a', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
-            <p style={{ fontSize: '24px' }}>{data.total_point? data.total_point : 0 }</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.total_point || 0}</p>
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={12} lg={6} xl={6}>
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
-            title="Total Quiz point"
+            title="Total Quiz Points"
             bordered={false}
-            style={{ backgroundColor: '#00a854', color: '#fff' }}
+            style={{ backgroundColor: '#fa8c16', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
-            <p style={{ fontSize: '24px' }}>{data.totalQuizScore ? data.totalQuizScore : 0  }</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.totalQuizScore || 0}</p>
           </Card>
         </Col>
       </Row>
+  <br /> <br />
     </div>
   );
 };

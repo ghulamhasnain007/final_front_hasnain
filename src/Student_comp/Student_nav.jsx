@@ -21,17 +21,12 @@ const Student_nav = () => {
   const [visible, setVisible] = React.useState(false);
   const [data, setdata] = useState('')
 
-  const handleClick = (e) => {
-    console.log('click', e);
-  };
 
-  const handleMenuClick = (e) => {
-    if (e.key === 'logout') {
-      // Handle logout logic here
+  const handleMenuClick = () => {
+   
+      localStorage.removeItem('user');
       console.log('Logout clicked');
-    } else {
-      console.log('Clicked', e);
-    }
+      navigate('/');
   };
 
   const items = [
@@ -45,22 +40,12 @@ const Student_nav = () => {
       icon: <CgProfile />
     },
     {
-      label: (
-        <Link to="/admin/setting">
-          Setting
-        </Link>
-      ),
-      key: '2',
-      icon: <SettingOutlined />,
-
-    },
-    {
       type: 'divider', // No need for quotes around 'divider'
     },
     {
       label: 'Logout',
       key: '3',
-      icon: <CiLogout />
+      icon: <CiLogout onClick={handleMenuClick} />
     },
   ];
 

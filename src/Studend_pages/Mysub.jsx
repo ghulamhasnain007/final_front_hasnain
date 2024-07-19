@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, Row, Col, Typography, Empty, Modal, Button } from 'antd';
+import { Card, Row, Col, Typography, Empty, Modal, Button, Spin, Alert } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import Nav from '../Student_comp/Student_nav';
 
@@ -16,19 +16,14 @@ const SubmissionData = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       let id = JSON.parse(localStorage.getItem('user')).userData.id;
-      
+
       try {
         const response = await axios.get(`http://localhost:3000/api/tasksubmit/mysubmissions/${id}`);
-        console.log(response.data);
-        if (response.data.pending) {
-          setPendingSubmissions(response.data.pending);
-        }
-        if (response.data.checked) {
-          setCheckedSubmissions(response.data.checked);
-        }
-        setLoading(false);
+        setPendingSubmissions(response.data.pending || []);
+        setCheckedSubmissions(response.data.checked || []);
       } catch (error) {
         console.error('Error fetching submissions:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -45,22 +40,37 @@ const SubmissionData = () => {
     setModalVisible(false);
   };
 
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Spin size="large" tip="Loading submissions..." />
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <Nav/> <br /><br /><br /><br />
-      <Title style={{ marginLeft: 10 }} level={3}>Pending Submissions</Title>
-      {pendingSubmissions && pendingSubmissions.length > 0 ? (
+    <div style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
+      <Nav />
+      <br /><br /><br /><br />
+
+      <Title level={3} style={{ color: '#1890ff' }}>Pending Submissions</Title>
+      {pendingSubmissions.length > 0 ? (
         <Row gutter={[16, 16]}>
           {pendingSubmissions.map(submission => (
             <Col key={submission._id} xs={24} sm={12} md={8} lg={6}>
               <Card
                 hoverable
-                style={{ marginBottom: 19, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginLeft: 10 }}
-                cover={<img alt="example" src={"https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608"} />}
+                style={{
+                  marginBottom: 16,
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                  borderRadius: "14px 14px 34px 34px",
+                  backgroundColor: '#fff',
+                }}
+                cover={<img alt="example" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608" />}
                 onClick={() => handleCardClick(submission)}
               >
                 <div style={{ height: 150 }}>
-                  <Title level={4} style={{ marginBottom: 0 }}>Class : {submission.class_name || ''}</Title>
+                  <Title level={4} style={{ marginBottom: 0 }}>Class: {submission.class_name || ''}</Title>
                   <p style={{ marginTop: 8 }}><strong>Task Name:</strong> {submission.task_name || ''}</p>
                   <p><strong>Points:</strong> {`${submission.point} / ${submission.total_points}`}</p>
                   <p>
@@ -75,19 +85,24 @@ const SubmissionData = () => {
         <Empty description="No Pending Submissions" />
       )}
 
-      <Title style={{ marginLeft: 10 }} level={3}>Checked Submissions</Title>
-      {checkedSubmissions && checkedSubmissions.length > 0 ? (
+      <Title level={3} style={{ color: '#1890ff' }}>Checked Submissions</Title>
+      {checkedSubmissions.length > 0 ? (
         <Row gutter={[16, 16]}>
           {checkedSubmissions.map(submission => (
             <Col key={submission._id} xs={24} sm={12} md={8} lg={6}>
               <Card
                 hoverable
-                style={{ marginBottom: 16, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginLeft: 10 }}
-                cover={<img alt="example" src={"https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608"} />}
+                style={{
+                  marginBottom: 16,
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                  borderRadius: "14px 14px 34px 34px",
+                  backgroundColor: '#fff',
+                }}
+                cover={<img alt="example" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608" />}
                 onClick={() => handleCardClick(submission)}
               >
                 <div style={{ height: 150 }}>
-                  <Title level={4} style={{ marginBottom: 0 }}>Class : {submission.class_name || ''}</Title>
+                  <Title level={4} style={{ marginBottom: 0 }}>Class: {submission.class_name || ''}</Title>
                   <p style={{ marginTop: 8 }}><strong>Task Name:</strong> {submission.task_name || ''}</p>
                   <p><strong>Points:</strong> {`${submission.point} / ${submission.total_points}`}</p>
                   <p>

@@ -1,9 +1,12 @@
 import React from 'react';
-import { Card, Form, Input, Button, Row, Col, notification } from 'antd';
+import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+const { Title } = Typography;
 
-const Teacher_login = () => {
+const TeacherLogin = () => {
+  const [form] = Form.useForm();
   const onFinish = async (values) => {
     const loginData = {
       email: values.email,
@@ -16,9 +19,9 @@ const Teacher_login = () => {
         message: 'Login Successful',
         description: response.data.message,
       });
-
+      form.resetFields();
       // Save user data to localStorage
-      localStorage.setItem('techerdata', JSON.stringify(response.data)); // Assuming 'user' is the key and response.data.user is the user object
+      localStorage.setItem('techerdata', JSON.stringify(response.data));
 
       // Optionally, redirect to another page or perform additional actions
     } catch (error) {
@@ -30,45 +33,70 @@ const Teacher_login = () => {
   };
 
   return (
-    <div style={{ padding: '30px', borderRadius: 40, marginTop: 100 }}>
-      <Row justify="center">
-        <Col xs={24} sm={20} md={16} lg={12} xl={8}>
-          <Card title="Teacher Login" style={{ width: '100%', maxWidth: 400, borderRadius: 40, alignItems: 'center' }}>
-            <Form
-              name="Teacher_login"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-            >
-              <Form.Item
-                name="email"
-                rules={[
-                  { required: true, message: 'Please input your email!' },
-                  { type: 'email', message: 'Please enter a valid email address!' },
-                ]}
-              >
-                <Input prefix={<MailOutlined />} placeholder="Email" />
-              </Form.Item>
 
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-              </Form.Item>
+    <>
+    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' , borderRadius : 20 }}>
+      <Row justify="center" style={{ width: '100%' }}>
+        <Col xs={24} sm={20} md={16} lg={12} xl={10}>
+         <Link to={'/'}>
+            <Button style={{ marginBottom: 20 }}>Back to Home</Button>
+          </Link>
+          <Card style={{ borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', overflow: 'hidden', display: 'flex' }}>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                  Login
-                </Button>
-                <br />
-                {/* You can add a link to password recovery or other options here */}
-              </Form.Item>
-            </Form>
+         
+
+            <Row justify="center" align="middle" style={{ width: '100%' }}>
+              <Col span={12} style={{ background: '#1890ff', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <img src="https://img.freepik.com/premium-vector/3d-user-login-form-page_165488-4918.jpg" alt="Login Illustration" style={{ width: '100%', height: '100%', objectFit: 'cover' , borderRadius : 20 }} />
+              </Col>
+              <Col span={12} style={{ padding: '20px' }}>
+                <Title level={3} style={{ textAlign: 'center', color: '#1890ff' }}>Teacher Login</Title>
+                <Form
+                form={form}
+                  name="Teacher_login"
+                  initialValues={{ remember: true }}
+                  onFinish={onFinish}
+                  layout="vertical"
+                >
+                  <Form.Item
+                    name="email"
+                    rules={[
+                      { required: true, message: 'Please input your email!' },
+                      { type: 'email', message: 'Please enter a valid email address!' },
+                    ]}
+                  >
+                    <Input
+                      prefix={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder="Email"
+                      style={{ borderRadius: '5px' }}
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder="Password"
+                      style={{ borderRadius: '5px' }}
+                    />
+                  </Form.Item>
+
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ width: '100%', borderRadius: '5px' }}>
+                      Login
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>
     </div>
+    </>
   );
 };
 
-export default Teacher_login;
+export default TeacherLogin;

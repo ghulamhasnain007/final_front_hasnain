@@ -147,7 +147,7 @@ const Tprofile = () => {
             {/* Edit/Update Button */}
             {!isEditing && (
               <Form.Item>
-                <Button type="primary" onClick={() => setIsEditing(true)} style={{ width: '100%' }}>
+                <Button type="primary" onClick={() => setIsEditing(true)} style={{ width: '100%', borderRadius: '5px' }}>
                   Edit
                 </Button>
               </Form.Item>
@@ -155,7 +155,7 @@ const Tprofile = () => {
 
             {isEditing && (
               <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                <Button type="primary" htmlType="submit" style={{ width: '100%', borderRadius: '4px', backgroundColor: '#52c41a', borderColor: '#52c41a' }}>
                   Update
                 </Button>
               </Form.Item>

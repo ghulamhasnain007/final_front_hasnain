@@ -33,60 +33,71 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const cardStyle = {
+    borderRadius: "36px 5px 59px 4px",
+    color: '#fff',
+    textAlign: 'center',
+  };
+
+  const statisticStyle = {
+    fontSize: '24px',
+    fontWeight: 'bold',
+  };
+
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f0f2f5' }}>
+    <div style={{ padding: '20px', backgroundColor: '#f0f2f5' ,  borderRadius: "36px 5px 59px 4px" }}>
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#3FA037', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#1890ff' }}>
             <Statistic
               title="Total Teachers"
               value={data.totalTeachers}
-              prefix={<i className="anticon anticon-line-chart" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#6DB33F', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#40a9ff' }}>
             <Statistic
               title="Total Students"
               value={data.totalStudents}
-              prefix={<i className="anticon anticon-user" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#3FB33F', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#69c0ff' }}>
             <Statistic
               title="Total Quizzes"
               value={data.totalQuizzes}
-              prefix={<i className="anticon anticon-question-circle" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#37A03F', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#95de64' }}>
             <Statistic
               title="Total Tasks"
               value={data.totalTasks}
-              prefix={<i className="anticon anticon-schedule" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#4C7F32', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Classes"
               value={data.totalClasses}
-              prefix={<i className="anticon anticon-class" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ backgroundColor: '#2E5934', color: '#fff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#389e0d' }}>
             <Statistic
               title="Total Submissions"
               value={data.totalSubmissions}
-              prefix={<i className="anticon anticon-file-text" />}
+              valueStyle={statisticStyle}
             />
           </Card>
         </Col>

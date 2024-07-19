@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Row, Col, message } from 'antd';
+import { Form, Input, Button, Row, Col, message,Spin } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -56,27 +56,36 @@ const QuizForm = () => {
 
   return (
     <>
-      <Nav />
-      <br /><br /><br /><br /> <br />
-      <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px' }}>
+      <Nav /><br /><br /><br /><br /> <br />
+      <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <Link to="/teacher/allquiz">
-          <Button>All quizes</Button>
+          <Button
+            type="default"
+            style={{
+              marginBottom: '20px',
+              borderRadius: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              color: '#1890ff',
+              borderColor: '#1890ff',
+            }}
+          >
+            All Quizzes
+          </Button>
         </Link>
-        <br /><br />
         <Form form={form} onFinish={onFinish} layout="vertical">
           <Form.Item
             name="quizName"
             label="Quiz Name"
             rules={[{ required: true, message: 'Please enter the quiz name' }]}
           >
-            <Input />
+            <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
           </Form.Item>
           <Form.Item
             name="timer"
             label="Quiz Timer (minutes)"
             rules={[{ required: true, message: 'Please enter the quiz timer in minutes' }]}
           >
-            <Input type="number" />
+            <Input type="number" style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
@@ -85,7 +94,7 @@ const QuizForm = () => {
                 label="Each Question Point"
                 rules={[{ required: true, message: 'Please enter the question point' }]}
               >
-                <Input />
+                <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -94,7 +103,7 @@ const QuizForm = () => {
                 label="Passing Point"
                 rules={[{ required: true, message: 'Please enter the passing point' }]}
               >
-                <Input />
+                <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
               </Form.Item>
             </Col>
           </Row>
@@ -103,14 +112,14 @@ const QuizForm = () => {
             label="Total Points"
             rules={[{ required: true, message: 'Please enter the total points' }]}
           >
-            <Input />
+            <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
           </Form.Item>
-
+  
           <Form.List name="questions">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, fieldKey, ...restField }) => (
-                  <div key={key}>
+                  <div key={key} style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
                     <Form.Item
                       {...restField}
                       name={[name, 'question']}
@@ -118,7 +127,7 @@ const QuizForm = () => {
                       label={`Question ${name + 1}`}
                       rules={[{ required: true, message: 'Please enter the question' }]}
                     >
-                      <Input />
+                      <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                     </Form.Item>
                     <Row gutter={16}>
                       <Col span={12}>
@@ -129,7 +138,7 @@ const QuizForm = () => {
                           label="Option 1"
                           rules={[{ required: true, message: 'Please enter option 1' }]}
                         >
-                          <Input />
+                          <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
@@ -140,7 +149,7 @@ const QuizForm = () => {
                           label="Option 2"
                           rules={[{ required: true, message: 'Please enter option 2' }]}
                         >
-                          <Input />
+                          <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -153,7 +162,7 @@ const QuizForm = () => {
                           label="Option 3"
                           rules={[{ required: true, message: 'Please enter option 3' }]}
                         >
-                          <Input />
+                          <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
@@ -164,7 +173,7 @@ const QuizForm = () => {
                           label="Option 4"
                           rules={[{ required: true, message: 'Please enter option 4' }]}
                         >
-                          <Input />
+                          <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -175,32 +184,40 @@ const QuizForm = () => {
                       label="Correct Answer"
                       rules={[{ required: true, message: 'Please enter the correct answer' }]}
                     >
-                      <Input />
+                      <Input style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} />
                     </Form.Item>
-                    <Button type="danger" onClick={() => remove(name)} icon={<MinusCircleOutlined />}>
+                    <Button type="danger" onClick={() => remove(name)} icon={<MinusCircleOutlined />} style={{ borderRadius: '8px', marginBottom: '10px' }}>
                       Remove Question
                     </Button>
                     <hr />
                   </div>
                 ))}
                 <Form.Item>
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ borderRadius: '8px' }}>
                     Add Question
                   </Button>
                 </Form.Item>
               </>
             )}
           </Form.List>
-
+  
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ borderRadius: '8px' }}
+            >
               Create Quiz
             </Button>
           </Form.Item>
         </Form>
+  
+       
+       
       </div>
     </>
   );
+  
 };
 
 export default QuizForm;

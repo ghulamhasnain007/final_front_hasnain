@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Form, Input, Button, Row, Col, notification } from 'antd';
+import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+const { Title } = Typography;
 
 const AdminLogin = () => {
   const [form] = Form.useForm();
@@ -31,15 +33,27 @@ const AdminLogin = () => {
   };
 
   return (
-    <div style={{ padding: '30px', borderRadius: 40, marginTop: 100 }}>
-      <Row justify="center">
-        <Col xs={24} sm={20} md={16} lg={12} xl={8}>
-          <Card title="Admin Login" style={{ width: '100%', maxWidth: 400, borderRadius: 40, alignItems: 'center' }}>
+    <>
+      <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 450, padding: '30px', borderRadius: 20 }}>
+          <Link to={'/'}>
+            <Button style={{ marginBottom: 20 }}>Back to Home</Button>
+          </Link>
+          <Card
+            title={<Title level={3} style={{ textAlign: 'left', color: '#1890ff' }}>Admin Login</Title>}
+            style={{
+              borderRadius: '15px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              backgroundColor: '#fff',
+              padding: '20px'
+            }}
+          >
             <Form
               form={form}
               name="admin_login_form"
               initialValues={{ remember: true }}
               onFinish={onFinish}
+              layout="vertical"
             >
               <Form.Item
                 name="email"
@@ -48,28 +62,34 @@ const AdminLogin = () => {
                   { type: 'email', message: 'Please enter a valid email address!' },
                 ]}
               >
-                <Input prefix={<MailOutlined />} placeholder="Email" />
+                <Input
+                  prefix={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder="Email"
+                  style={{ borderRadius: '5px' }}
+                />
               </Form.Item>
 
               <Form.Item
                 name="password"
                 rules={[{ required: true, message: 'Please input your password!' }]}
               >
-                <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+                <Input.Password
+                  prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder="Password"
+                  style={{ borderRadius: '5px' }}
+                />
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                <Button type="primary" htmlType="submit" style={{ width: '100%', borderRadius: '5px' }}>
                   Login
                 </Button>
-                <br />
-                <p>Create a new account <Link to={'/student/register'}>Register</Link></p>
               </Form.Item>
             </Form>
           </Card>
-        </Col>
-      </Row>
-    </div>
+        </div>
+      </div>
+    </>
   );
 };
 

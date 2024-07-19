@@ -63,6 +63,16 @@ const DashboardPage = () => {
     height: 400,
   };
 
+
+  const converted = {
+    background: "rgba(255, 254, 254, 0.01)",
+    borderRadius: "16px",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(3.6px)",
+    WebkitBackdropFilter: "blur(3.6px)",
+    border: "1px solid rgba(255, 254, 254, 0.75)",
+    borderRadius: "39px 0px 39px 7px"
+  }
   return (
     <div style={{ padding: '50px' }}>
       <Select
@@ -80,7 +90,7 @@ const DashboardPage = () => {
       {loading ? (
         <Spin size="large" />
       ) : (
-        <Card style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <Card style={converted }>
           <h2 style={{ textAlign: 'center' }}>Daily Summary Overview</h2>
           <Line {...config} />
         </Card>

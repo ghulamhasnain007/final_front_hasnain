@@ -117,14 +117,6 @@ const Join_class = () => {
     setClassCode(e.target.value);
   };
 
-  // const data = [
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  //   { url: 'https://api.dicebear.com/7.x/miniavs/svg?seed=8', title: 'Haseeb' },
-  // ];
 
   return (
     <div>
@@ -145,13 +137,13 @@ const Join_class = () => {
       <br />
       <br />
       {classDetails.length > 0 ?
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center',borderRadius: "49px 11px 49px 11px" }}>
           {classDetails.map((item, index) => (
             <Tooltip title='Click to see your tasks' key={index}>
               <div style={{ margin: '16px', textAlign: 'center' }}>
                 <Link to={`/student/join/${item._id}`} style={{ textDecoration: 'none' }}>
                   <Card
-                    style={{ width: 300 }}
+                    style={{ width: 300 ,borderRadius: "49px 11px 49px 11px"}}
                     hoverable
                     cover={<img style={{ width: 300, height: 130 }} alt="example" src={item.theme ? item.theme : 'https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg'  } />}
                   >

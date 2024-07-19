@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Row, Col, Modal, Form, Input, DatePicker, Button, message, Tooltip, Empty, Alert } from 'antd';
+import { Card, Row, Col, Modal, Form, Input, DatePicker, Button, message, Tooltip, Empty, Alert, Spin, Typography } from 'antd';
 import moment from 'moment';
 import { Link, useParams } from 'react-router-dom';
 import Tnavi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { CopyOutlined } from '@ant-design/icons';
 import teacher from '../token/teacher.js';
+
+const { Title, Paragraph } = Typography;
 
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +18,7 @@ const ALL_task = () => {
   const { id } = useParams();
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -33,41 +36,34 @@ const ALL_task = () => {
     });
   };
 
-  let chart = async () => {
-    let totalStudents = 0;
-    let totalTasks = 1;
-    let totalClasses = 0;
-    let totalquiz =  0
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
-    const teacherId = teacherData.userData.id;
-    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId , totalquiz })
-      .then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
+  const getTasks = () => {
+    setLoading(true);
+    axios.get(`http://localhost:3000/api/createtask/${id}`)
+      .then(response => {
+        setTasks(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching task details:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  let adminchart = () => {
-    try {
-      axios.post('http://localhost:3000/api/adminuser/chartdetail',
-        {
-          Total_Students: 0,
-          Total_Tasks: 1,
-          Total_Classes: 0,
-          Total_submissions: 0,
-          Total_teacher: 0
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  const getClassDetails = () => {
+    axios.get(`http://localhost:3000/api/creteclass/getclass/${id}`)
+      .then(response => {
+        setClassData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching class details:', error);
+      });
   };
+
+  useEffect(() => {
+    getTasks();
+    getClassDetails();
+  }, [id]);
 
   const handleOk = (values) => {
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
@@ -81,15 +77,13 @@ const ALL_task = () => {
       class_id: id,
       teacher_id: teacher_id,
       teacher_name: teacher_name,
-      class_name : classdata.className
+      class_name: classdata.className
     };
 
     teacher.post('/createtask', newTask)
       .then((response) => {
         message.success('Task created successfully');
         getTasks();
-        chart();
-        adminchart();
       })
       .catch((error) => {
         console.error('Error adding task:', error);
@@ -119,32 +113,6 @@ const ALL_task = () => {
 
     setIsEditModalOpen(false);
   };
-
-  const getTasks = () => {
-    axios.get(`http://localhost:3000/api/createtask/${id}`)
-      .then(response => {
-        setTasks(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching task details:', error);
-      });
-  };
-
-  const getClassDetails = () => {
-    axios.get(`http://localhost:3000/api/creteclass/getclass/${id}`)
-      .then(response => {
-        setClassData(response.data);
-        
-      })
-      .catch(error => {
-        console.error('Error fetching class details:', error);
-      });
-  };
-
-  useEffect(() => {
-    getTasks();
-    getClassDetails();
-  }, [id]);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -181,181 +149,204 @@ const ALL_task = () => {
   };
 
   const isPastDate = (date) => {
-    const today = moment();
-    const lastDate = moment(date);
-    return lastDate.isBefore(today, 'day');
+    const today = new Date();
+    const lateDateObj = new Date(date);
+    return today > lateDateObj;
   };
 
   return (
     <>
       <Tnavi />
       <div style={{ padding: '20px', marginTop: 80 }}>
-        <Card
-          title={`Teacher name : ${classdata.teacher_name}`}
-          style={{ marginBottom: '20px', backgroundImage: `url('https://marketplace.canva.com/EAFvgRUWZ0g/1/0/1600w/canva-white-and-green-illustrative-welcome-to-our-classroom-banner-4WcagvYF4Jk.jpg')`, }}
-        >
-          <p>
-            <strong>Class Name: </strong> {classdata.className}
-          </p>
-          <p>
-            <strong>Description: </strong> {classdata.description}
-          </p>
-          <p>
-            <strong>Class Code: {classdata.class_code}</strong>
-            <Tooltip title="Copy code">
-              <Button type="link" onClick={() => copyToClipboard(classdata.class_code)}>
-                <CopyOutlined />
-              </Button>
-            </Tooltip>
-          </p>
-          <p>
-            <strong>Total Students: {`${classdata?.students?.length ?? '0'}`}</strong>
-          </p>
-          <p>
-            <strong>Class Created At: {`${classdata.created_at ? classdata.created_at.slice(0, 10) : 'N/A'}`}</strong>
-          </p>
-        </Card>
-        <center>
-          <Button type="primary" onClick={showModal} style={{ marginTop: '20px' }}>
-            Add New Task
-          </Button>
-        </center>
-
-        <br /><br />
-        {tasks.length > 0 ? (
-          <Row gutter={[16, 16]}>
-            {tasks.map((task, index) => (
-              <Col xs={24} sm={12} md={6} key={index}>
-                <Link to={`/teacher/createclasswork/${id}/task/${task._id}`}>
-                  <Tooltip title="Click to check submissions">
-                    <Card hoverable title={`Task Name: ${task.title}`} style={{ height: '100%' }}>
-                      {isPastDate(task.last_date) && (
-                        <Alert
-                          message="Task Submission Closed"
-                          type="error"
-                          showIcon
-                          style={{ marginBottom: '10px' }}
-                        />
-                      )}
-                      <p>
-                        <strong>Total Submissions: {task.totalSubmissions ? task.totalSubmissions : 0}</strong>
-                      </p>
-                      <p>
-                        <strong>Not Submitted: {task.totalNotSubmitted ? task.totalNotSubmitted : 0}</strong>
-                      </p>
-                      <p>
-                        <strong>Last Date: {`${task.last_date ? task.last_date.slice(0, 10) : 'N/A'}`}</strong>
-                      </p>
-                      <hr /><br />
-                      <Button
-                        style={{ marginRight: 10 }}
-                        type="dashed"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          showEditModal(task);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        danger
-                        type="text"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleDelete(task._id);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </Card>
-                  </Tooltip>
-                </Link>
-              </Col>
-            ))}
-          </Row>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 160px)' }}>
+            <Spin size="large" />
+          </div>
         ) : (
-          <Empty description='No Task created' />
+          <>
+            <Card
+              title={<Title level={3} style={{ color: '#ffffff', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}>Teacher Name: {classdata.teacher_name}</Title>}
+              style={{
+                marginBottom: '20px',
+                borderRadius: '35px 31px 31px 23px',
+                color: '#fff',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                position: 'relative',
+              }}
+            >
+              <Paragraph>
+                <strong>Class Name: </strong> {classdata.className}
+              </Paragraph>
+              <Paragraph>
+                <strong>Description: </strong> {classdata.description}
+              </Paragraph>
+              <Paragraph>
+                <strong>Class Code: </strong> {classdata.class_code}
+                <Tooltip title="Copy code">
+                  <Button
+                    type="link"
+                    style={{ color: '#ffffff', marginLeft: '10px' }}
+                    onClick={() => copyToClipboard(classdata.class_code)}
+                  >
+                    <CopyOutlined style={{ color: 'blue' }} />
+                  </Button>
+                </Tooltip>
+              </Paragraph>
+              <Paragraph>
+                <strong>Total Students: </strong> {classdata?.students?.length ?? '0'}
+              </Paragraph>
+              <Paragraph>
+                <strong>Class Created At: </strong> {`${classdata.created_at ? classdata.created_at.slice(0, 10) : 'N/A'}`}
+              </Paragraph>
+            </Card>
+            <center>
+              <Button type="primary" onClick={showModal} style={{ marginTop: '20px' }}>
+                Add New Task
+              </Button>
+            </center>
+
+            <br /><br />
+            {tasks.length > 0 ? (
+              <Row gutter={[16, 16]}>
+                {tasks.map((task, index) => (
+                  <Col xs={24} sm={12} md={6} key={index}>
+                    <Link to={`/teacher/createclasswork/${id}/task/${task._id}`}>
+                      <Tooltip title="Click to check submissions">
+                        <Card
+                          className="card-hover"
+                          hoverable
+                          title={`Task Name: ${task.title}`}
+                          style={{ height: '100%', backgroundColor: '#f9f9f9' }}
+                        >
+                          {isPastDate(task.last_date) && (
+                            <Alert
+                              message="Task Submission Closed"
+                              type="error"
+                              showIcon
+                              style={{ marginBottom: '10px' }}
+                            />
+                          )}
+                          <p>
+                            <strong>Total Submissions: {task.totalSubmissions ? task.totalSubmissions : 0}</strong>
+                          </p>
+                          <p>
+                            <strong>Not Submitted: {task.totalNotSubmitted ? task.totalNotSubmitted : 0}</strong>
+                          </p>
+                          <p>
+                            <strong>Last Date: {`${task.last_date ? task.last_date.slice(0, 10) : 'N/A'}`}</strong>
+                          </p>
+                          <hr /><br />
+                          <Button
+                            style={{ marginRight: 10 }}
+                            type="dashed"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              showEditModal(task);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            danger
+                            type="text"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleDelete(task._id);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </Card>
+                      </Tooltip>
+                    </Link>
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Empty description='No Task created' />
+            )}
+
+            <Modal
+              title='Add New Task'
+              open={isModalOpen}
+              onOk={() => form.submit()}
+              onCancel={handleCancel}
+              okText='Save'
+              cancelText='Cancel'
+            >
+              <Form form={form} layout="vertical" onFinish={handleOk} onFinishFailed={onFinishFailed}>
+                <Form.Item
+                  name="taskTitle"
+                  label="Task Title"
+                  rules={[{ required: true, message: 'Please enter task title' }]}
+                >
+                  <Input placeholder="Enter task title" />
+                </Form.Item>
+                <Form.Item name="instructions" label="Instructions">
+                  <Input.TextArea placeholder="Enter instructions" rows={4} />
+                </Form.Item>
+                <Form.Item
+                  name="lastDate"
+                  label="Last Date to Assign"
+                  rules={[{ required: true, message: 'Please select last date' }]}
+                >
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="points"
+                  label="Points"
+                  rules={[{ required: true, message: 'Please enter points' }]}
+                >
+                  <Input placeholder="Enter points" type="number" />
+                </Form.Item>
+              </Form>
+            </Modal>
+
+            <Modal
+              title='Edit Task'
+              open={isEditModalOpen}
+              onOk={() => editForm.submit()}
+              onCancel={handleEditCancel}
+              okText='Save'
+              cancelText='Cancel'
+            >
+              <Form form={editForm} layout="vertical" onFinish={handleEditOk} onFinishFailed={onFinishFailed}>
+                <Form.Item
+                  name="taskTitle"
+                  label="Task Title"
+                  rules={[{ required: true, message: 'Please enter task title' }]}
+                >
+                  <Input placeholder="Enter task title" />
+                </Form.Item>
+                <Form.Item name="instructions" label="Instructions">
+                  <Input.TextArea placeholder="Enter instructions" rows={4} />
+                </Form.Item>
+                <Form.Item
+                  name="lastDate"
+                  label="Last Date to Assign"
+                  rules={[{ required: true, message: 'Please select last date' }]}
+                >
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="points"
+                  label="Points"
+                  rules={[{ required: true, message: 'Please enter points' }]}
+                >
+                  <Input placeholder="Enter points" type="number" />
+                </Form.Item>
+              </Form>
+            </Modal>
+          </>
         )}
-
-        <Modal
-          title='Add New Task'
-          open={isModalOpen}
-          onOk={() => form.submit()}
-          onCancel={handleCancel}
-          okText='Save'
-          cancelText='Cancel'
-        >
-          <Form form={form} layout="vertical" onFinish={handleOk} onFinishFailed={onFinishFailed}>
-            <Form.Item
-              name="taskTitle"
-              label="Task Title"
-              rules={[{ required: true, message: 'Please enter task title' }]}
-            >
-              <Input placeholder="Enter task title" />
-            </Form.Item>
-            <Form.Item name="instructions" label="Instructions">
-              <Input.TextArea placeholder="Enter instructions" rows={4} />
-            </Form.Item>
-            <Form.Item
-              name="lastDate"
-              label="Last Date to Assign"
-              rules={[{ required: true, message: 'Please select last date' }]}
-            >
-              <DatePicker
-                style={{ width: '100%' }}
-                format="YYYY-MM-DD HH:mm:ss"
-                showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-              />
-            </Form.Item>
-            <Form.Item
-              name="points"
-              label="Points"
-              rules={[{ required: true, message: 'Please enter points' }]}
-            >
-              <Input placeholder="Enter points" type="number" />
-            </Form.Item>
-          </Form>
-        </Modal>
-
-        <Modal
-          title='Edit Task'
-          open={isEditModalOpen}
-          onOk={() => editForm.submit()}
-          onCancel={handleEditCancel}
-          okText='Save'
-          cancelText='Cancel'
-        >
-          <Form form={editForm} layout="vertical" onFinish={handleEditOk} onFinishFailed={onFinishFailed}>
-            <Form.Item
-              name="taskTitle"
-              label="Task Title"
-              rules={[{ required: true, message: 'Please enter task title' }]}
-            >
-              <Input placeholder="Enter task title" />
-            </Form.Item>
-            <Form.Item name="instructions" label="Instructions">
-              <Input.TextArea placeholder="Enter instructions" rows={4} />
-            </Form.Item>
-            <Form.Item
-              name="lastDate"
-              label="Last Date to Assign"
-              rules={[{ required: true, message: 'Please select last date' }]}
-            >
-              <DatePicker
-                style={{ width: '100%' }}
-                format="YYYY-MM-DD HH:mm:ss"
-                showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-              />
-            </Form.Item>
-            <Form.Item
-              name="points"
-              label="Points"
-              rules={[{ required: true, message: 'Please enter points' }]}
-            >
-              <Input placeholder="Enter points" type="number" />
-            </Form.Item>
-          </Form>
-        </Modal>
       </div>
     </>
   );

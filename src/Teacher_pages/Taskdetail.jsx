@@ -192,174 +192,212 @@ const App = () => {
 
   return (
     <>
-      <Tnavi />
-      <br /><br /><br /><br /><br /><br />
-
-      <center>
-        <Input onChange={(e)=>setPrompt(e.target.value) } placeholder='Check by AI' style={{ width: 400 }} />
-        <Button style={{ marginLeft: 10 }} type="primary" onClick={handleCheckByAI}>
-          Check by AI <FaRobot />
-        </Button>
-        <br /><br />
-      </center>
-      <Row justify="space-between" align="middle" style={{ padding: '0 10px' }}>
-        <Col>
-          <h3>Task instruction : {ins.instructions}</h3>
-        </Col>
-        {/* <Col>
-          <h3>Total points : {ins.points
-          }</h3>
-        </Col> */}
-        <Col>
-          <Button type="primary" onClick={getSubmissions}>Reload <RxReload /> </Button>
-        </Col>
-      </Row>
-      <br />
-      <h4 style={{ marginLeft: 10 }}><strong>Total Submissions: {data.length}</strong></h4>
-      <h4 style={{ marginLeft: 10 }}><strong>Total Submissions checked: {checked.length}</strong></h4>
-      <h4 style={{ marginLeft: 10 }}><strong>Total Submissions pending: {pending.length}</strong></h4>
-      <h4 style={{ marginLeft: 10 }}><strong>Total points : {ins.points ? ins.points : 'Not set' }</strong></h4>
-        <br />
-
-      <br />
-
-      {loading ? (
+      <Tnavi /><br /><br /><br /><br /><br />
+      <div style={{ padding: '20px', backgroundColor: '#f0f2f5' , borderRadius: "45px 10px 52px 24px" }}>
         <center>
-          <Spin size="large" />
-        </center>
-      ) : (
-        <>
-          {pending.length > 0 && (
-            <>
-              <center>
-                <h3>Pending Submissions</h3>
-              </center>
-              <List
-                grid={{
-                  gutter: 16,
-                  xs: 1,
-                  sm: 2,
-                  md: 4,
-                  lg: 4,
-                  xl: 6,
-                  xxl: 3,
-                }}
-                dataSource={pending}
-                renderItem={(item) => (
-                  <List.Item key={item._id}>
-                    <Card
-                      title={item.student_name}
-                      onClick={() => handleCardClick(item)}
-                      hoverable
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {`Sub Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
-                      <hr />
-                      <p>
-                    <ClockCircleOutlined style={{ color: '#faad14' }} /> Pending
-                  </p>
-                    </Card>
-                  </List.Item>
-                )}
-              />
-            </>
-          )}
-
-          <center>
-            <h3>Checked Submissions</h3>
-          </center>
-          <List
-            grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 2,
-              md: 4,
-              lg: 4,
-              xl: 6,
-              xxl: 3,
-            }}
-            dataSource={checked}
-            renderItem={(item) => (
-              <List.Item key={item._id}>
-                <Card
-                  title={item.student_name}
-                  onClick={() => handleCardClick(item)}
-                  hoverable
-                  style={{ cursor: 'pointer' }}
-                >
-                  {`Sub Date : ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
-                  <hr />
-                  <p style={{ color: 'blueviolet' }}> Point {item.point} /{item.total_points} </p>
-                  <p>
-                    <CheckCircleOutlined style={{ color: '#52c41a' }} /> Checked
-                  </p>
-                </Card>
-              </List.Item>
-            )}
-          />
-        </>
-      )}
-
-      <Modal
-        title={` Student name : ${selectedItem.student_name ? selectedItem.student_name : ''}`}
-        open={isModalOpen}
-        onCancel={handleModalClose}
-        footer={null}
-        centered
-      >
-        <div>
-          <center>
-            {selectedItem.url &&
-              <div>
-                <p>Here's the URL:</p>
-                <Tooltip title={selectedItem.url}>
-                  <a href={selectedItem.url} target="_blank" rel="noopener noreferrer">Click to see url</a>
-                </Tooltip>
-              </div>
-            }
-            {selectedItem.img &&
-              <>
-                <br />
-                <Button type="primary" onClick={handleShowImagePreview}>
-                  Show Image Preview
-                </Button>
-              </>
-            }
-          </center>
-          <Image
-            width={200}
-            style={{ display: previewVisible ? 'block' : 'none' }}
-            src={selectedItem.img}
-            preview={{
-              visible: previewVisible,
-              scaleStep,
-              src: selectedItem.img,
-              onVisibleChange: (value) => {
-                setPreviewVisible(value);
-              },
+          <Input
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder='Check by AI'
+            style={{
+              width: 400,
+              marginBottom: '10px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
           />
-          {selectedItem.text &&
-            <>
-              <br /><br />
-              <Input.TextArea value={selectedItem.text} autoSize={{ minRows: 3, maxRows: 6 }} disabled />
-            </>
-          }
-          <br /><br />
-          <Button onClick={handleCopyText}>
-            Copy Text
+          <Button
+            style={{ marginLeft: 10, borderRadius: '8px' }}
+            type="primary"
+            onClick={handleCheckByAI}
+          >
+            Check by AI <FaRobot />
           </Button>
-          {copySuccess && <span style={{ color: 'green', marginLeft: '10px' }}>Copied!</span>}
-          <br /><br />
+        </center>
+  
+        <Row justify="space-between" align="middle" style={{ padding: '0 20px', marginTop: '20px' }}>
+          <Col>
+            <h3>Task Instruction: {ins.instructions}</h3>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              onClick={getSubmissions}
+              style={{ borderRadius: '8px' }}
+            >
+              Reload <RxReload />
+            </Button>
+          </Col>
+        </Row>
+  
+        <div style={{ marginLeft: 20, marginTop: 20 }}>
+          <h4><strong>Total Submissions: {data.length}</strong></h4>
+          <h4><strong>Total Submissions Checked: {checked.length}</strong></h4>
+          <h4><strong>Total Submissions Pending: {pending.length}</strong></h4>
+          <h4><strong>Total Points: {ins.points ? ins.points : 'Not set'}</strong></h4>
         </div>
-        <div style={{ textAlign: 'center' }}>
-          <InputNumber   max={selectedItem.total_points} value={selectedItem.point || 0} onChange={handlePointChange} /> /{selectedItem.total_points}
-          <br /><br />
-          <Button onClick={handleAddPoint}>Add Point</Button>
-        </div>
-      </Modal>
+  
+        <br />
+  
+        {loading ? (
+          <center>
+            <Spin size="large" style={{ marginTop: '20px' }} />
+          </center>
+        ) : (
+          <>
+            {pending.length > 0 && (
+              <>
+                <center>
+                  <h3>Pending Submissions</h3>
+                </center>
+                <List
+                  grid={{
+                    gutter: 16,
+                    xs: 1,
+                    sm: 2,
+                    md: 4,
+                    lg: 4,
+                    xl: 6,
+                    xxl: 3,
+                  }}
+                  dataSource={pending}
+                  renderItem={(item) => (
+                    <List.Item key={item._id}>
+                      <Card
+                        title={item.student_name}
+                        onClick={() => handleCardClick(item)}
+                        hoverable
+                        style={{
+                          cursor: 'pointer',
+                          borderRadius: "45px 10px 52px 24px",
+                          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        }}
+                      >
+                        {`Sub Date: ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
+                        <hr />
+                        <p>
+                          <ClockCircleOutlined style={{ color: '#faad14' }} /> Pending
+                        </p>
+                      </Card>
+                    </List.Item>
+                  )}
+                />
+              </>
+            )}
+  
+            <center>
+              <h3>Checked Submissions</h3>
+            </center>
+            <List
+              grid={{
+                gutter: 16,
+                xs: 1,
+                sm: 2,
+                md: 4,
+                lg: 4,
+                xl: 6,
+                xxl: 3,
+              }}
+              dataSource={checked}
+              renderItem={(item) => (
+                <List.Item key={item._id}>
+                  <Card
+                    title={item.student_name}
+                    onClick={() => handleCardClick(item)}
+                    hoverable
+                    style={{
+                      cursor: 'pointer',
+                      borderRadius: "45px 10px 52px 24px",
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    }}
+                  >
+                    {`Sub Date: ${item.created_at ? item.created_at.slice(0, 10) : 'N/A'}`}
+                    <hr />
+                    <p style={{ color: 'blueviolet' }}>Points: {item.point} / {item.total_points}</p>
+                    <p>
+                      <CheckCircleOutlined style={{ color: '#52c41a' }} /> Checked
+                    </p>
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </>
+        )}
+  
+        <Modal
+          title={`Student Name: ${selectedItem.student_name ? selectedItem.student_name : ''}`}
+          open={isModalOpen}
+          onCancel={handleModalClose}
+          footer={null}
+          centered
+          style={{ borderRadius: '8px',borderRadius: "45px 10px 52px 24px" }}
+        >
+          <div>
+            <center>
+              {selectedItem.url && (
+                <div>
+                  <p>Here's the URL:</p>
+                  <Tooltip title={selectedItem.url}>
+                    <a href={selectedItem.url} target="_blank" rel="noopener noreferrer">Click to see URL</a>
+                  </Tooltip>
+                </div>
+              )}
+              {selectedItem.img && (
+                <>
+                  <br />
+                  <Button type="primary" onClick={handleShowImagePreview} style={{ borderRadius: '8px' }}>
+                    Show Image Preview
+                  </Button>
+                </>
+              )}
+            </center>
+            <Image
+              width={200}
+              style={{ display: previewVisible ? 'block' : 'none', marginTop: '10px' }}
+              src={selectedItem.img}
+              preview={{
+                visible: previewVisible,
+                scaleStep,
+                src: selectedItem.img,
+                onVisibleChange: (value) => {
+                  setPreviewVisible(value);
+                },
+              }}
+            />
+            {selectedItem.text && (
+              <>
+                <br /><br />
+                <Input.TextArea
+                  value={selectedItem.text}
+                  autoSize={{ minRows: 3, maxRows: 6 }}
+                  disabled
+                  style={{ borderRadius: '8px' }}
+                />
+              </>
+            )}
+            <br /><br />
+            <Button onClick={handleCopyText} style={{ borderRadius: '8px' }}>
+              Copy Text
+            </Button>
+            {copySuccess && <span style={{ color: 'green', marginLeft: '10px' }}>Copied!</span>}
+            <br /><br />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <InputNumber
+              max={selectedItem.total_points}
+              value={selectedItem.point || 0}
+              onChange={handlePointChange}
+              style={{ marginRight: '10px' }}
+            /> / {selectedItem.total_points}
+            <br /><br />
+            <Button onClick={handleAddPoint} style={{ borderRadius: '8px' }}>
+              Add Point
+            </Button>
+          </div>
+        </Modal>
+      </div>
     </>
   );
+  
 };
 
 export default App

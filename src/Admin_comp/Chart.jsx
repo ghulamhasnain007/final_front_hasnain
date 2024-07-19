@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from '@ant-design/charts';
-import { Button, Row, Col, Select } from 'antd';
+import { Button, Row, Col, Select, Spin, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
-import admin from '../token/admin.js'
+import admin from '../token/admin.js';
+
 const { Option } = Select;
 
 const BarChart = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getAdminChart = async () => {
+    setLoading(true);
     try {
       const res = await admin.get('/adminuser/getchart');
       setData(res.data);
       setFilteredData(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,11 +75,13 @@ const BarChart = () => {
     xAxis: {
       title: {
         text: 'Date',
+        style: { fontSize: '14px', fontWeight: 'bold' },
       },
     },
     yAxis: {
       title: {
         text: 'Count',
+        style: { fontSize: '14px', fontWeight: 'bold' },
       },
     },
     legend: {
@@ -102,11 +109,11 @@ const BarChart = () => {
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: 16 }}>
-        <Row gutter={16} justify="start">
+    <div style={{ padding: '20px', backgroundColor: '#fff' }}>
+      <Card style={{ marginBottom: 16,  borderRadius: "36px 5px 59px 4px" }}>
+        <Row gutter={16} justify="space-between" align="middle">
           <Col>
-            <Select defaultValue="today" style={{ width: 120 }} onChange={handleSelectChange}>
+            <Select defaultValue="today" style={{ width: 150 }} onChange={handleSelectChange}>
               <Option value="today">Today</Option>
               <Option value="last3days">Last 3 Days</Option>
               <Option value="last7days">Last 7 Days</Option>
@@ -114,11 +121,20 @@ const BarChart = () => {
             </Select>
           </Col>
           <Col>
-            <Button type="primary" onClick={getAdminChart} style={{ marginLeft: 8 }}>Reload</Button>
+            <Button type="primary" onClick={getAdminChart}>
+              Reload
+            </Button>
           </Col>
         </Row>
-      </div>
-      <Bar {...config} />
+      </Card>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', marginTop: '20px', }}>
+          <Spin size="large" />
+        </div>
+      ) : (
+        <Bar {...config} style={{ marginTop: '20px' }} />
+      )}
     </div>
   );
 };

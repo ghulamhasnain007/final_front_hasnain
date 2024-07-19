@@ -4,36 +4,52 @@ import axios from 'axios';
 import teacher from '../token/teacher.js'
 
 const DashboardPage = () => {
-  const [data,setdata] = useState('')
+  const [data, setdata] = useState('')
   // Mock data for total counts
-  const totalstudent = data.totalstudent ?  data.totalstudent : '0'
-  const totalClasses = data.totalclass ?  data.totalclass :  '0'
-  const totalQuizzes = data.totalQuiz  ? data.totalQuiz : '0'  ; 
-  const totalTasks = data.totaltask ?   data.totaltask :  '0'
+  const totalstudent = data.totalstudent ? data.totalstudent : '0'
+  const totalClasses = data.totalclass ? data.totalclass : '0'
+  const totalQuizzes = data.totalQuiz ? data.totalQuiz : '0';
+  const totalTasks = data.totaltask ? data.totaltask : '0'
 
-  
-  let get = () =>{
+
+  let get = () => {
     const teacher_id = JSON.parse(localStorage.getItem('techerdata')).userData.id
     teacher.get(`/joinclass/get/${teacher_id}`)
-    .then((res)=>{
-      console.log(res.data)
-      setdata(res.data)
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+      .then((res) => {
+        console.log(res.data)
+        setdata(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
     get()
-  },[])
+  }, [])
+
+  const card = {
+    borderRadius: "17px 42px 20px 0px",
+    WebkitBoxShadow: "-6px -1px 22px 3px rgba(34, 161, 204, 1)",
+    MozBoxShadow: "-6px -1px 22px 3px rgba(34, 161, 204, 1)",
+    boxShadow: "-6px -1px 22px 3px rgba(34, 161, 204, 1)",
+    background: "rgba(15, 16, 15, 0.01)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(3.6px)",
+    WebkitBackdropFilter: "blur(3.6px)",
+    border: "1px solid rgba(15, 16, 15, 0.75)"
+  }
+
+
+  
+
   return (
     <><br /><br /><br /><br /> <br />
-      <div style={{ background: '#ECECEC', padding: '30px' , borderRadius : 20 }}>
+      <div style={{ background: '#ECECEC', padding: '30px', borderRadius: "39px 0px 39px 7px"}}>
         <Row gutter={[16, 16]} justify="center">
           <Col xs={24} sm={12} md={6}>
-            <Card>
+            <Card hoverable style={card} >
               <Statistic
                 title="Total Students"
                 value={totalstudent}
@@ -42,7 +58,7 @@ const DashboardPage = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Card>
+            <Card hoverable style={card}  >
               <Statistic
                 title="Total Class Created "
                 value={totalClasses}
@@ -51,7 +67,7 @@ const DashboardPage = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Card>
+            <Card hoverable style={card}  >
               <Statistic
                 title="Total Quizzes"
                 value={totalQuizzes}
@@ -60,7 +76,7 @@ const DashboardPage = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Card>
+            <Card hoverable style={card}  >
               <Statistic
                 title="Total Tasks Created "
                 value={totalTasks}
@@ -69,7 +85,7 @@ const DashboardPage = () => {
             </Card>
           </Col>
         </Row>
-      </div>
+      </div> <br />
     </>
   );
 };

@@ -8,6 +8,7 @@ const Quiz = () => {
   const { id } = useParams();
   const [btn, setBtn] = useState(false);
   const [quizid, setquizid] = useState('');
+  const [loading, setLoading] = useState(true);
   const [quizDetails, setQuizDetails] = useState({
     teacherName: '',
     quizName: '',
@@ -30,7 +31,9 @@ const Quiz = () => {
   const [active, setactive] = useState('')
   const [point, setpasing_point] = useState('')
   const exitFullScreenTimer = useRef(null);
-
+  useEffect(() => {
+    setLoading(false);
+  }, []);
   useEffect(() => {
     const checkQuizTaken = async () => {
       const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
@@ -180,7 +183,6 @@ const Quiz = () => {
       currentIndex,
       score,
       timeLeft,
-      questions,
       quizDetails,
     };
     localStorage.setItem('quizState', JSON.stringify(quizState));
@@ -349,51 +351,66 @@ const Quiz = () => {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <Card title={`Question ${currentIndex + 1}`}>
-      {exitFullScreenWarning ? (
-        <>
-          <Alert
-            message="Warning"
-            description="You have exited full screen mode. Please return to full screen within 20 seconds, or your quiz will be automatically submitted."
-            type="warning"
-            showIcon
-          /> <br />
-          <center>
-            <Button type="primary" onClick={enterFullScreen}>
-              Return to Full Screen
-            </Button>
-          </center>
-          <br />
-        </>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', padding: '20px' }}>
+      {loading ? (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
       ) : (
-        <>
-          <p>{currentQuestion.question}</p>
-          <Radio.Group onChange={(e) => handleOptionSelect(e.target.value)} value={currentQuestion.selectedAnswer}>
-            {currentQuestion.options.map((option, index) => (
-              <Radio key={index} value={option}>
-                {option}
-              </Radio>
-            ))}
-          </Radio.Group>
-          <br />
-          <br />
-          <div>
-            <strong>Time Left: {formatTime(timeLeft)}</strong>
-          </div>
-          {currentIndex < questions.length - 1 && btn && (
-            <Button type="primary" onClick={handleNextQuestion}>
-              Next Question
-            </Button>
-          )} <br />
-          {currentIndex === questions.length - 1 && btn && (
-            <Button type="primary" style={{ marginLeft: '10px' }} onClick={handleQuizSubmit}>
-              Submit Quiz
-            </Button>
+        <Card
+          title={`Question ${currentIndex + 1}`}
+          style={{ maxWidth: '600px', width: '100%' }}
+        >
+          {exitFullScreenWarning ? (
+            <>
+              <Alert
+                message="Warning"
+                description="You have exited full screen mode. Please return to full screen within 20 seconds, or your quiz will be automatically submitted."
+                type="warning"
+                showIcon
+              />
+              <br />
+              <center>
+                <Button type="primary" onClick={enterFullScreen}>
+                  Return to Full Screen
+                </Button>
+              </center>
+              <br />
+            </>
+          ) : (
+            <>
+              <p>{currentQuestion.question}</p>
+              <Radio.Group onChange={(e) => handleOptionSelect(e.target.value)} value={currentQuestion.selectedAnswer}>
+                {currentQuestion.options.map((option, index) => (
+                  <Radio key={index} value={option} style={{ display: 'block', marginBottom: '8px' }}>
+                    {option}
+                  </Radio>
+                ))}
+              </Radio.Group>
+              <br />
+              <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                <strong>Time Left: {formatTime(timeLeft)}</strong>
+              </div>
+              {currentIndex < questions.length - 1 && btn && (
+                <center>
+                  <Button type="primary" onClick={handleNextQuestion} style={{ marginTop: '20px' }}>
+                    Next Question
+                  </Button>
+                </center>
+              )}
+              {currentIndex === questions.length - 1 && btn && (
+                <center>
+                  <Button type="primary" style={{ marginTop: '20px' }} onClick={handleQuizSubmit}>
+                    Submit Quiz
+                  </Button>
+                </center>
+              )}
+            </>
           )}
-        </>
+        </Card>
       )}
-    </Card>
+    </div>
   );
+
+
 };
 
 export default Quiz;

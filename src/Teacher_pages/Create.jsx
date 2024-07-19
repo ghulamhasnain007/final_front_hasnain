@@ -14,20 +14,14 @@ const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
   const [classDetailsList, setClassDetailsList] = useState([]);
-  const [clickedCardIndex, setClickedCardIndex] = useState(null);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [dropid, setDropid] = useState('');
   const [teacherprofile, setteacherprofile] = useState('');
 
   const themes = [
-    {name : 'Theme 1',
-      url : 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608'
-    },
-    {name : 'Theme 2',
-      url : 'https://storage.googleapis.com/kami-uploads-public/library-resource-egxYhSV74CxA-vdSy9m-google-classroom-banner-paint-splats-png'
-    },
-    {name : ' Theme 3',
-      url : 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/mother%27s-day%2C-event%2C-greeting%2Cretail-design-template-3d3dbf8ff17ea5821edb60d082c02406_screen.jpg?ts=1698430100'
-    }
+    { name: 'Theme 1', url: 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608' },
+    { name: 'Theme 2', url: 'https://storage.googleapis.com/kami-uploads-public/library-resource-egxYhSV74CxA-vdSy9m-google-classroom-banner-paint-splats-png' },
+    { name: 'Theme 3', url: 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/mother%27s-day%2C-event%2C-greeting%2Cretail-design-template-3d3dbf8ff17ea5821edb60d082c02406_screen.jpg?ts=1698430100' }
   ]; // Define your themes here
 
   const getData = () => {
@@ -38,7 +32,7 @@ const CreateClassComponent = () => {
       .catch(error => {
         console.error('Error fetching class details:', error);
       });
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -61,16 +55,16 @@ const CreateClassComponent = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const chart = async () => {
     let totalStudents = 0;
-    let totalTasks = 0 ;
+    let totalTasks = 0;
     let totalClasses = 1;
-    let totalquiz = 0
+    let totalquiz = 0;
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     const teacherId = teacherData.userData.id;
-    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId ,totalquiz })
+    await axios.post('http://localhost:3000/api/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId, totalquiz })
       .then((res) => {
         console.log(res);
       }).catch((err) => {
@@ -87,8 +81,8 @@ const CreateClassComponent = () => {
         class_code: generateClassCode(),
         theme: values.theme,
         teacher_id: teacherData.userData.id,
-        teacher_name: teacherData.userData.teacher_name, // Ensure 'teacher_name' is correctly set in localStorage
-        teacher_profile: teacherprofile 
+        teacher_name: teacherData.userData.teacher_name,
+        teacher_profile: teacherprofile
       };
 
       teacher.post('/creteclass', generatedClassDetails)
@@ -216,7 +210,7 @@ const CreateClassComponent = () => {
           >
             <Select placeholder="Select a theme">
               {themes.map((theme, index) => (
-                <Option key={index} value={theme.url }>{theme.name}</Option>
+                <Option key={index} value={theme.url}>{theme.name}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -233,27 +227,42 @@ const CreateClassComponent = () => {
       {classDetailsList.length > 0 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
           {classDetailsList.map((classDetails, index) => (
-            <Card key={index}
-              title={`${index + 1} : ${classDetails.className}`}
-              style={{ width: 300, margin: '20px', textAlign: 'center', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis' }}
-              hoverable
+            <Card
+              key={index}
+              title={`${index + 1}: ${classDetails.className}`}
+              style={{
+                width: 300,
+                margin: '20px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                borderRadius: "20px 41px 1px 41px",
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                background: hoveredCardIndex === index ? '#f0f0f0' : '#fff',
+                transform: hoveredCardIndex === index ? 'scale(1.05)' : 'scale(1)',
+                boxShadow: hoveredCardIndex === index ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none'
+              }}
+              onMouseEnter={() => setHoveredCardIndex(index)}
+              onMouseLeave={() => setHoveredCardIndex(null)}
+              cover={<img alt="theme" src={classDetails.theme} style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px', height: '150px', objectFit: 'cover' }} />}
             >
-              {clickedCardIndex !== index && (
+           
                 <>
-                  <p style={{ textDecorationLine: 'none' }}>
-                    <strong>Class Code:</strong> {classDetails.class_code}
+                  <p style={{ marginBottom: 10 }}><strong>Class Code:</strong> {classDetails.class_code}
                     <Tooltip title="Copy code">
                       <Button type="link" size="small" icon={<CopyOutlined />} onClick={(e) => { e.preventDefault(); handleCopyCode(classDetails.class_code); }} />
                     </Tooltip>
                   </p>
-                  <p style={{ marginBottom: 10 }}><strong>Create date:</strong> {`${classDetails.created_at ? classDetails.created_at.slice(0, 10) : 'N/A'} `}</p><br />
+                  <p style={{ marginBottom: 10 }}><strong>Create date:</strong> {`${classDetails.created_at ? classDetails.created_at.slice(0, 10) : 'N/A'} `}</p>
                   <div>
                     <Tooltip title="Go to the task">
                       <Link style={{ textDecorationLine: 'none' }} to={`/teacher/createclasswork/${classDetails._id}`} onClick={() => setClickedCardIndex(index)}>
                         Go to the Task
                       </Link>
-                      <br /> <hr />
                     </Tooltip>
+                    <br />
+                    <hr />
                     <Dropdown
                       menu={{ items: menuItems(classDetails._id) }}
                       placement="bottomLeft"
@@ -265,7 +274,7 @@ const CreateClassComponent = () => {
                     </Dropdown>
                   </div>
                 </>
-              )}
+              
             </Card>
           ))}
         </div>

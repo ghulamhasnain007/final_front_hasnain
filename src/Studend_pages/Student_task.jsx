@@ -1,46 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { Card, message, Empty, Alert } from 'antd';
+import { Card, message, Empty, Alert, Spin } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
+
 const App = () => {
   const [data, setData] = useState([]);
   const [classData, setClassData] = useState('');
+  const [loading, setLoading] = useState(true); // State for loading
   const { classid } = useParams();
 
   const getTask = async () => {
-    axios.get(`http://localhost:3000/api/createtask/${classid}`)
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching task details:', error);
-      });
+    try {
+      const response = await axios.get(`http://localhost:3000/api/createtask/${classid}`);
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching task details:', error);
+      message.error('Failed to fetch task details.');
+    }
   };
 
-  const getClassDetails = () => {
-    axios.get(`http://localhost:3000/api/creteclass/getclass/${classid}`)
-      .then(response => {
-        setClassData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching class details:', error);
-      });
+  const getClassDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/creteclass/getclass/${classid}`);
+      setClassData(response.data);
+    } catch (error) {
+      console.error('Error fetching class details:', error);
+      message.error('Failed to fetch class details.');
+    }
   };
 
   useEffect(() => {
-    getTask();
-    getClassDetails();
+    const fetchData = async () => {
+      await Promise.all([getTask(), getClassDetails()]);
+      setLoading(false);
+    };
+    fetchData();
   }, [classid]);
 
-  // Function to check if today's date is after the late date
   const isAfterLateDate = (lateDate) => {
     const today = new Date();
     const lateDateObj = new Date(lateDate);
     return today > lateDateObj;
   };
 
-  // Function to check if one day is remaining for task submission
   const isOneDayRemaining = (lateDate) => {
     const today = new Date();
     const lateDateObj = new Date(lateDate);
@@ -49,11 +52,20 @@ const App = () => {
     return daysDifference <= 1 && daysDifference > 0;
   };
 
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <Student_nav /> <br /><br /><br /><br /><br />
-      {data.length > 0 ?
-        <Card title={`Class name : ${classData.className}`}>
+    <div style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
+      <Student_nav />
+      <br /><br /><br /><br /><br />
+      {data.length > 0 ? (
+        <Card title={`Class Name: ${classData.className}`} style={{ backgroundColor: '#fff',borderRadius: "6px 14px 66px 38px" }}>
           {data.map((item, index) => (
             <div key={index}>
               <br />
@@ -68,15 +80,18 @@ const App = () => {
                     </>
                   }
                   type="error"
+                  style={{ marginBottom: '16px',borderRadius: "15px 36px 48px 15px" }}
                 />
               ) : (
                 <>
                   {isOneDayRemaining(item.last_date) && (
                     <Alert
-                      message={ `Hurry Up! Only 1 day left to submit the task : =>  ${item.title}` }
+                      message={`Hurry Up! Only 1 day left to submit the task: ${item.title}`}
                       type="warning"
+                      style={{ marginBottom: '16px' ,borderRadius: "15px 36px 48px 15px"}}
                     />
-                  )} <br />
+                  )}
+                  <br />
                   <Link
                     to={`/student/join/${classid}/tasksubmit/${item._id}`}
                     style={{ textDecorationLine: 'none' }}
@@ -87,20 +102,31 @@ const App = () => {
                       }
                     }}
                   >
-                    <Card hoverable type="inner" title={`${index + 1} : ${item.teacher_name} posted a new assignment: ${item.title}`}>
+                    <Card
+                      hoverable
+                      style={{
+                        marginBottom: '16px',
+                       borderRadius: "15px 36px 48px 15px",
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: '#fff',
+                      }}
+                      title={`${index + 1} : ${item.teacher_name} posted a new assignment: ${item.title}`}
+                    >
                       <p>Task Instructions: {item.instructions}</p>
-                      <p>Task created date: {item.created_at?.slice(0, 10) || 'N/A'}</p>
+                      <p>Task Created Date: {item.created_at?.slice(0, 10) || 'N/A'}</p>
                       <hr />
-                      <p style={{ color: 'red' }}>{`_Last date to assign a task: ${item.last_date?.slice(0, 10) || 'N/A'}`}</p>
+                      <p style={{ color: 'red' }}>{`Last Date to Submit: ${item.last_date?.slice(0, 10) || 'N/A'}`}</p>
                     </Card>
-                    <br />
                   </Link>
+                  <br />
                 </>
               )}
             </div>
           ))}
         </Card>
-        : <Empty description='No Task available' />}
+      ) : (
+        <Empty description="No Task Available" />
+      )}
     </div>
   );
 };

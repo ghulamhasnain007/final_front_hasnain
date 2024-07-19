@@ -12,7 +12,6 @@ const QuizList = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
-
   const fetchQuizzes = async () => {
     let id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
     try {
@@ -26,7 +25,6 @@ const QuizList = () => {
   };
 
   useEffect(() => {
-
     fetchQuizzes();
   }, []);
 
@@ -85,86 +83,96 @@ const QuizList = () => {
   };
 
   if (loading) {
-    return <Spin size="large" />;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f0f2f5' }}>
+        <Spin size="large" />
+      </div>
+    );
   }
 
   return (
     <>
-      <Nav />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <center>
-        <h1>All Quizes</h1>
-      </center>
-      <Row gutter={16}>
-        {quizzes.map((quiz,index) => (
-          <Col span={8} key={quiz._id}>
-            <Card hoverable style={{ marginBottom: '16px' }}>
-              <Meta
-                title={`${index + 1} : Quiz name : ${quiz.quizName}`}
-                description={
-                  <>
-                    <div>
-                      <h4>{`Quiz Key: ${quiz.quizKey}`} <CopyOutlined key="copy" onClick={() => copyToClipboard(quiz.quizKey)} /></h4>
-                      <h5> Created_date : {quiz.createdAt ? quiz.createdAt : ''}</h5>
-                    </div>
-                    <Button onClick={() => showModal(quiz)}>View Quiz</Button> <br /><br />
-                    {quiz.active ? (
-                      <Button onClick={() => updateQuizActiveStatus(quiz._id, false)} type="primary" danger ghost>
-                        Disable Quiz
-                      </Button>
-                    ) : (
-                      <Button onClick={() => updateQuizActiveStatus(quiz._id, true)} type="primary">
-                        Enable Quiz
-                      </Button>
-                    )}  <Button onClick={() => deleteQuiz(quiz._id)} type="danger" icon={<DeleteOutlined />}>
-                      Delete Quiz
-                    </Button>
-                    
-                    <hr />
-                    <Link to={`/teacher/quizresult/${quiz._id}`}>
-                      <h4>See student result</h4>
-                    </Link>
-                  </>
-                }
-              />
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      {selectedQuiz && (
-        <Modal
-          title={`Quiz name: ${selectedQuiz.quizName}`}
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          width={800}
-          style={{ padding: '24px' }}
-        >
-          {selectedQuiz.questions.map((question, index) => (
-            <div key={index} style={{ marginBottom: '24px' }}>
-              <h3>{`Question ${index + 1}: ${question.question}`}</h3>
-              <ul>
-                {question.options.map((option, idx) => (
-                  <li key={idx}>{idx + 1}: {option}</li>
-                ))}
-              </ul>
-              <p><strong>Correct Answer:</strong> {question.correctAnswer}</p>
-            </div>
-          ))}
-        </Modal>
-      )}
-      <Link to={'/teacher/quiz'}>
+      <Nav /> <br /><br /><br /><br /><br />
+      <div style={{ padding: '20px', backgroundColor: '#fff', borderRadius: "45px 10px 52px 1px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', maxWidth: '1200px', margin: 'auto' }}>
         <center>
-          <Button type='primary'>Back</Button>
+          <h1 style={{ fontSize: '2rem' }}>All Quizzes</h1>
         </center>
-      </Link>
+        <Row gutter={[16, 24]}>
+          {quizzes.map((quiz, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={quiz._id}>
+              <Card
+                hoverable
+                style={{ marginBottom: '16px', borderRadius: "45px 10px 52px 1px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                actions={[
+                  <Tooltip title="Copy Quiz Key" key="copy">
+                    <CopyOutlined style={{color : 'blue'}} onClick={() => copyToClipboard(quiz.quizKey)} />
+                  </Tooltip>,
+                  <Tooltip title="Delete Quiz" key="delete">
+                    <DeleteOutlined style={{color : 'red'}} onClick={() => deleteQuiz(quiz._id)} />
+                  </Tooltip>,
+                ]}
+              >
+                <Meta
+                  title={`${index + 1}: Quiz Name: ${quiz.quizName}`}
+                  description={
+                    <>
+                      <div>
+                        <h4>Quiz Key: {quiz.quizKey}</h4>
+                        <h5>Created Date: {quiz.createdAt ? quiz.createdAt : ''}</h5>
+                      </div>
+                      <Button onClick={() => showModal(quiz)} style={{ marginRight: '8px' }}>View Quiz</Button>
+                      {quiz.active ? (
+                        <Button onClick={() => updateQuizActiveStatus(quiz._id, false)} type="primary" danger ghost>
+                          Disable Quiz
+                        </Button>
+                      ) : (
+                        <Button onClick={() => updateQuizActiveStatus(quiz._id, true)} type="primary">
+                          Enable Quiz
+                        </Button>
+                      )}
+                      {/* <Button onClick={() => deleteQuiz(quiz._id)} type="danger" icon={<DeleteOutlined />} style={{ marginLeft: '8px' }}>
+                        Delete Quiz
+                      </Button> */}
+                      <hr />
+                      <Link to={`/teacher/quizresult/${quiz._id}`}>
+                        <h4>See Student Result</h4>
+                      </Link>
+                    </>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
 
+        {selectedQuiz && (
+          <Modal
+            title={`Quiz Name: ${selectedQuiz.quizName}`}
+            open={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            width={800}
+            style={{ padding: '24px' }}
+          >
+            {selectedQuiz.questions.map((question, index) => (
+              <div key={index} style={{ marginBottom: '24px' }}>
+                <h3>{`Question ${index + 1}: ${question.question}`}</h3>
+                <ul>
+                  {question.options.map((option, idx) => (
+                    <li key={idx}>{idx + 1}: {option}</li>
+                  ))}
+                </ul>
+                <p><strong>Correct Answer:</strong> {question.correctAnswer}</p>
+              </div>
+            ))}
+          </Modal>
+        )}
+        <center>
+          <Link to={'/teacher/quiz'}>
+            <Button type='primary'>Back</Button>
+          </Link>
+        </center>
+      </div>
     </>
   );
 };

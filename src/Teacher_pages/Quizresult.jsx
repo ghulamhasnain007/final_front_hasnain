@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Card, Row, Col, Spin, Button, Modal, message } from 'antd';
 import axios from 'axios';
-import Nav from '../Teachercomp/Tnavi'
+import Nav from '../Teachercomp/Tnavi';
 import { useParams } from 'react-router-dom';
 
 const QuizResults = () => {
@@ -59,7 +59,7 @@ const QuizResults = () => {
             width: '20%',
         },
         {
-            title: 'Quiz Name',
+            title: 'Quiz',
             dataIndex: 'quizName',
             key: 'quizName',
             width: '30%',
@@ -76,6 +76,14 @@ const QuizResults = () => {
             dataIndex: 'score',
             key: 'score',
             width: '10%',
+            render: (score, record) => {
+                const passingPoint = record.passing_point; // Assuming passing_point is part of each record
+                return (
+                    <span style={{ color: score >= passingPoint ? 'green' : 'red' }}>
+                        {score}
+                    </span>
+                );
+            },
         },
         {
             title: 'Action',
@@ -92,42 +100,40 @@ const QuizResults = () => {
     }
 
     return (
-        
         <>
-        <Nav/> <br /><br /><br /><br /><br /><br /><br />
-        
-        <div>
-            <center>
-                <h1>Student Result</h1>
-            </center>
-            <Row gutter={16}>
-                <Col span={24}>
-                    <Card title="Quiz Results">
-                        <Table
-                            dataSource={results}
-                            columns={columns}
-                            pagination={{ pageSize: 10 }}
-                            scroll={{ y: 240 }}
-                            size="middle"
-                            bordered
-                            rowKey="_id" // Assigning _id as the unique key for each row
-                        />
-                    </Card>
-                </Col>
-            </Row>
+            <Nav /> <br /><br /><br /><br /><br /><br /><br />
+            <div>
+                <center>
+                    <h1>Student Result</h1>
+                </center>
+                <Row gutter={16}>
+                    <Col span={24}>
+                        <Card title="Quiz Results">
+                            <Table
+                                dataSource={results}
+                                columns={columns}
+                                pagination={{ pageSize: 10 }}
+                                scroll={{ y: 240 }}
+                                size="middle"
+                                bordered
+                                rowKey="_id" // Assigning _id as the unique key for each row
+                            />
+                        </Card>
+                    </Col>
+                </Row>
 
-            {/* Delete Modal */}
-            <Modal
-                title={`Delete Quiz Result`}
-                open={deleteModalVisible}
-                onOk={handleDelete}
-                onCancel={hideDeleteModal}
-                okText="Delete"
-                cancelText="Cancel"
-            >
-                <p>Are you sure you want to delete this quiz result?</p>
-            </Modal>
-        </div>
+                {/* Delete Modal */}
+                <Modal
+                    title={`Delete Quiz Result`}
+                    open={deleteModalVisible}
+                    onOk={handleDelete}
+                    onCancel={hideDeleteModal}
+                    okText="Delete"
+                    cancelText="Cancel"
+                >
+                    <p>Are you sure you want to delete this quiz result?</p>
+                </Modal>
+            </div>
         </>
     );
 };
