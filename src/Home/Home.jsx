@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Layout, Row, Col, Button, Card, Carousel, Collapse, Modal } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AppFooter from './Footer';
-
+import Aos from 'aos';
+import 'aos/dist/aos.css'
 const { Header, Content } = Layout;
 
 const getItems = (panelStyle) => [
@@ -72,7 +73,9 @@ const App = () => {
   const showModal = () => setIsModalOpen(true);
   const handleOk = () => setIsModalOpen(false);
   const handleCancel = () => setIsModalOpen(false);
-
+  useEffect(() => {
+    Aos.init({ duration: 2000 })
+  }, [])
   return (
     <Layout>
       <Header
@@ -93,7 +96,7 @@ const App = () => {
           Login
         </Button>
         <Modal title="Select and login" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+          <div  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <Link to={'/student/login'}>
               <Button type="primary" block>
                 Login if you are a Student
@@ -108,14 +111,14 @@ const App = () => {
       <Content style={{ padding: '50px', background: '#f0f2f5', borderRadius: '30px' }}>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} md={12}>
-            <h1>Welcome to the SMIT Assignment Submission Portal</h1>
-            <p>Submit, track, and receive feedback on your assignments seamlessly.</p>
+            <h1 data-aos="fade-right"  >Welcome to the SMIT Assignment Submission Portal</h1>
+            <p data-aos="fade-up-right" >Submit, track, and receive feedback on your assignments seamlessly.</p>
             <Link to={'/student/register'}>
-              <Button type="primary" size="large" style={{ marginTop: '20px' }}>Get Started</Button>
+              <Button data-aos="zoom-in" type="primary" size="large" style={{ marginTop: '20px' }}>Get Started</Button>
             </Link>
           </Col>
           <Col xs={24} md={12}>
-            <img
+            <img  data-aos="fade-down-left"
               src="https://tse4.mm.bing.net/th?id=OIG2.ghqug.oXg8fzA9zIh0xA&pid=ImgGn"
               alt="Assignment Submission"
               style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '30px' }}
@@ -124,7 +127,7 @@ const App = () => {
         </Row>
         <br /><br />
         <center>
-          <h2>ROLE & RESPONSIBILITIES</h2>
+          <h2 data-aos="zoom-in-down" >ROLE & RESPONSIBILITIES</h2>
           <Carousel autoplay style={{ maxWidth: 1000, borderRadius: '30px' }}>
             <div>
               <h2 style={{
@@ -175,17 +178,24 @@ const App = () => {
         </center>
         <br /><br />
         <center>
-          <h2>OUR MAIN FEATURE</h2> <br /><br />
+          <h2 data-aos="zoom-in-down" >OUR MAIN FEATURE</h2> <br /><br />
           <Card style={{ borderRadius: '30px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', maxWidth: '800px' }}>
-            <h1>AI Integration</h1>
-            <h4>Our advanced AI system automatically evaluates assignments, providing fast and accurate feedback to students and teachers.</h4>
+            <h1 data-aos="fade-up"
+     data-aos-duration="3500" >AI Integration</h1>
+            <h4 data-aos="fade-up"
+     data-aos-duration="4000" >Our advanced AI system automatically evaluates assignments, providing fast and accurate feedback to students and teachers.</h4>
           </Card>
         </center>
         <br /><br />
         <center>
-          <h2>OUR OTHER FEATURES</h2>
+          <h2 data-aos="zoom-out-right" >OUR OTHER FEATURES</h2>
           <br /><br />
-          <Row gutter={[16, 16]} justify="center">
+          <div  data-aos="flip-left"
+     data-aos-easing="ease-out-cubic"
+     data-aos-duration="2000" >
+
+          
+          <Row  gutter={[16, 16]} justify="center">
             <Col xs={24} sm={12} md={8} lg={6}>
               <Card title="1 : ROLE MANAGEMENT" bordered={false} style={{ borderRadius: '10px' }}>
                 4 : EASY SUBMISSION
@@ -202,11 +212,15 @@ const App = () => {
               </Card>
             </Col>
           </Row>
+
+          </div>
         </center>
         <br /><br />
         <center>
-          <h2>OUR STUDENT FEATURES</h2> <br /><br />
+          <h2 data-aos="zoom-in-down"  >OUR STUDENT FEATURES</h2> <br /><br />
           <Collapse
+          data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom"
             bordered={false}
             defaultActiveKey={['1']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
@@ -216,8 +230,10 @@ const App = () => {
         </center>
         <br /><br />
         <center>
-          <h2>OUR TEACHER FEATURES</h2> <br /><br />
+          <h2 data-aos="zoom-in-down" >OUR TEACHER FEATURES</h2> <br /><br />
           <Collapse
+          data-aos="fade-up"
+     data-aos-anchor-placement="bottom-bottom"
             bordered={false}
             defaultActiveKey={['1']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
@@ -227,6 +243,9 @@ const App = () => {
 
 
           <Card
+
+          data-aos="fade-up"
+     data-aos-anchor-placement="center-center"
             style={{
               borderRadius: '15px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
