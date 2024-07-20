@@ -8,7 +8,7 @@ import { CopyOutlined } from '@ant-design/icons';
 import teacher from '../token/teacher.js';
 
 const { Title, Paragraph } = Typography;
-
+let url = 'http://localhost:3000/api'
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +38,7 @@ const ALL_task = () => {
 
   const getTasks = () => {
     setLoading(true);
-    axios.get(`http://localhost:3000/api/createtask/${id}`)
+    axios.get(`${url}/createtask/${id}`)
       .then(response => {
         setTasks(response.data);
       })
@@ -51,7 +51,7 @@ const ALL_task = () => {
   };
 
   const getClassDetails = () => {
-    axios.get(`http://localhost:3000/api/creteclass/getclass/${id}`)
+    axios.get(`${url}/creteclass/getclass/${id}`)
       .then(response => {
         setClassData(response.data);
       })

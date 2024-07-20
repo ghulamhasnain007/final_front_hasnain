@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Nav from '../Teachercomp/Tnavi';
 const { Meta } = Card;
-
+let url = 'http://localhost:3000/api'
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const QuizList = () => {
   const fetchQuizzes = async () => {
     let id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
     try {
-      const response = await axios.get(`http://localhost:3000/api/quiz/teacher/${id}`);
+      const response = await axios.get(`${url}/quiz/teacher/${id}`);
       setQuizzes(response.data);
       setLoading(false);
     } catch (error) {
@@ -30,7 +30,7 @@ const QuizList = () => {
 
   const updateQuizActiveStatus = async (quizId, activeStatus) => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/quiz/active/${quizId}`, {
+      const response = await axios.put(`${url}/quiz/active/${quizId}`, {
         active: activeStatus,
       });
       console.log('Quiz updated:', response.data);
@@ -50,7 +50,7 @@ const QuizList = () => {
 
   const deleteQuiz = async (quizId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/api/quiz/quiz_delete/${quizId}`);
+      const response = await axios.delete(`${url}/quiz/quiz_delete/${quizId}`);
       console.log('Quiz deleted:', response.data);
 
       // Remove the deleted quiz from local state

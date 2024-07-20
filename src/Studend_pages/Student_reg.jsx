@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title } = Typography;
-
+let url = 'http://localhost:3000/api'
 const RegistrationForm = () => {
   const [form] = Form.useForm();
-
+  const navigate = useNavigate('')
   const onFinish = async (values) => {
     const regdata = {
       username: values.username,
@@ -20,7 +20,7 @@ const RegistrationForm = () => {
     // Add admin chart detail
     const adminchart = async () => {
       try {
-        await axios.post('http://localhost:3000/api/adminuser/chartdetail', {
+        await axios.post(`${url}/adminuser/chartdetail`, {
           Total_Students: 1,
           Total_Tasks: 0,
           Total_Classes: 0,
@@ -33,11 +33,12 @@ const RegistrationForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/reg', regdata);
+      const response = await axios.post(`${url}/reg`, regdata);
       notification.success({
         message: 'Registration Successful',
         description: response.data.message,
       });
+      navigate('/student/login')
       form.resetFields();
       adminchart();
     } catch (error) {

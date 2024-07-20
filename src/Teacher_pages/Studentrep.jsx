@@ -4,7 +4,7 @@ import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import Navi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+let url = 'http://localhost:3000/api'
 const { Header, Content, Footer } = Layout;
 
 const UserReports = () => {
@@ -22,7 +22,7 @@ const UserReports = () => {
 
   const getClassCode = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/creteclass/getclass/${id}`);
+      const response = await axios.get(`${url}/creteclass/getclass/${id}`);
       setCode(response.data);
       console.log(response.data);
     } catch (error) {
@@ -32,7 +32,7 @@ const UserReports = () => {
 
   const getClassData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/classjoininguser/${id}`);
+      const response = await axios.get(`${url}/classjoininguser/${id}`);
       const updatedData = response.data.map(user => ({
         ...user,
         className: user.className || 'Default Class Name',
@@ -50,7 +50,7 @@ const UserReports = () => {
       try {
         const classId = id; // Assuming classId is available from useParams()
 
-        const response = await axios.post(`http://localhost:3000/api/classjoininguser/get/${searchText}`, {
+        const response = await axios.post(`${url}/classjoininguser/get/${searchText}`, {
            classId
          });
 
@@ -77,7 +77,7 @@ const UserReports = () => {
         try {
           const classCode = code.class_code;
           const userId = record._id;
-          await axios.delete(`http://localhost:3000/api/joinclass/delete`, { data: { classCode, userId } });
+          await axios.delete(`${url}/joinclass/delete`, { data: { classCode, userId } });
           message.success('Delete successful');
           getClassData(); // Refresh data after deletion
         } catch (error) {
@@ -158,7 +158,7 @@ const UserReports = () => {
             </div>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Admin Dashboard ©2024 Created by YourCompany</Footer>
+        {/* <Footer style={{ textAlign: 'center' }}>Admin Dashboard ©2024 Created by YourCompany</Footer> */}
       </Layout>
 
       {/* View Modal */}
@@ -178,7 +178,7 @@ const UserReports = () => {
             <p><strong>Name:</strong> {selectedUser.username}</p>
             <p><strong>Email:</strong> {selectedUser.email}</p>
             <p><strong>Class Name:</strong> {selectedUser.className}</p>
-            <p><strong>Join Date:</strong> {selectedUser.datereport}</p>
+            {/* <p><strong>Join Date:</strong> {selectedUser.datereport}</p> */}
           </>
         )}
       </Modal>

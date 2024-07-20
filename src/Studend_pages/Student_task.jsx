@@ -3,7 +3,7 @@ import { Card, message, Empty, Alert, Spin } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
-
+let url = 'http://localhost:3000/api'
 const App = () => {
   const [data, setData] = useState([]);
   const [classData, setClassData] = useState('');
@@ -12,7 +12,7 @@ const App = () => {
 
   const getTask = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/createtask/${classid}`);
+      const response = await axios.get(`${url}/createtask/${classid}`);
       setData(response.data);
     } catch (error) {
       console.error('Error fetching task details:', error);
@@ -22,7 +22,7 @@ const App = () => {
 
   const getClassDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/creteclass/getclass/${classid}`);
+      const response = await axios.get(`${url}/creteclass/getclass/${classid}`);
       setClassData(response.data);
     } catch (error) {
       console.error('Error fetching class details:', error);

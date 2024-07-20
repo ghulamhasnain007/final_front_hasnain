@@ -3,7 +3,7 @@ import { Table, Card, Row, Col, Spin, Button, Modal, message } from 'antd';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 import { useParams } from 'react-router-dom';
-
+let url = 'http://localhost:3000/api'
 const QuizResults = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ const QuizResults = () => {
 
     const fetchResults = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/quiz/${id}`);
+            const response = await axios.get(`${url}/quiz/${id}`);
             console.log('Quiz results fetched:', response.data);
             setResults(response.data);
             setLoading(false);
@@ -31,7 +31,7 @@ const QuizResults = () => {
         if (!selectedResult) return;
 
         try {
-            await axios.delete(`http://localhost:3000/api/result/result_delete/${selectedResult._id}`);
+            await axios.delete(`${url}/result/result_delete/${selectedResult._id}`);
             message.success('Quiz result deleted successfully!');
             setDeleteModalVisible(false);
             fetchResults(); // Refresh results after deletion

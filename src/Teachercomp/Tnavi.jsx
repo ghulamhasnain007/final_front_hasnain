@@ -9,6 +9,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
 
+let url = 'http://localhost:3000/api';
 const { Header } = Layout;
 
 const Navi = () => {
@@ -21,22 +22,27 @@ const Navi = () => {
     navigate('/');
   };
 
-  const menuItems = (
-    <Menu>
-      <Menu.Item key="1" icon={<CgProfile />}>
-        <Link to="/teacher/profile">Profile</Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3" icon={<CiLogout />} onClick={logout}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
+  const menuItems = [
+    {
+      key: '1',
+      icon: <CgProfile />,
+      label: <Link to="/teacher/profile">Profile</Link>,
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '3',
+      icon: <CiLogout />,
+      label: 'Logout',
+      onClick: logout,
+    },
+  ];
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
     const getUserData = () => {
-      axios.get(`http://localhost:3000/api/users/${id}`)
+      axios.get(`${url}/users/${id}`)
         .then((res) => {
           setData(res.data);
         })
@@ -47,6 +53,24 @@ const Navi = () => {
 
     getUserData();
   }, []);
+
+  const menuItemsNav = [
+    {
+      key: '/teacher/dashboard',
+      icon: <UserOutlined />,
+      label: 'Dashboard',
+    },
+    {
+      key: '/teacher/createclasswork',
+      icon: <SiGoogleclassroom />,
+      label: 'Create a Class',
+    },
+    {
+      key: '/teacher/quiz',
+      icon: <MdQuiz />,
+      label: 'Create Quiz',
+    },
+  ];
 
   return (
     <Layout>
@@ -73,36 +97,17 @@ const Navi = () => {
           onClick={({ key }) => {
             navigate(key);
           }}
-          items={[
-            {
-              key: '/teacher/dashboard',
-              icon: <UserOutlined />,
-              label: 'Dashboard',
-              to: '/teacher/dashboard',
-            },
-            {
-              key: '/teacher/createclasswork',
-              icon: <SiGoogleclassroom />,
-              label: 'Create a Class',
-              to: '/teacher/createclasswork',
-            },
-            {
-              key: '/teacher/quiz',
-              icon: <MdQuiz />,
-              label: 'Create Quiz',
-              to: '/teacher/quiz',
-            },
-          ]}
+          items={menuItemsNav}
         />
 
-        <Dropdown menu={menuItems}>
-          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+        <Dropdown menu={{ items: menuItems }}>
+          <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
             <Space style={{ color: 'white' }}>
               <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} />
               Hello <FaHandsClapping /> {data.username ? data.username : ''}
               <DownOutlined />
             </Space>
-          </a>
+          </div>
         </Dropdown>
       </Header>
     </Layout>

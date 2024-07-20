@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Spin } from 'antd';
 import ReactECharts from 'echarts-for-react';
 import axios from 'axios';
-
+let url = 'http://localhost:3000/api'
 const ColumnChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const ColumnChart = () => {
     const fetchData = async () => {
       let id = JSON.parse(localStorage.getItem('user')).userData.id;
       try {
-        const response = await axios.get(`http://localhost:3000/api/result/${id}`);
+        const response = await axios.get(`${url}/result/${id}`);
         console.log('Fetched data:', response.data); // Log fetched data
         setData(response.data.result);
         setLoading(false);

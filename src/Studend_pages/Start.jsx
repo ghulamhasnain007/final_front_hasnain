@@ -3,7 +3,7 @@ import { Card, Radio, Button, message, Alert, Progress } from 'antd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import QuizResult from '../Student_comp/Result';
-
+let url = 'http://localhost:3000/api'
 const Quiz = () => {
   const { id } = useParams();
   const [btn, setBtn] = useState(false);
@@ -39,7 +39,7 @@ const Quiz = () => {
       const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
 
       try {
-        const response = await axios.get(`http://localhost:3000/api/result/check-result/${id}/${studentId}`);
+        const response = await axios.get(`${url}/result/check-result/${id}/${studentId}`);
         if (response.data.taken) {
           setAlreadyTaken(true);
           setPreviousResult(response.data.result);
@@ -58,7 +58,7 @@ const Quiz = () => {
   useEffect(() => {
     const getQuiz = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/quiz/start/${id}`);
+        const response = await axios.get(`${url}/quiz/start/${id}`);
         const quizData = response.data;
         setactive(quizData.active)
         console.log(quizData.passing_point);
@@ -242,7 +242,7 @@ const Quiz = () => {
         const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
   
         // Save the result
-        await axios.post('http://localhost:3000/api/result/save-result', {
+        await axios.post('${url}/result/save-result', {
           quizName: quizDetails.quizName,
           teacherName: quizDetails.teacherName,
           studentId,

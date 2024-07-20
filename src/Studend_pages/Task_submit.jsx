@@ -6,7 +6,7 @@ import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import student from '../token/student.js';
-
+let url = 'http://localhost:3000/api'
 const { TextArea } = Input;
 
 const TaskSubmission = () => {
@@ -38,7 +38,7 @@ const TaskSubmission = () => {
   const studentCard = async (item) => {
     try {
       // const userid = JSON.parse(localStorage.getItem('user')).userData.id;
-      await axios.post(`http://localhost:3000/api/point/student/${item.student_id}`, {
+      await axios.post(`${url}/point/student/${item.student_id}`, {
         submission: 1,
         class_id: item.class_id,
       });
@@ -91,7 +91,7 @@ const TaskSubmission = () => {
   const getTask = async () => {
     setIsLoadingTask(true);
     try {
-      const response = await axios.get(`http://localhost:3000/api/createtask/task/${id}`);
+      const response = await axios.get(`${url}/createtask/task/${id}`);
       if (response.data.length > 0) {
         const taskData = response.data[0];
         setTask(taskData);

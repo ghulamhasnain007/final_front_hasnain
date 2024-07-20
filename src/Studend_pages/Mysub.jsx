@@ -5,7 +5,7 @@ import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import Nav from '../Student_comp/Student_nav';
 
 const { Title, Text } = Typography;
-
+let url = 'http://localhost:3000/api'
 const SubmissionData = () => {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
   const [checkedSubmissions, setCheckedSubmissions] = useState([]);
@@ -18,7 +18,7 @@ const SubmissionData = () => {
       let id = JSON.parse(localStorage.getItem('user')).userData.id;
 
       try {
-        const response = await axios.get(`http://localhost:3000/api/tasksubmit/mysubmissions/${id}`);
+        const response = await axios.get(`${url}/tasksubmit/mysubmissions/${id}`);
         setPendingSubmissions(response.data.pending || []);
         setCheckedSubmissions(response.data.checked || []);
       } catch (error) {

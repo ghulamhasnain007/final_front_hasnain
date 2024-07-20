@@ -2,11 +2,12 @@ import React from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 const { Title } = Typography;
-
+let url = 'http://localhost:3000/api'
 const TeacherLogin = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate()
   const onFinish = async (values) => {
     const loginData = {
       email: values.email,
@@ -14,11 +15,12 @@ const TeacherLogin = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/login/teacher', loginData);
+      const response = await axios.post(`${url}/login/teacher`, loginData);
       notification.success({
         message: 'Login Successful',
         description: response.data.message,
       });
+      navigate('/teacher/dashboard')
       form.resetFields();
       // Save user data to localStorage
       localStorage.setItem('techerdata', JSON.stringify(response.data));

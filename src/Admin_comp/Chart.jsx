@@ -4,7 +4,7 @@ import { Button, Row, Col, Select, Spin, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import admin from '../token/admin.js';
-
+let url = 'http://localhost:3000/api'
 const { Option } = Select;
 
 const BarChart = () => {

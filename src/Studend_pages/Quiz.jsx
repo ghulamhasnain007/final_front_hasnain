@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, message, Row, Col, Card } from 'antd';
 import axios from 'axios';
 import { Link,useParams } from 'react-router-dom';
 import Navi from '../Student_comp/Student_nav';
-
+let url = 'http://localhost:3000/api'
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
@@ -23,7 +23,7 @@ const App = () => {
       }
 
       const userId = user.userData.id;
-      const response = await axios.get(`http://localhost:3000/api/quiz/student/${userId}`);
+      const response = await axios.get(`${url}/quiz/student/${userId}`);
       setQuizzes(response.data.quizzes); // Assuming response structure includes quizzes array
     } catch (error) {
       console.error('Error fetching quizzes:', error);
@@ -38,7 +38,7 @@ const App = () => {
   const onFinish = async (values) => {
     const id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
-      const response = await axios.post('http://localhost:3000/api/quiz/join', {
+      const response = await axios.post(`${url}/quiz/join`, {
         quizKey: values.quizKey,
         studentId: id,
       });

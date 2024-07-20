@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
-
+let url = 'http://localhost:3000/api'
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');
@@ -33,7 +33,7 @@ const QuizForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/quiz', data);
+      const response = await axios.post(`${url}/quiz`, data);
       console.log('Quiz created:', response.data);
       form.resetFields();
       setQuizKey(data.quizKey); // Update state with generated quiz key

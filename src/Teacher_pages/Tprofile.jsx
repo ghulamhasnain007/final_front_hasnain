@@ -5,7 +5,7 @@ import axios from 'axios';
 import TNavi from '../Teachercomp/Tnavi';
 
 const { Option } = Select;
-
+let url = '${url}'
 const Tprofile = () => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
@@ -29,7 +29,7 @@ const Tprofile = () => {
     const techerId = JSON.parse(localStorage.getItem('techerdata')).userData.id;
 
     try {
-      await axios.put(`http://localhost:3000/api/users/profileupdate/${techerId}`, formData, {
+      await axios.put(`${url}/users/profileupdate/${techerId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -47,7 +47,7 @@ const Tprofile = () => {
     const techerId = JSON.parse(localStorage.getItem('techerdata')).userData.id;
     setLoading(true); // Show loader while fetching data
     try {
-      const response = await axios.get(`http://localhost:3000/api/users/${techerId}`);
+      const response = await axios.get(`${url}/users/${techerId}`);
       const userData = response.data;
       setInitialValues(userData);
       form.setFieldsValue({

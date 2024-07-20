@@ -6,6 +6,7 @@ import axios from 'axios';
 import { RxReload } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
 import teacher from '../token/teacher.js';
+let url = 'http://localhost:3000/api'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +47,7 @@ const App = () => {
       setPrompt(fullPrompt);
 
       // Sending request with prompt and assignments
-      const res = await axios.post('http://localhost:3000/api/ai/check-assignments', { prompt: fullPrompt, assignments: pending });
+      const res = await axios.post(`${url}/ai/check-assignments`, { prompt: fullPrompt, assignments: pending });
       
       // Assuming res.data is an array of objects { userId, score }
       const updatedAssignments = pending.map((assignment, index) => ({
@@ -65,7 +66,7 @@ const App = () => {
 
   const updateScoresInMongoDB = async (data) => {
     try {
-      const res = await axios.post('http://localhost:3000/api/ai/update-scores', { assignments: data });
+      const res = await axios.post(`${url}/ai/update-scores`, { assignments: data });
       console.log('Updated in MongoDB:', res.data);
     } catch (error) {
       console.error('Error updating in MongoDB:', error);
@@ -121,7 +122,7 @@ const App = () => {
 
   let studentcard = (item) =>{
     try {
-      axios.post(`http://localhost:3000/api/point/student/${item.updatedDoc.student_id }`, {
+      axios.post(`${url}/point/student/${item.updatedDoc.student_id }`, {
         total_point : item.updatedDoc.point || 0 ,
         class_id : item.updatedDoc.class_id
         
@@ -158,7 +159,7 @@ const App = () => {
 
 
   const getInstruction = () => {
-    axios.get(`http://localhost:3000/api/createtask/submittask/${taskId}`)
+    axios.get(`${url}/createtask/submittask/${taskId}`)
       .then((res) => {
         setIns(res.data);
         console.log(res.data);
@@ -169,7 +170,7 @@ const App = () => {
   };
 
   const getSubmissions = () => {
-    axios.get(`http://localhost:3000/api/tasksubmit/submissions/${taskId}`)
+    axios.get(`${url}/tasksubmit/submissions/${taskId}`)
       .then((res) => {
         const submissions = Array.isArray(res.data.submissions) ? res.data.submissions : [];
         setData(submissions);

@@ -1,181 +1,117 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, theme, Space, Dropdown, Avatar } from 'antd';
+import { Layout, Menu, Space, Dropdown, Avatar } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-const { Header, Content, Footer } = Layout;
-import { UserOutlined, TeamOutlined, DownOutlined, SettingOutlined } from '@ant-design/icons';
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { GoReport } from "react-icons/go";
+import { UserOutlined, DownOutlined } from '@ant-design/icons';
 import { CgProfile } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
 import { FaHandsClapping } from "react-icons/fa6";
 import { SiGoogleclassroom } from "react-icons/si";
-import { TbMessageReport } from "react-icons/tb";
-import { MdAssignment } from "react-icons/md";
-import { MdOutlineQuiz } from "react-icons/md";
+import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
-const Student_nav = () => {
-  const navigate = useNavigate()
-  const { token: { colorBgContainer, borderRadiusLG } } = theme.useToken();
 
+let url = 'http://localhost:3000/api';
+const { Header } = Layout;
 
-  const [visible, setVisible] = React.useState(false);
-  const [data, setdata] = useState('')
+const Navi = () => {
+  const navigate = useNavigate();
+  const [data, setData] = useState('');
 
-
-  const handleMenuClick = () => {
-   
-      localStorage.removeItem('user');
-      console.log('Logout clicked');
-      navigate('/');
+  const logout = () => {
+    localStorage.removeItem('techerdata');
+    console.log('Logout clicked');
+    navigate('/');
   };
 
-  const items = [
+  const menuItems = [
     {
-      label: (
-        <Link to="/student/profile">
-          Profile
-        </Link>
-      ),
       key: '1',
-      icon: <CgProfile />
+      icon: <CgProfile />,
+      label: <Link to="/teacher/profile">Profile</Link>,
     },
     {
-      type: 'divider', // No need for quotes around 'divider'
+      type: 'divider',
     },
     {
-      label: 'Logout',
       key: '3',
-      icon: <CiLogout onClick={handleMenuClick} />
+      icon: <CiLogout />,
+      label: 'Logout',
+      onClick: logout,
     },
   ];
 
-  const menu = { items };
   useEffect(() => {
-    let id = JSON.parse(localStorage.getItem('user')).userData.id
-    let getuserdata = () =>{
-      try {
-        axios.get(`http://localhost:3000/api/users/${id}`)
-        .then((res)=>{
-          // console.log(res.data);
-          setdata(res.data)
+    const id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    const getUserData = () => {
+      axios.get(`${url}/users/${id}`)
+        .then((res) => {
+          setData(res.data);
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err);
-        })
-      } catch (error) {
-        console.log(error);
-      }
-    }
+        });
+    };
 
-    getuserdata()
+    getUserData();
+  }, []);
 
-  }, [])
-
+  const menuItemsNav = [
+    {
+      key: '/teacher/dashboard',
+      icon: <UserOutlined />,
+      label: 'Dashboard',
+    },
+    {
+      key: '/teacher/createclasswork',
+      icon: <SiGoogleclassroom />,
+      label: 'Create a Class',
+    },
+    {
+      key: '/teacher/quiz',
+      icon: <MdQuiz />,
+      label: 'Create Quiz',
+    },
+  ];
 
   return (
-    <>
-
-      <Layout>
-
-        <Header
-          style={{
-            position: 'fixed',
-            top: 0,
-            zIndex: 1,
-            width: '98%',
-            display: 'flex',
-            alignItems: 'center',
-            borderRadius: 20,
-            marginTop: 20
-          }}
-        >
-          <div className="demo-logo" />
-
-
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}
-            style={{
-              flex: 1,
-              minWidth: 0,
-            }}
-            onClick={({ key }) => {
-              navigate(key)
-            }}
-
-            items={[
-              {
-                key: '/student/dashboard',
-                icon: <UserOutlined />,
-                label: 'Dashboard',
-                // Use Link for routing
-                to: <Link to={'/student/dashboard'} />,
-                // component: Card_Comp, // Optional: Pass component to render
-              },
-              {
-                key: '/student/join',
-                icon: <SiGoogleclassroom />,
-                label: ' class Room',
-                // Add to property for future use (optional)
-                to: '/student/join', // Replace with your desired route path
-              },{
-                key: '/student/mysubmission',
-                icon: <MdAssignment />,
-                label: 'My submissions',
-                // Add to property for future use (optional)
-                to: '/student/mysubmission', // Replace with your desired route path
-              },
-              {
-                key: '/student/quiz',
-                icon: <MdOutlineQuiz />,
-                label: 'Join quiz',
-                // Add to property for future use (optional)
-                to: '/student/quiz', // Replace with your desired route path
-              },
-
-            ]}
-
-          >
-          </Menu>
-
-          <Dropdown menu={menu}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              <Space style={{ color: 'white' }} >
-                <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} /> Hello <FaHandsClapping />  {data.username ? data.username : ''}
-                <DownOutlined />
-              </Space>
-            </a>
-          </Dropdown>
-
-
-        </Header>
-        {/* <Content
+    <Layout>
+      <Header
         style={{
-          padding: '0 48px',
+          position: 'fixed',
+          top: 0,
+          zIndex: 1,
+          width: '98%',
+          display: 'flex',
+          alignItems: 'center',
+          borderRadius: 20,
+          marginTop: 20,
+          padding: '0 24px',
         }}
       >
-       
-        <div
+        <div className="demo-logo" />
+
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/teacher/dashboard']}
           style={{
-            padding: 24,
-            minHeight: 380,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            flex: 1,
+            minWidth: 0,
           }}
-        >
-          Content
-        </div>
-      </Content> */}
-        {/* <Footer
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
-      </Footer> */}
+          onClick={({ key }) => {
+            navigate(key);
+          }}
+          items={menuItemsNav}
+        />
 
-      </Layout>
-
-    </>
-
+        <Dropdown menu={{ items: menuItems }}>
+          <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            <Space style={{ color: 'white' }}>
+              <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} />
+              Hello <FaHandsClapping /> {data.username ? data.username : ''}
+              <DownOutlined />
+            </Space>
+          </div>
+        </Dropdown>
+      </Header>
+    </Layout>
   );
 };
-export default Student_nav;
+
+export default Navi;

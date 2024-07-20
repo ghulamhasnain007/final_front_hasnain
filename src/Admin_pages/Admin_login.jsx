@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title } = Typography;
-
+let url = 'http://localhost:3000/api'
 const AdminLogin = () => {
   const [form] = Form.useForm();
-
+  const navigate = useNavigate('')
   const onFinish = async (values) => {
     const loginData = {
       email: values.email,
@@ -16,11 +16,12 @@ const AdminLogin = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/login/admin', loginData);
+      const response = await axios.post(`${url}/login/admin`, loginData)
       notification.success({
         message: 'Login Successful',
         description: response.data.message,
       });
+      navigate('/admin/dashboard')
       localStorage.setItem('admin', JSON.stringify(response.data));
       form.resetFields();
       // Redirect or perform actions after successful login

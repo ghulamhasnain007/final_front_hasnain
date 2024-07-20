@@ -6,7 +6,7 @@ import axios from 'axios';
 
 // Import a logo image
 const img = 'https://img.freepik.com/free-photo/computer-security-with-login-password-padlock_107791-16191.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=sph';
-
+let url = 'http://localhost:3000/api'
 const Student_login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate(); // For navigation
@@ -18,11 +18,12 @@ const Student_login = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/login/student', regdata);
+      const response = await axios.post(`${url}/login/student`, regdata);
       notification.success({
         message: 'Login Successful',
         description: response.data.message,
       });
+      navigate('/student/dashboard')
       localStorage.setItem('user', JSON.stringify(response.data));
       form.resetFields();
     } catch (error) {

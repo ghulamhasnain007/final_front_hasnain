@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Space, Modal, notification } from 'antd';
 import axios from 'axios';
 import TeacherData from '../Admin_comp/Teacherdata'
+let url = 'http://localhost:3000/api'
+
 const SubmitButton = ({ form, children }) => {
   const [submittable, setSubmittable] = useState(false);
-
+  
   // Watch all values
   const values = Form.useWatch([], form);
   React.useEffect(() => {
@@ -31,7 +33,7 @@ const AddTeacher = () => {
 
   let adminchart = () =>{
     try {
-      axios.post('http://localhost:3000/api/adminuser/chartdetail' ,
+      axios.post(`${url}/adminuser/chartdetail` ,
         {
           Total_Students : 0,
           Total_Tasks : 0,
@@ -62,7 +64,7 @@ const AddTeacher = () => {
       role: 'teacher'
     };
     try {
-      const response = await axios.post('http://localhost:3000/api/reg', regdata);
+      const response = await axios.post(`${url}/reg`, regdata);
       notification.success({
         message: 'Registration Successful',
         description: response.data.message,

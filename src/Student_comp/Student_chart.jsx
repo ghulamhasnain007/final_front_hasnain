@@ -4,7 +4,7 @@ import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import student from '../token/student.js';
-
+let url = 'http://localhost:3000/api'
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,
@@ -32,7 +32,7 @@ const TodoList = () => {
     setLoading(true);
     let id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
-      const response = await axios.get(`http://localhost:3000/api/todo/${id}`);
+      const response = await axios.get(`${url}/todo/${id}`);
       setItems(response.data);
       
     } catch (error) {
@@ -46,7 +46,7 @@ const TodoList = () => {
     let id = JSON.parse(localStorage.getItem('user')).userData.id;
     if (inputValue) {
       try {
-        const response = await axios.post('http://localhost:3000/api/todo', { task: inputValue, user_id: id });
+        const response = await axios.post(`${url}/todo`, { task: inputValue, user_id: id });
         setItems([...items, response.data]);
         setInputValue('');
         message.success('Task added successfully');
@@ -60,7 +60,7 @@ const TodoList = () => {
 
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/todo/${id}`);
+      await axios.delete(`${url}/todo/${id}`);
       message.success('Task deleted successfully');
       fetchItems();
     } catch (error) {

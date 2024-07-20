@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import student from '../token/student.js'
 import axios from 'axios';
-
+let url = 'http://localhost:3000/api'
 const { Title } = Typography;
 const { Meta } = Card;
 
@@ -50,7 +50,7 @@ const Join_class = () => {
     const userid = JSON.parse(localStorage.getItem('user')).userData.id
       // console.log(userid.userData.id);
     try {
-      axios.post(`http://localhost:3000/api/point/student/${userid}`, {
+      axios.post(`${url}/point/student/${userid}`, {
         total_class : 1,
         class_id : classid
         
