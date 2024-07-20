@@ -7,6 +7,8 @@ import { CiLogout } from "react-icons/ci";
 import { FaHandsClapping } from "react-icons/fa6";
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdQuiz } from "react-icons/md";
+import { MdAssignment } from "react-icons/md";
+import { MdOutlineQuiz } from "react-icons/md"
 import axios from 'axios';
 
 let url = 'http://localhost:3000/api';
@@ -26,7 +28,7 @@ const Navi = () => {
     {
       key: '1',
       icon: <CgProfile />,
-      label: <Link to="/teacher/profile">Profile</Link>,
+      label: <Link to="/student/profile">Profile</Link>,
     },
     {
       type: 'divider',
@@ -89,16 +91,49 @@ const Navi = () => {
       >
         <div className="demo-logo" />
 
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/teacher/dashboard']}
-          style={{
-            flex: 1,
-            minWidth: 0,
-          }}
-          onClick={({ key }) => {
-            navigate(key);
-          }}
-          items={menuItemsNav}
-        />
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}
+            style={{
+              flex: 1,
+              minWidth: 0,
+            }}
+            onClick={({ key }) => {
+              navigate(key)
+            }}
+
+            items={[
+              {
+                key: '/student/dashboard',
+                icon: <UserOutlined />,
+                label: 'Dashboard',
+                // Use Link for routing
+                to: <Link to={'/student/dashboard'} />,
+                // component: Card_Comp, // Optional: Pass component to render
+              },
+              {
+                key: '/student/join',
+                icon: <SiGoogleclassroom />,
+                label: ' class Room',
+                // Add to property for future use (optional)
+                to: '/student/join', // Replace with your desired route path
+              },{
+                key: '/student/mysubmission',
+                icon: <MdAssignment />,
+                label: 'My submissions',
+                // Add to property for future use (optional)
+                to: '/student/mysubmission', // Replace with your desired route path
+              },
+              {
+                key: '/student/quiz',
+                icon: <MdOutlineQuiz />,
+                label: 'Join quiz',
+                // Add to property for future use (optional)
+                to: '/student/quiz', // Replace with your desired route path
+              },
+
+            ]}
+
+          >
+          </Menu>
 
         <Dropdown menu={{ items: menuItems }}>
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>

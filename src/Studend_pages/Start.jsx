@@ -242,7 +242,7 @@ const Quiz = () => {
         const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
   
         // Save the result
-        await axios.post('${url}/result/save-result', {
+        await axios.post(`${url}/result/save-result`, {
           quizName: quizDetails.quizName,
           teacherName: quizDetails.teacherName,
           studentId,
