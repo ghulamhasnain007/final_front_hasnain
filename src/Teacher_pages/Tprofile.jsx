@@ -5,7 +5,7 @@ import axios from 'axios';
 import TNavi from '../Teachercomp/Tnavi';
 
 const { Option } = Select;
-let url = '${url}'
+let url = 'http://localhost:3000/api'
 const Tprofile = () => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();

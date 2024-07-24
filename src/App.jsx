@@ -33,7 +33,6 @@ import Quiz from './Studend_pages/Quiz';
 import Start from './Studend_pages/Start';
 import Result from './Student_comp/Result';
 import Studentresult from './Teacher_pages/Quizresult';
-
 function App() {
   const [user, setUser] = useState(null);
   const [teacher, setTeacher] = useState(null);

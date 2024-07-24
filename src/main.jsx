@@ -4,7 +4,7 @@ import App from './App.jsx'
 // import './index.css'
 // import '~antd/es/style/themes/default.less';
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

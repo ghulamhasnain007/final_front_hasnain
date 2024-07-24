@@ -269,9 +269,39 @@ const Quiz = () => {
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+
+  
+  // const saveQuizDataOnExit = async () => {
+  //   try {
+  //     const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
+  //     const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
+  
+  //     await axios.post(`${url}/save_alert`, {
+  //       quizName: quizDetails.quizName,
+  //       studentName,
+  //       score,
+  //       studentId,
+  //       quizId: id
+  //     });
+  
+  //     message.success('Quiz data saved successfully on exit');
+  //   } catch (error) {
+  //     console.error('Error saving quiz data on exit:', error);
+  //     message.error('Failed to save quiz data');
+  //   }
+  // };
+
+
+
+
   const showExitFullScreenWarning = () => {
     setExitFullScreenWarning(true);
     setIsFullScreen(false);
+  // if(!document.fullscreenElement){
+  //   saveQuizDataOnExit();
+  // }
+
+    console.log('ruuning')
     exitFullScreenTimer.current = setTimeout(() => {
       if (!document.fullscreenElement) {
         handleQuizSubmit();
