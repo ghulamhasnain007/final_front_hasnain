@@ -1,8 +1,7 @@
 {
     "rewrites": [
-      { "source": "/admin/:path*", "destination": "/admin" },
-      { "source": "/teacher/:path*", "destination": "/teacher" },
-      { "source": "/student/:path*", "destination": "/student" }
+      { "source": "/(.*)", "destination": "/" }
+      
     ]
   }
   

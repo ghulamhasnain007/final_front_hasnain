@@ -69,6 +69,7 @@ function App() {
       <Routes>
         <Route path='/' element={!user && !teacher && !admin ? <HomePage /> : user ? <Sdashboard /> : teacher ? <Tdashboard /> : <Admin />} />
         <Route path='*' element={<Page />} />
+        <Route path="admin/login" element={<Admin_login />} />
         {/* Admin routes */}
         <Route path="/admin">
           <Route path="dashboard" element={admin ? <Admin /> : <Nologin />} />
@@ -77,7 +78,7 @@ function App() {
           <Route path="setting" element={admin ? <Setting /> : <Nologin />} />
           <Route path="profile" element={admin ? <ProfilePage /> : <Nologin />} />
           <Route path="userreport" element={admin ? <UserReports /> : <Nologin />} />
-          <Route path="login" element={<Admin_login />} />
+          
         </Route>
         {/* Teacher routes */}
         <Route path="/teacher">
