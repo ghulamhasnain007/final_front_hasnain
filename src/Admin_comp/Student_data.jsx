@@ -45,7 +45,7 @@ const App = () => {
   const handleDelete = async (id) => {
     try {
       await admin.delete(`/users/delete/${id}`);
-      console.log('Student deleted successfully');
+      // console.log('Student deleted successfully');
       fetchStudents(); // Refresh students data after deletion
     } catch (error) {
       console.error('Error deleting student:', error);
@@ -63,7 +63,7 @@ const App = () => {
         handleDelete(record._id); // Call handleDelete with the student's ID
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   };

@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, message, Row, Col, Card } from 'antd';
 import axios from 'axios';
 import { Link,useParams } from 'react-router-dom';
 import Navi from '../Student_comp/Student_nav';
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quizzes, setQuizzes] = useState([]);

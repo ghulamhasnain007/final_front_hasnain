@@ -4,7 +4,7 @@ import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import Navi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const { Header, Content, Footer } = Layout;
 
 const UserReports = () => {
@@ -24,7 +24,7 @@ const UserReports = () => {
     try {
       const response = await axios.get(`${url}/creteclass/getclass/${id}`);
       setCode(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error('Error fetching class details:', error);
     }
@@ -39,7 +39,7 @@ const UserReports = () => {
         key: user._id, // Adding unique key for each row
       }));
       setData(updatedData);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error('Error fetching class details:', error);
     }
@@ -60,7 +60,7 @@ const UserReports = () => {
           key: user._id, // Adding unique key for each row
         }));
         setData(updatedData);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error('Error fetching class details:', error);
       }

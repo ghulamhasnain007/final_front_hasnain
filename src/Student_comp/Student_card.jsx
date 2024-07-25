@@ -56,7 +56,7 @@ const Dashboard = () => {
         </Col>
         <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
-            title="Total Quiz Points"
+            title="Total Quiz Score"
             bordered={false}
             style={{ backgroundColor: '#fa8c16', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >

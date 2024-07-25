@@ -17,7 +17,7 @@ const DashboardPage = () => {
       const id = JSON.parse(localStorage.getItem('techerdata')).userData.id
 
       const response = await teacher.get(`/tchart/chart/${id}`);
-      console.log('Fetched data:', response.data); // Log fetched data
+      // console.log('Fetched data:', response.data); // Log fetched data
       setData(response.data);
       setFilteredData(response.data);
       setLoading(false);

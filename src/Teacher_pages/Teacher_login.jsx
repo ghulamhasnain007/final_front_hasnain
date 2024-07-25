@@ -4,7 +4,7 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
 const { Title } = Typography;
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const TeacherLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate()

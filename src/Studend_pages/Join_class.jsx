@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import student from '../token/student.js'
 import axios from 'axios';
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const { Title } = Typography;
 const { Meta } = Card;
 
@@ -18,7 +18,7 @@ const Join_class = () => {
   };
 
   let joininguserdata = async (class_id, student_id) => {
-    console.log(class_id, student_id)
+    // console.log(class_id, student_id)
     try {
       const response = await student.post('/classjoininguser', { class_id, student_id })
         .then((res) => {
@@ -40,9 +40,9 @@ const Join_class = () => {
     let totalquiz =  0
     await student.post('/tchart/teacher', { totalStudents, totalTasks, totalClasses, teacherId , totalquiz })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       }).catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -56,10 +56,10 @@ const Join_class = () => {
         
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     } catch (error) {
       console.error('Error in adminchart:', error);
@@ -75,7 +75,7 @@ const Join_class = () => {
           message.success(res.data.message)
           setIsModalOpen(false);
           getClassData()
-           console.log(res.data.class.teacher_id)
+          //  console.log(res.data.class.teacher_id)
           joininguserdata(res.data.class._id, userId)
           chart(res.data.class.teacher_id)
           studentcard(res.data.class._id)
@@ -99,7 +99,7 @@ const Join_class = () => {
       let userId = user.userData.id
       const response = await student.get(`/joinclass/${userId}`);
       setClassDetails(response.data)
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error('Error joining class:', error);
       // message.error('Failed to join class.');

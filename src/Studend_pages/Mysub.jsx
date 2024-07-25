@@ -5,7 +5,7 @@ import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import Nav from '../Student_comp/Student_nav';
 
 const { Title, Text } = Typography;
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const SubmissionData = () => {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
   const [checkedSubmissions, setCheckedSubmissions] = useState([]);

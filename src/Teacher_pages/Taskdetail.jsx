@@ -6,7 +6,8 @@ import axios from 'axios';
 import { RxReload } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
 import teacher from '../token/teacher.js';
-let url = 'http://localhost:3000/api'
+import Loader3D from '../loader/Loader.jsx';
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,12 +25,13 @@ const App = () => {
   const [prompt, setPrompt] = useState('');
   const [results, setResults] = useState([]);
   const { taskId } = useParams();
-
+  const [ailoader,setailoader] = useState(false)
 
 
 
 
   const handleCheckByAI = async () => {
+    setailoader(true)
     const pendingSubmissionsText = pending.map(sub => sub.text).join('\n\n');
     setPendingText(pendingSubmissionsText);
     console.log(pending);
@@ -68,9 +70,12 @@ const App = () => {
     try {
       const res = await axios.post(`${url}/ai/update-scores`, { assignments: data });
       console.log('Updated in MongoDB:', res.data);
+      getSubmissions()
+      setailoader(false)
     } catch (error) {
       console.error('Error updating in MongoDB:', error);
       // Handle error updating in MongoDB, e.g., show error message to the user
+      setailoader(false)
     }
   };
 
@@ -141,7 +146,9 @@ const App = () => {
 
 
   const handleAddPoint = () => {
-    teacher.put(`/createtask/point/${selectedItem._id}`, { point: selectedItem.point })
+    console.log(selectedItem._id,selectedItem.point )
+    axios.put(`${url}/createtask/point/${selectedItem._id}`, { point: selectedItem.point })
+    
       .then(response => {
         message.success('Point updated successfully');
         getSubmissions();
@@ -209,9 +216,13 @@ const App = () => {
             style={{ marginLeft: 10, borderRadius: '8px' }}
             type="primary"
             onClick={handleCheckByAI}
+            disabled={ pending.length === 0 ? true : false}
           >
             Check by AI <FaRobot />
           </Button>
+       {ailoader && <Loader3D/> }    
+   
+
         </center>
   
         <Row justify="space-between" align="middle" style={{ padding: '0 20px', marginTop: '20px' }}>

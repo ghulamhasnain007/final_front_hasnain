@@ -4,7 +4,7 @@ import { Button, Row, Col, Select, Spin, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import admin from '../token/admin.js';
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const { Option } = Select;
 
 const BarChart = () => {
@@ -19,7 +19,7 @@ const BarChart = () => {
       setData(res.data);
       setFilteredData(res.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }

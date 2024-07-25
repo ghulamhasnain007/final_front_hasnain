@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Space, Modal, notification } from 'antd';
 import axios from 'axios';
 import TeacherData from '../Admin_comp/Teacherdata'
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 
 const SubmitButton = ({ form, children }) => {
   const [submittable, setSubmittable] = useState(false);
@@ -43,10 +43,10 @@ const AddTeacher = () => {
       
       } )
       .then((res)=>{
-        console.log(res)
+        // console.log(res)
       })
       .catch((err)=>{
-        console.log(err)
+        // console.log(err)
       })
     } catch (error) {
       
@@ -56,7 +56,7 @@ const AddTeacher = () => {
 
 
   const onFinish = async (values) => {
-    console.log('Form values:', values);
+    // console.log('Form values:', values);
     const regdata = {
       username: values.username,
       email: values.email,

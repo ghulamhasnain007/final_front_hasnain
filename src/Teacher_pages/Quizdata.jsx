@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Nav from '../Teachercomp/Tnavi';
 const { Meta } = Card;
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ const QuizList = () => {
       const response = await axios.put(`${url}/quiz/active/${quizId}`, {
         active: activeStatus,
       });
-      console.log('Quiz updated:', response.data);
+      // console.log('Quiz updated:', response.data);
 
       // Update local state to reflect the change
       const updatedQuizzes = quizzes.map((quiz) =>
@@ -51,7 +51,7 @@ const QuizList = () => {
   const deleteQuiz = async (quizId) => {
     try {
       const response = await axios.delete(`${url}/quiz/quiz_delete/${quizId}`);
-      console.log('Quiz deleted:', response.data);
+      // console.log('Quiz deleted:', response.data);
 
       // Remove the deleted quiz from local state
       const updatedQuizzes = quizzes.filter((quiz) => quiz._id !== quizId);
@@ -135,7 +135,7 @@ const QuizList = () => {
                       </Button> */}
                       <hr />
                       <Link to={`/teacher/quizresult/${quiz._id}`}>
-                        <h4>See Student Result</h4>
+                        <h4>Check Student Result</h4>
                       </Link>
                     </>
                   }

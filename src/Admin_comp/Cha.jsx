@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Card, Spin } from 'antd';
 import ReactECharts from 'echarts-for-react';
 import axios from 'axios';
-
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const ColumnChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      let admin = JSON.parse(localStorage.getItem('admin')).userData.id
       try {
-        const response = await axios.get('http://localhost:3000/api/result/66916924341391433c41d904');
-        console.log('Fetched data:', response.data); // Log fetched data
+        const response = await axios.get(`${url}/result/${admin}`);
+        // console.log('Fetched data:', response.data); // Log fetched data
         setData(response.data.result);
         setLoading(false);
       } catch (error) {

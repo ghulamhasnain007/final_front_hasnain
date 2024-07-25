@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api', // Replace with your API base URL
+  baseURL: 'https://saylaniportalback-production.up.railway.app/api', // Replace with your API base URL
 });
 
 // Add a request interceptor to include the token in the headers

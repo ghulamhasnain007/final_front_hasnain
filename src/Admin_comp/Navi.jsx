@@ -17,7 +17,7 @@ const Navi = () => {
   const handleMenuClick = (e) => {
    
       localStorage.removeItem('admin');
-      console.log('Logout clicked');
+      // console.log('Logout clicked');
       navigate('/');
     }
   
@@ -54,12 +54,12 @@ const Navi = () => {
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem('admin')).userData.id;
     const getUserData = () => {
-      axios.get(`http://localhost:3000/api/users/${id}`)
+      axios.get(`https://saylaniportalback-production.up.railway.app/api/users/${id}`)
         .then((res) => {
           setData(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 

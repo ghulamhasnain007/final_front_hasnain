@@ -9,7 +9,7 @@ import Tnavi from '../Teachercomp/Tnavi';
 import teacher from '../token/teacher.js';
 
 const { Option } = Select;
-let url = 'http://localhost:3000/api'
+let url = 'https://saylaniportalback-production.up.railway.app/api'
 const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
@@ -66,7 +66,7 @@ const CreateClassComponent = () => {
     const teacherId = teacherData.userData.id;
     await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId, totalquiz })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       }).catch((err) => {
         console.log(err);
       });

@@ -3,7 +3,9 @@ import { Table, Card, Row, Col, Spin, Button, Modal, message } from 'antd';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 import { useParams } from 'react-router-dom';
-let url = 'http://localhost:3000/api'
+
+let url = 'https://saylaniportalback-production.up.railway.app/api';
+
 const QuizResults = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ const QuizResults = () => {
     const fetchResults = async () => {
         try {
             const response = await axios.get(`${url}/quiz/${id}`);
-            console.log('Quiz results fetched:', response.data);
+            // console.log('Quiz results fetched:', response.data); // Debugging
             setResults(response.data);
             setLoading(false);
         } catch (error) {
@@ -32,8 +34,9 @@ const QuizResults = () => {
 
         try {
             await axios.delete(`${url}/result/result_delete/${selectedResult._id}`);
-            message.success('Quiz result deleted successfully!');
+            // console.log('Quiz result deleted:', selectedResult._id); // Debugging
             setDeleteModalVisible(false);
+            message.success('Quiz result deleted successfully!');
             fetchResults(); // Refresh results after deletion
         } catch (error) {
             console.error('Error deleting quiz result:', error);
@@ -101,7 +104,8 @@ const QuizResults = () => {
 
     return (
         <>
-            <Nav /> <br /><br /><br /><br /><br /><br /><br />
+            <Nav />
+            <br /><br /><br /><br /><br /><br /><br />
             <div>
                 <center>
                     <h1>Student Result</h1>
