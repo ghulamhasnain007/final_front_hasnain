@@ -78,6 +78,8 @@ function App() {
             <Route path="userreport" element={admin ? <UserReports /> : <Nologin />} />
             <Route path="login" element={<Admin_login />} />
           </Route>
+
+          
           {/* Teacher routes */}
           <Route path="/teacher">
             <Route path='quiz' element={teacher ? <QuizForm /> : <Nologin />} />
