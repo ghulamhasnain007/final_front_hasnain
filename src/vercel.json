@@ -1,6 +1,0 @@
-{
-    "routes": [
-      { "source": "/admin/login", "destination": "/admin/login" }
-    ]
-  }
-  
