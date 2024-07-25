@@ -1,10 +1,8 @@
 {
     "rewrites": [
-      { "source": "/admin/login", "destination": "/" },
-      { "source": "/admin/*", "destination": "/" },
-      { "source": "/teacher/*", "destination": "/" },
-      { "source": "/student/*", "destination": "/" },
-      { "source": "/quiz/*", "destination": "/" }
+      { "source": "/admin/:path*", "destination": "/admin" },
+      { "source": "/teacher/:path*", "destination": "/teacher" },
+      { "source": "/student/:path*", "destination": "/student" }
     ]
   }
   
