@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Spin } from 'antd';
 import ReactECharts from 'echarts-for-react';
 import axios from 'axios';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const ColumnChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

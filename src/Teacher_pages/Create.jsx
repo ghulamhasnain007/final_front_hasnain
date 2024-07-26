@@ -9,7 +9,7 @@ import Tnavi from '../Teachercomp/Tnavi';
 import teacher from '../token/teacher.js';
 
 const { Option } = Select;
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();

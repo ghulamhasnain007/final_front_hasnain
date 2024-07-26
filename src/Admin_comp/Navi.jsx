@@ -54,7 +54,7 @@ const Navi = () => {
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem('admin')).userData.id;
     const getUserData = () => {
-      axios.get(`https://saylaniportalback-production.up.railway.app/api/users/${id}`)
+      axios.get(`http://localhost:3000/api/users/${id}`)
         .then((res) => {
           setData(res.data);
         })

@@ -8,7 +8,7 @@ import { CopyOutlined } from '@ant-design/icons';
 import teacher from '../token/teacher.js';
 
 const { Title, Paragraph } = Typography;
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);

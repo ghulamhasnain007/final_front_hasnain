@@ -3,7 +3,7 @@ import { Card, message, Empty, Alert, Spin } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const App = () => {
   const [data, setData] = useState([]);
   const [classData, setClassData] = useState('');

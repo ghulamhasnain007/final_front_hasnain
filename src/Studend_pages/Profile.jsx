@@ -5,7 +5,7 @@ import axios from 'axios';
 import TNavi from '../Student_comp/Student_nav';
 
 const { Option } = Select;
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const Tprofile = () => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();

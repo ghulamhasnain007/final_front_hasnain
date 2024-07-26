@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import student from '../token/student.js'
 import axios from 'axios';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const { Title } = Typography;
 const { Meta } = Card;
 

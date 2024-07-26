@@ -3,7 +3,7 @@ import { Card, Radio, Button, message, Alert, Progress } from 'antd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import QuizResult from '../Student_comp/Result';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const Quiz = () => {
   const { id } = useParams();
   const [btn, setBtn] = useState(false);

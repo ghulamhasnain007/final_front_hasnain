@@ -6,7 +6,7 @@ import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import student from '../token/student.js';
-let hosturl = 'https://saylaniportalback-production.up.railway.app/api'
+let hosturl = 'http://localhost:3000/api'
 const { TextArea } = Input;
 
 const TaskSubmission = () => {

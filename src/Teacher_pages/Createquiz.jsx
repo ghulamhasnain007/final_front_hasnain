@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');

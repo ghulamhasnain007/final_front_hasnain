@@ -9,7 +9,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
 
-let url = 'https://saylaniportalback-production.up.railway.app/api';
+let url = 'http://localhost:3000/api';
 const { Header } = Layout;
 
 const Navi = () => {

@@ -5,7 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title } = Typography;
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const RegistrationForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate('')

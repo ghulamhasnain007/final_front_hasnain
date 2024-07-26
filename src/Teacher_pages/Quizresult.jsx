@@ -4,7 +4,7 @@ import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 import { useParams } from 'react-router-dom';
 
-let url = 'https://saylaniportalback-production.up.railway.app/api';
+let url = 'http://localhost:3000/api';
 
 const QuizResults = () => {
     const [results, setResults] = useState([]);

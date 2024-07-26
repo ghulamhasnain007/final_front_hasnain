@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Spin } from 'antd';
-// Import your components
 import Admin from './Admin_pages/Dashboard';
 import Allstudent from './Admin_pages/AllStudent';
 import Mteacher from './Admin_pages/Mteacher';
@@ -34,7 +33,6 @@ import Quiz from './Studend_pages/Quiz';
 import Start from './Studend_pages/Start';
 import Result from './Student_comp/Result';
 import Studentresult from './Teacher_pages/Quizresult';
-
 function App() {
   const [user, setUser] = useState(null);
   const [teacher, setTeacher] = useState(null);
@@ -65,50 +63,51 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={!user && !teacher && !admin ? <HomePage /> : user ? <Sdashboard /> : teacher ? <Tdashboard /> : <Admin />} />
-        <Route path='*' element={<Page />} />
-        <Route path="admin/login" element={<Admin_login />} />
-        {/* Admin routes */}
-        <Route path="/admin">
-          <Route path="dashboard" element={admin ? <Admin /> : <Nologin />} />
-          <Route path="allstudent" element={admin ? <Allstudent /> : <Nologin />} />
-          <Route path="mteacher" element={admin ? <Mteacher /> : <Nologin />} />
-          <Route path="setting" element={admin ? <Setting /> : <Nologin />} />
-          <Route path="profile" element={admin ? <ProfilePage /> : <Nologin />} />
-          <Route path="userreport" element={admin ? <UserReports /> : <Nologin />} />
-          
-        </Route>
-        {/* Teacher routes */}
-        <Route path="/teacher">
-          <Route path='quiz' element={teacher ? <QuizForm /> : <Nologin />} />
-          <Route path='allquiz' element={teacher ? <Allquiz /> : <Nologin />} />
-          <Route path='quizresult/:id' element={teacher ? <Studentresult /> : <Nologin />} />
-          <Route path="dashboard" element={teacher ? <Tdashboard /> : <Nologin />} />
-          <Route path="profile" element={teacher ? <Tprofile /> : <Nologin />} />
-          <Route path="login" element={<Teacher_login />} />
-          <Route path="createclasswork" element={teacher ? <Create /> : <Nologin />} />
-          <Route path="createclasswork/:id" element={teacher ? <Alltask /> : <Nologin />} />
-          <Route path="createclasswork/:id/task/:taskId" element={teacher ? <Taskdetail /> : <Nologin />} />
-          <Route path="createclasswork/:id/studentreport" element={teacher ? <Studentrep /> : <Nologin />} />
-        </Route>
-        {/* Student routes */}
-        <Route path='/student'>
-          <Route path='result' element={user ? <Result /> : <Nologin />} />
-          <Route path='quiz' element={user ? <Quiz /> : <Nologin />} />
-          <Route path='start/:id' element={user ? <Start /> : <Nologin />} />
-          <Route path='dashboard' element={user ? <Sdashboard /> : <Nologin />} />
-          <Route path='profile' element={user ? <Profile /> : <Nologin />} />
-          <Route path='join' element={user ? <Join_class /> : <Nologin />} />
-          <Route path='mysubmission' element={user ? <Mysub /> : <Nologin />} />
-          <Route path='register' element={<Student_reg />} />
-          <Route path='login' element={<Student_login />} />
-          <Route path='join/:classid' element={user ? <Student_task /> : <Nologin />} />
-          <Route path='join/:classid/tasksubmit/:id' element={user ? <Task_submit /> : <Nologin />} />
-        </Route>
-      </Routes>
-    </Router>
+    <div>
+      <Router>
+        <Routes>
+          <Route path='/' element={!user && !teacher && !admin ? <HomePage /> : user ? <Sdashboard /> : teacher ? <Tdashboard /> : <Admin />} />
+          <Route path='*' element={<Page />} />
+          {/* Admin routes */}
+          <Route path="/admin">
+            <Route path="Dashboard" element={admin ? <Admin /> : <Nologin />} />
+            <Route path="allstudent" element={admin ? <Allstudent /> : <Nologin />} />
+            <Route path="mteacher" element={admin ? <Mteacher /> : <Nologin />} />
+            <Route path="setting" element={admin ? <Setting /> : <Nologin />} />
+            <Route path="profile" element={admin ? <ProfilePage /> : <Nologin />} />
+            <Route path="userreport" element={admin ? <UserReports /> : <Nologin />} />
+            <Route path="login" element={<Admin_login />} />
+          </Route>
+          {/* Teacher routes */}
+          <Route path="/teacher">
+            <Route path='quiz' element={teacher ? <QuizForm /> : <Nologin />} />
+            <Route path='allquiz' element={teacher ? <Allquiz /> : <Nologin />} />
+            <Route path='quizresult/:id' element={teacher ? <Studentresult /> : <Nologin />} />
+            <Route path="dashboard" element={teacher ? <Tdashboard /> : <Nologin />} />
+            <Route path="profile" element={teacher ? <Tprofile /> : <Nologin />} />
+            <Route path="login" element={<Teacher_login />} />
+            <Route path="createclasswork" element={teacher ? <Create /> : <Nologin />} />
+            <Route path="createclasswork/:id" element={teacher ? <Alltask /> : <Nologin />} />
+            <Route path="createclasswork/:id/task/:taskId" element={teacher ? <Taskdetail /> : <Nologin />} />
+            <Route path="createclasswork/:id/studentreport" element={teacher ? <Studentrep /> : <Nologin />} />
+          </Route>
+          {/* Student routes */}
+          <Route path='/student'>
+            <Route path='result' element={user ? <Result /> : <Nologin />} />
+            <Route path='quiz' element={user ? <Quiz /> : <Nologin />} />
+            <Route path='start/:id' element={user ? <Start /> : <Nologin />} />
+            <Route path='dashboard' element={user ? <Sdashboard /> : <Nologin />} />
+            <Route path='profile' element={user ? <Profile /> : <Nologin />} />
+            <Route path='join' element={user ? <Join_class /> : <Nologin />} />
+            <Route path='mysubmission' element={user ? <Mysub /> : <Nologin />} />
+            <Route path='register' element={<Student_reg />} />
+            <Route path='login' element={<Student_login />} />
+            <Route path='join/:classid' element={user ? <Student_task /> : <Nologin />} />
+            <Route path='join/:classid/tasksubmit/:id' element={user ? <Task_submit /> : <Nologin />} />
+          </Route>
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

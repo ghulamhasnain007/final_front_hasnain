@@ -5,7 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title } = Typography;
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const AdminLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate('')
@@ -21,8 +21,14 @@ const AdminLogin = () => {
         message: 'Login Successful',
         description: response.data.message,
       });
-      navigate('/admin/dashboard')
-      localStorage.setItem('admin', JSON.stringify(response.data));
+
+        localStorage.setItem('admin', JSON.stringify(response.data));
+
+          navigate('/admin/dashboard');
+ 
+      
+
+
       form.resetFields();
       // Redirect or perform actions after successful login
     } catch (error) {

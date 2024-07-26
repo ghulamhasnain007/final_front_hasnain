@@ -4,7 +4,7 @@ import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import student from '../token/student.js';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,

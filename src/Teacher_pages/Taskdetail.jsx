@@ -7,7 +7,7 @@ import { RxReload } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
 import teacher from '../token/teacher.js';
 import Loader3D from '../loader/Loader.jsx';
-let url = 'https://saylaniportalback-production.up.railway.app/api'
+let url = 'http://localhost:3000/api'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

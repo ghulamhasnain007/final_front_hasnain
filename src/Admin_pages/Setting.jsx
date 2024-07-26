@@ -19,7 +19,7 @@ const ExampleModal = () => {
       </Button>
       <Modal
         title="Modal Title"
-        visible={isOpen}
+        open={isOpen}
         onOk={handleCloseModal}
         onCancel={handleCloseModal}
         okText="OK"
