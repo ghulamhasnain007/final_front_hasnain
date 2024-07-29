@@ -10,7 +10,7 @@ import { MdQuiz } from "react-icons/md";
 import { MdAssignment } from "react-icons/md";
 import { MdOutlineQuiz } from "react-icons/md"
 import axios from 'axios';
-
+import MessageDropdown from './Noti'
 let url = 'http://localhost:3000/api';
 const { Header } = Layout;
 
@@ -134,16 +134,20 @@ const Navi = () => {
 
           >
           </Menu>
-
+      <MessageDropdown/>
         <Dropdown menu={{ items: menuItems }}>
+          
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            
             <Space style={{ color: 'white' }}>
+
               <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} />
-              Hello <FaHandsClapping /> {data.username ? data.username : ''}
+              Hello  {data.username ? data.username : ''}
               <DownOutlined />
             </Space>
           </div>
         </Dropdown>
+        
       </Header>
     </Layout>
   );

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { Layout, Row, Col, Button, Card, Carousel, Collapse, Modal } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import AppFooter from './Footer';
+// import AppFooter from './Footer';
 import Aos from 'aos';
 import 'aos/dist/aos.css'
 const { Header, Content } = Layout;
@@ -262,7 +262,7 @@ const App = () => {
           </Card>
         </center>
       </Content>
-      <AppFooter />
+      {/* <AppFooter /> */}
     </Layout>
   );
 };
