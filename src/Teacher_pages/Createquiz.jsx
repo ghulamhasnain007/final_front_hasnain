@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, message,Spin } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 let url = 'http://localhost:3000/api'
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');
-
+  const navigate = useNavigate()
   const onFinish = async (values) => {
     // Transform options into an array
     const questions = values.questions.map((question) => ({
@@ -16,8 +16,23 @@ const QuizForm = () => {
       options: [question.option1, question.option2, question.option3, question.option4],
     }));
 
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     const teacherId = teacherData.userData.id;
+    let chart = async () => {
+      
+      let totalStudents = 0
+      let totalTasks = 0
+      let totalClasses = 0
+      let totalquiz =  1
+      await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId  , totalquiz })
+        .then((res) => {
+          // console.log(res);
+        }).catch((err) => {
+          // console.log(err)
+        })
+    }
+
+    
 
     const data = {
       quizName: values.quizName,
@@ -38,6 +53,8 @@ const QuizForm = () => {
       form.resetFields();
       setQuizKey(data.quizKey); // Update state with generated quiz key
       message.success('Quiz created successfully!');
+      navigate('/teacher/allquiz')
+      chart()
     } catch (error) {
       console.error('There was an error creating the quiz!', error);
       message.error('Failed to create quiz');
@@ -57,6 +74,9 @@ const QuizForm = () => {
   return (
     <>
       <Nav /><br /><br /><br /><br /> <br />
+      <center>
+        <h1>Create Quiz </h1>
+      </center>
       <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <Link to="/teacher/allquiz">
           <Button

@@ -61,7 +61,8 @@ const App = () => {
           <Button
             type="primary"
             onClick={() => setModalVisible(true)}
-            style={{ marginBottom: '16px', backgroundColor: '#1890ff', borderColor: '#1890ff' }}
+            style={{ marginBottom: '16px', backgroundColor: '#1890ff', borderColor: '#1890ff',borderRadius: "30px 5px 30px 1px" }}
+            
           >
             Join Quiz
           </Button>

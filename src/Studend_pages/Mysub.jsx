@@ -51,8 +51,11 @@ const SubmissionData = () => {
   }
 
   return (
+    <>
+    
+   <Nav />
     <div style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
-      <Nav />
+      
       <br /><br /><br /><br />
 
       <Title level={3} style={{ color: '#1890ff' }}>Pending Submissions</Title>
@@ -148,6 +151,8 @@ const SubmissionData = () => {
         )}
       </Modal>
     </div>
+ </>
+
   );
 };
 

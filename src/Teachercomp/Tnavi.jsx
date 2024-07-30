@@ -79,7 +79,7 @@ const Navi = () => {
           position: 'fixed',
           top: 0,
           zIndex: 1,
-          width: '98%',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
           borderRadius: 20,
@@ -104,7 +104,7 @@ const Navi = () => {
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
             <Space style={{ color: 'white' }}>
               <Avatar style={{ marginBottom: 6 }} src={data.profileurl ? data.profileurl : 'https://cdn3d.iconscout.com/3d/premium/thumb/profile-5283577-4413139.png'} />
-              Hello <FaHandsClapping /> {data.username ? data.username : ''}
+              Hello  {data.username ? data.username : ''}
               <DownOutlined />
             </Space>
           </div>

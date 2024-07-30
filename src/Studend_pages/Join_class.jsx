@@ -126,9 +126,13 @@ const Join_class = () => {
       <br />
       <br />
       <br />
-      <Button type="primary" onClick={showModal}>
+      <br />
+      <center>
+        <Button type="primary" style={{borderRadius: "30px 5px 30px 1px"}} onClick={showModal}>
         Join the class
       </Button>
+      </center>
+      
       <Modal title="Max Length of code(8)" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Title level={5}>Enter Class Code</Title>
         <Input value={classCode} onChange={onChange} maxLength={8} size="small" />

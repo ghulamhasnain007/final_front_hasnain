@@ -92,7 +92,7 @@ const QuizList = () => {
 
   return (
     <>
-      <Nav /> <br /><br /><br /><br /><br />
+      <Nav /> <br /><br /><br /><br /><br /><br /><br />
       <div style={{ padding: '20px', backgroundColor: '#fff', borderRadius: "45px 10px 52px 1px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', maxWidth: '1200px', margin: 'auto' }}>
         <center>
           <h1 style={{ fontSize: '2rem' }}>All Quizzes</h1>
@@ -169,7 +169,7 @@ const QuizList = () => {
         )}
         <center>
           <Link to={'/teacher/quiz'}>
-            <Button type='primary'>Back</Button>
+            <Button type='primary'>Back to Create Quiz</Button>
           </Link>
         </center>
       </div>

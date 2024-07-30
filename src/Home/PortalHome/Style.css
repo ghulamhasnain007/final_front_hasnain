@@ -1,0 +1,155 @@
+/* Style.css */
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+/* Header.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff; /* White background for a clean look */
+  padding: 0 20px;
+  height: 70px; /* Slightly increased height for better visual balance */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-bottom: 1px solid #e8e8e8; /* Light border for separation */
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-radius: 10px;
+
+         
+          
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px; /* Increased height for better visibility */
+  width: auto; /* Maintain aspect ratio */
+}
+
+.login-button {
+  border-radius: 30px; /* Rounded button for a modern feel */
+  font-size: 1rem;
+  background-color: #1890ff; /* Primary color */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #40a9ff; /* Slightly lighter on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.login-modal .ant-modal-header {
+  color: white;
+}
+
+.login-modal .ant-modal-title {
+  color: black;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-content a {
+  width: 100%;
+}
+
+.modal-content .ant-btn {
+  border-radius: 25px; /* Rounded corners for buttons */
+  font-size: 1rem;
+}
+
+.modal-content .ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.modal-content .ant-btn-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.modal-content .ant-btn-default {
+  border-radius: 25px; /* Ensure rounded corners for default button */
+}
+
+
+
+  
+
+
+/* Home.css */
+
+.home-container {
+  padding: 50px;
+  background: #f0f2f5;
+  border-radius: 30px;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #001529;
+}
+
+.home-description {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #595959;
+}
+
+.home-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  background-color: #1890ff;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.home-button:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}
+
+.home-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.home-image:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+
+  .content {
+    padding: 50px;
+    background: #f0f2f5;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  

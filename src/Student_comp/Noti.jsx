@@ -1,63 +1,75 @@
-import React from 'react';
-import { Dropdown, Menu, Avatar, Badge, Space,Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Dropdown, Menu, Avatar, Badge, Space } from 'antd';
 import { BellTwoTone, DownOutlined } from '@ant-design/icons';
-import { IoIosNotificationsOutline } from "react-icons/io";
-const messages = [
-  {
-    id: 1,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'New assignment available',
-    description: 'Check out the new assignment on Mathematics.',
-  },
-  {
-    id: 2,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-  {
-    id: 3,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-  {
-    id: 4,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-  {
-    id: 5,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-  {
-    id: 6,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-  {
-    id: 7,
-    avatar: 'https://via.placeholder.com/40',
-    title: 'Classroom update',
-    description: 'Your classroom has been updated with new materials.',
-  },
-];
-
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 const MessageDropdown = () => {
-  const items = messages.map((message) => ({
-    key: message.id,
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const id = JSON.parse(localStorage.getItem('user'))?.userData?.id;
+  const url = `http://localhost:3000/api/noti/${id}`;
+
+  useEffect(() => {
+    // Fetch notifications on component mount
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(url);
+        const data = response.data;
+
+        // Ensure data.tasks is an array
+        setNotifications(Array.isArray(data.tasks) ? data.tasks : []);
+        setUnreadCount(data.tasksCount || 0); // Default to 0 if tasksCount is not provided
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, [url]);
+
+  const handleMarkAsRead = async () => {
+    try {
+      await axios.put(url, { status: 'read' });
+      // Update state or refetch notifications
+      setNotifications(notifications.map(notification => ({
+        ...notification,
+        read: true
+      })));
+      setUnreadCount(0); // Assuming all notifications are marked as read
+    } catch (error) {
+      console.error('Error updating notification status:', error);
+    }
+  };
+
+  const items = notifications.map((notification) => ({
+    key: notification.id,
     label: (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={message.avatar} />
-        <div style={{ marginLeft: 10 }}>
-          <strong>{message.title}</strong>
-          <p style={{ margin: 0 }}>{message.description}</p>
-        </div>
+      
+      <div style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', backgroundColor: '#fff', display: 'flex', alignItems: 'center', borderRadius: "39px 12px 74px 0px" }}>
+        <Link to={`/student/join/${notification.class_id}`} >
+          <Avatar src={notification.teacher_profile || 'https://via.placeholder.com/40'} style={{ backgroundColor: '#f56a00', color: '#fff' }} />
+          <div style={{ marginLeft: 12, flex: 1 }}>
+            <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>
+              {notification.teacher_name} posted a new assignment
+            </p>
+            <p style={{ margin: '4px 0', fontSize: '13px', color: '#595959' }}>
+              Assigment name :  {notification.title}
+            </p>
+            <p style={{ margin: '4px 0', fontSize: '13px', color: '#000' }}>
+              Last Date : {notification.last_date.slice(0, 10)}
+            </p>
+            <p style={{ margin: 0, fontSize: '12px', color: '#1890ff' }}>
+              {notification.points}  points
+            </p>
+
+          </div>
+        </Link>
+
+
+
       </div>
+
+
     ),
   }));
 
@@ -66,16 +78,19 @@ const MessageDropdown = () => {
     <Dropdown
       menu={{
         items,
-        style: { maxHeight: '200px', overflowY: 'auto' }
+        style: { maxHeight: '300px', overflowY: 'auto', border: '1px solid #d9d9d9', borderRadius: "39px 12px 74px 0px" }
       }}
       trigger={['click']}
     >
-        <Space>
-          <Badge style={{ marginTop : '22px' }} count={1}>
-            <BellTwoTone style={{ fontSize: '24px' , color : 'white' , marginTop : '22px' ,cursor : 'pointer' }} />
-          </Badge>
-          <DownOutlined />
-        </Space>
+      <Space>
+        <Badge count={unreadCount} style={{ backgroundColor: '#52c41a', marginRight: '20px', marginTop: '23px' }}>
+          <BellTwoTone
+            style={{ fontSize: '24px', color: '#fff', cursor: 'pointer', marginRight: '20px', marginTop: '23px' }}
+            onClick={unreadCount > 0 ? handleMarkAsRead : null} // Only call handleMarkAsRead if there are unread notifications
+          />
+        </Badge>
+        {/* <DownOutlined style={{ fontSize: '16px', color: '#fff', marginTop: '24px' }} /> */}
+      </Space>
     </Dropdown>
   );
 };

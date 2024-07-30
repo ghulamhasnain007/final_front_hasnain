@@ -19,7 +19,7 @@ const ALL_task = () => {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
-
+ 
   const showModal = () => {
     setIsModalOpen(true);
     form.resetFields();
@@ -77,13 +77,33 @@ const ALL_task = () => {
       class_id: id,
       teacher_id: teacher_id,
       teacher_name: teacher_name,
-      class_name: classdata.className
+      class_name: classdata.className,
+      students: classdata.students,
+      teacher_profile : teacherData.userData.profileurl  
     };
+
+
+    let chart = async (teacherId) => {
+      console.log(teacherId);
+      let totalStudents = 0
+      let totalTasks = 1
+      let totalClasses = 0
+      let totalquiz =  0
+      await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId , totalquiz })
+        .then((res) => {
+          // console.log(res);
+        }).catch((err) => {
+          // console.log(err)
+        })
+    }
+
 
     teacher.post('/createtask', newTask)
       .then((response) => {
         message.success('Task created successfully');
         getTasks();
+        // console.log(response.data.Task.teacher_id);
+        chart(response.data.Task.teacher_id)
       })
       .catch((error) => {
         console.error('Error adding task:', error);

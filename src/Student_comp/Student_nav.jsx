@@ -81,7 +81,7 @@ const Navi = () => {
           position: 'fixed',
           top: 0,
           zIndex: 1,
-          width: '98%',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
           borderRadius: 20,
