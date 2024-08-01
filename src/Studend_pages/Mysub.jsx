@@ -158,7 +158,7 @@ const SubmissionData = () => {
                 <>
 
                   <p style={{ marginTop: '16px' }}><strong>My Code : </strong>
-                    <Link target='blank' to={`/student/mycode/${currentSubmission.task_id}/${currentSubmission.student_id}`} > Click to Code <FaExternalLinkSquareAlt /></Link>
+                    <Link target='blank' to={`/student/mycode/${currentSubmission.task_id}/${currentSubmission.student_id}`} > Click to run  Code <FaExternalLinkSquareAlt /></Link>
 
                   </p>
                   <center>

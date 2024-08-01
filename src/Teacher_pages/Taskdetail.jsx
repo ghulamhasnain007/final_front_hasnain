@@ -29,27 +29,27 @@ const App = () => {
   const { taskId } = useParams();
   const [ailoader, setailoader] = useState(false)
   const [messagee, setmessage] = useState('')
-  const [textmessage, settextMessage] = useState('');
+  const [textmessage, settextMessage] = useState(false);
 
   const handleCheckByAI = async () => {
     setailoader(true); // Start AI loader
-  
+
     try {
       let fullPrompt = prompt;
-  
+
       // Create an array of objects with _id and code for all pending assignments' files
-      const assignments = pending?.flatMap(sub => 
+      const assignments = pending?.flatMap(sub =>
         sub.files?.map(file => ({
           _id: sub._id,
           code: file.code
         })) || []
       ) || [];
-      console.log(' Data:', assignments);  
+      console.log(' Data:', assignments);
       // Sending request with prompt and assignments
       const res = await axios.post(`${url}/ai/check-assignments`, { prompt: fullPrompt, assignments });
-  
+
       console.log('AI Response Data:', res.data);
-  
+      setPrompt('')
       // Assuming res.data is an array of objects with { _id, point, message }
       if (Array.isArray(res.data)) {
         const updatedAssignments = pending.map(assignment => {
@@ -60,9 +60,9 @@ const App = () => {
             message: result ? result.message : '' // Handle messages if present
           };
         });
-  
+
         console.log('Updated Assignments:', res.data);
-  
+
         setResults(res.data);
         await updateScoresInMongoDB(res.data);
       } else {
@@ -76,13 +76,14 @@ const App = () => {
       setailoader(false); // Stop AI loader
     }
   };
-  
+
   const updateScoresInMongoDB = async (data) => {
     try {
       const res = await axios.post(`${url}/ai/update-scores`, { assignments: data });
       console.log('Updated in MongoDB:', res.data);
       getSubmissions(); // Refresh submissions list
       setailoader(false);
+      setPrompt('')
       message.success('Code checked successfully');
     } catch (error) {
       console.error('Error updating in MongoDB:', error);
@@ -90,15 +91,15 @@ const App = () => {
       setailoader(false);
     }
   };
-  
 
 
 
 
 
 
- 
- 
+
+
+
 
 
 
@@ -111,19 +112,21 @@ const App = () => {
   };
 
   const handleModalClose = () => {
+    settextMessage(false)
+    // setSelectedItem('');
     setIsModalOpen(false);
     setPreviewVisible(false);
     setCopySuccess(false);
-    settextMessage(selectedItem.message)
   };
 
- 
+
 
   const handleShowImagePreview = () => {
     setPreviewVisible(true);
   };
 
   const handlePointChange = (value) => {
+    console.log(value);
     setSelectedItem(prev => ({ ...prev, point: value }));
   };
 
@@ -149,7 +152,8 @@ const App = () => {
 
   const handleAddPoint = () => {
     console.log(selectedItem._id, selectedItem.point)
-    axios.put(`${url}/createtask/point/${selectedItem._id}`, { point: selectedItem.point, message: messagee })
+    
+    axios.put(`${url}/createtask/point/${selectedItem._id}`, { point: selectedItem.point, message: messagee ? messagee : selectedItem.message })
 
       .then(response => {
         message.success('Point updated successfully');
@@ -205,6 +209,7 @@ const App = () => {
       <div style={{ padding: '20px', backgroundColor: '#f0f2f5', borderRadius: "45px 10px 52px 24px" }}>
         <center>
           <Input
+            value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder='Check by AI'
             style={{
@@ -380,21 +385,28 @@ const App = () => {
               <div>
                 <center>
                   <Tooltip title={'click to see code '}>
-                     <Link target='blank' to={`/teacher/code/${selectedItem.task_id}/${selectedItem.student_id}`}>Click to see code <TbExternalLink /> </Link>
+                    <Link target='blank' to={`/teacher/code/${selectedItem.task_id}/${selectedItem.student_id}`}>Click to see code <TbExternalLink /> </Link>
                   </Tooltip>
                 </center>
               </div>
             )}
 
             <br /> <br />
-            
-    
+
+
           </div>
 
-          <div>
-            <TextArea value={textmessage} onChange={(e) => setmessage(e.target.value)} placeholder='Write message ' rows={4} />
-          </div>
-          <br />
+
+ <div>
+          {textmessage ?
+              <>
+              
+              
+              <TextArea defaultValue={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
+                placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />
+            </>: <> <TextArea value={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
+              placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />  </>  }
+         </div> <br />
           <div style={{ textAlign: 'center' }}>
             <InputNumber
               max={selectedItem.total_points}
