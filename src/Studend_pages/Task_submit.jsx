@@ -19,7 +19,8 @@ const TaskSubmission = () => {
   const [isSubmissionClosed, setIsSubmissionClosed] = useState(false);
   const [isLoadingTask, setIsLoadingTask] = useState(true); // Loader for task fetching
   const { id, classid } = useParams();
-console.log(task.points)
+  const [fileList, setFileList] = useState([]);
+  console.log(task)
   const handleBeforeUpload = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -50,7 +51,7 @@ console.log(task.points)
   const handleSubmit = async () => {
     const userid = JSON.parse(localStorage.getItem('user'));
     const formData = new FormData();
-    formData.append('text', text);
+    // formData.append('text', text);
     formData.append('file', imgFile);
     formData.append('task_id', id);
     formData.append('url', url);
@@ -60,20 +61,27 @@ console.log(task.points)
     formData.append('total_points', task.points);
     formData.append('class_name', task.class_name);
     formData.append('task_name', task.title);
+    // html css js file uploade 
+    
+
+    fileList.forEach(file => {
+      formData.append('file', file.originFileObj);
+    });
     setLoading(true);
 
     try {
       const response = await student.post('/tasksubmit', formData);
       if (response && response.data) {
         message.success(response.data.message);
-        setText('');
+        // setText('');
         setImagePreview(null);
         setImgFile(null);
         setUrl('');
+        setFileList([]);
         if (response.data.message == 'Submission sent successfully') {
           studentCard(response.data.file)
         }
-        
+
       } else {
         message.error('Unexpected response from server');
       }
@@ -116,9 +124,19 @@ console.log(task.points)
     getTask();
   }, [id]);
 
+  const handleChange = info => {
+    let newFileList = [...info.fileList];
+    if (newFileList.length > 3) {
+      newFileList = newFileList.slice(-3);
+      message.error('You can only upload up to 3 files.');
+    }
+    setFileList(newFileList);
+    console.log(newFileList)
+  };
+
   return (
     <>
-      <Student_nav /> 
+      <Student_nav />
       <br /><br /><br />
       <div style={{ padding: '20px', backgroundColor: '#f0f2f5' }}>
         <div style={{ margin: '20px auto', maxWidth: '800px' }}>
@@ -137,32 +155,43 @@ console.log(task.points)
                   style={{ marginBottom: '20px' }}
                 />
               )}
-              <Card 
-                title={`Teacher Name: ${task.teacher_name}`} 
+              <Card
+                title={`Teacher Name: ${task.teacher_name}`}
                 style={{ borderRadius: "13px 31px 50px 12px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#ffffff' }}
               >
-                <Card 
-                  type="inner" 
-                  title={`Last Date of Assignment: ${task.last_date?.slice(0, 10) || 'N/A'}`} 
+                <Card
+                  type="inner"
+                  title={`Assigment : ${task.title}`}
+                  // title={`Last Date of Assignment: ${task.last_date?.slice(0, 10) || 'N/A'}`}
                   style={{ borderRadius: "13px 31px 50px 12px", marginBottom: '20px' }}
                 >
                   <h3 style={{ color: '#1890ff' }}>Task Instructions</h3>
                   <p>{task.instructions}</p>
-                  <Upload
-                    beforeUpload={handleBeforeUpload}
-                    fileList={imagePreview ? [{ url: imagePreview }] : []}
-                    maxCount={1}
-                    onRemove={handleDeleteImage}
-                    disabled={isSubmissionClosed}
-                  >
-                    <Button
-                      icon={<UploadOutlined />}
-                      disabled={isSubmissionClosed}
-                      style={{ backgroundColor: '#1890ff', color: '#fff', borderColor: '#1890ff' }}
-                    >
-                      Upload Image
-                    </Button>
-                  </Upload>
+                  <p> <strong style={{ color: '#1890ff' }}>Task Created :</strong> {task.created_at.slice(0, 10)}</p>
+                  <p> <strong style={{ color: 'red' }}>Last Date :</strong> {`${task.last_date?.slice(0, 10) || 'N/A'}`}</p>
+
+                  {task.IMAGE &&
+                    <center>
+
+
+                      <Upload
+                        beforeUpload={handleBeforeUpload}
+                        fileList={imagePreview ? [{ url: imagePreview }] : []}
+                        maxCount={1}
+                        onRemove={handleDeleteImage}
+                        disabled={isSubmissionClosed}
+                        accept=".jpg,.jpeg,.png"
+                      >
+                        <Button
+                          icon={<UploadOutlined />}
+                          disabled={isSubmissionClosed}
+                          style={{ backgroundColor: '#1890ff', color: '#fff', borderColor: '#1890ff' }}
+                        >
+                          Upload Image
+                        </Button>
+                      </Upload>
+                    </center>
+                  }
                   {imagePreview && (
                     <div style={{ marginTop: '10px', textAlign: 'center' }}>
                       <Image width={200} src={imagePreview} />
@@ -176,7 +205,7 @@ console.log(task.points)
                       </Button>
                     </div>
                   )}
-                  <TextArea
+                  {/* <TextArea
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="Enter your text here (max 200 characters)"
@@ -187,17 +216,36 @@ console.log(task.points)
                   />
                   <p style={{ textAlign: 'right', fontSize: '12px', color: 'rgba(0,0,0,0.45)' }}>
                     {text.length}/200 characters
-                  </p>
+                  </p> */}
+                  <br />
+                  {task.CODE &&
+                    <center>
+                      <Upload
+                        fileList={fileList}
+                        onChange={handleChange}
+                        beforeUpload={() => false}
+                        multiple
+                        accept=".html,.css,.js"
+                      >
+                        <Button icon={<UploadOutlined />}>Upload (Max: 3)</Button>
+                      </Upload>
+                    </center>}
+
+                  <br />
+
+
+
                   <center>
-                    <Input
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                      style={{ width: '100%', maxWidth: '600px', marginTop: '10px' }}
-                      size="large"
-                      placeholder="Paste URL"
-                      prefix={<PiBracketsCurlyLight />}
-                      disabled={isSubmissionClosed}
-                    />
+                    {task.URL &&
+                      <Input
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        style={{ width: '100%', maxWidth: '600px', marginTop: '10px' }}
+                        size="large"
+                        placeholder="Paste URL"
+                        prefix={<PiBracketsCurlyLight />}
+                        disabled={isSubmissionClosed}
+                      />}
                     <br /><br />
                     <Button
                       type="primary"

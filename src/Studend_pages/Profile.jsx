@@ -83,8 +83,8 @@ const Tprofile = () => {
   return (
     <>
       <TNavi /><br /><br /><br />
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}>
-        <Card style={{ width: '100%', maxWidth: '600px' }} title="Student  Profile">
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '50px', backgroundColor: '#f0f2f5' }}>
+        <Card style={{ width: '100%', maxWidth: '600px',  borderRadius: "32px 0px 59px 0px" }} title="Student  Profile">
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
             <Avatar
               size={100}

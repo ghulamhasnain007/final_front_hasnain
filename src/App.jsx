@@ -33,6 +33,8 @@ import Quiz from './Studend_pages/Quiz';
 import Start from './Studend_pages/Start';
 import Result from './Student_comp/Result';
 import Studentresult from './Teacher_pages/Quizresult';
+import Code from './Teacher_pages/Code'
+import Mycode from './Studend_pages/Mycode';
 function App() {
   const [user, setUser] = useState(null);
   const [teacher, setTeacher] = useState(null);
@@ -68,6 +70,7 @@ function App() {
         <Routes>
           <Route path='/' element={!user && !teacher && !admin ? <HomePage /> : user ? <Sdashboard /> : teacher ? <Tdashboard /> : <Admin />} />
           <Route path='*' element={<Page />} />
+          <Route path="/cha" element={<Cha/>} />
           {/* Admin routes */}
           <Route path="/admin">
             <Route path="Dashboard" element={admin ? <Admin /> : <Nologin />} />
@@ -90,6 +93,7 @@ function App() {
             <Route path="createclasswork/:id" element={teacher ? <Alltask /> : <Nologin />} />
             <Route path="createclasswork/:id/task/:taskId" element={teacher ? <Taskdetail /> : <Nologin />} />
             <Route path="createclasswork/:id/studentreport" element={teacher ? <Studentrep /> : <Nologin />} />
+            <Route path="code/:task_id/:student_id" element={teacher ? <Code /> : <Nologin />} />
           </Route>
           {/* Student routes */}
           <Route path='/student'>
@@ -104,6 +108,7 @@ function App() {
             <Route path='login' element={<Student_login />} />
             <Route path='join/:classid' element={user ? <Student_task /> : <Nologin />} />
             <Route path='join/:classid/tasksubmit/:id' element={user ? <Task_submit /> : <Nologin />} />
+            <Route path="mycode/:task_id/:student_id" element={user ? <Mycode /> : <Nologin />} />
           </Route>
         </Routes>
       </Router>

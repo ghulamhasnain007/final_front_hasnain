@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Row, Col, Modal, Form, Input, DatePicker, Button, message, Tooltip, Empty, Alert, Spin, Typography } from 'antd';
+import { Card, Row, Col, Modal, Form, Input, DatePicker, Button, message, Tooltip, Empty, Alert, Spin, Typography, Select, Space } from 'antd';
 import moment from 'moment';
 import { Link, useParams } from 'react-router-dom';
 import Tnavi from '../Teachercomp/Tnavi';
@@ -9,6 +9,7 @@ import teacher from '../token/teacher.js';
 
 const { Title, Paragraph } = Typography;
 let url = 'http://localhost:3000/api'
+
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ const ALL_task = () => {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
- 
+  const [optionValue, setoptionvalue] = useState('')
   const showModal = () => {
     setIsModalOpen(true);
     form.resetFields();
@@ -65,7 +66,22 @@ const ALL_task = () => {
     getClassDetails();
   }, [id]);
 
+  const handleChange = (value) => {
+    const selectedOption = options.find(option => option.value === value);
+    if (selectedOption) {
+      console.log('Selected label:', selectedOption.label);
+      setoptionvalue(selectedOption.label)
+    }
+  };
+
+  const options = [
+    { value: '1', label: 'IMAGE' },
+    { value: '2', label: 'URL' },
+    { value: '3', label: 'CODE' },
+  ];
+
   const handleOk = (values) => {
+
     const teacherData = JSON.parse(localStorage.getItem('techerdata'));
     const teacher_name = teacherData.userData.teacher_name;
     const teacher_id = teacherData.userData.id;
@@ -79,7 +95,10 @@ const ALL_task = () => {
       teacher_name: teacher_name,
       class_name: classdata.className,
       students: classdata.students,
-      teacher_profile : teacherData.userData.profileurl  
+      teacher_profile: teacherData.userData.profileurl,
+      IMAGE: optionValue == 'IMAGE' ? true : false,
+      URL: optionValue == 'URL' ? true : false,
+      CODE: optionValue == 'CODE' ? true : false,
     };
 
 
@@ -88,8 +107,8 @@ const ALL_task = () => {
       let totalStudents = 0
       let totalTasks = 1
       let totalClasses = 0
-      let totalquiz =  0
-      await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId , totalquiz })
+      let totalquiz = 0
+      await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId, totalquiz })
         .then((res) => {
           // console.log(res);
         }).catch((err) => {
@@ -120,6 +139,9 @@ const ALL_task = () => {
       instructions: values.instructions,
       last_date: values.lastDate.format('YYYY-MM-DD HH:mm:ss'),
       points: values.points,
+      IMAGE: optionValue == 'IMAGE' ? true : false,
+      URL: optionValue == 'URL' ? true : false,
+      CODE: optionValue == 'CODE' ? true : false,
     };
     teacher.put(`/createtask/update`, updatedTask)
       .then((response) => {
@@ -302,9 +324,31 @@ const ALL_task = () => {
                 >
                   <Input placeholder="Enter task title" />
                 </Form.Item>
-                <Form.Item name="instructions" label="Instructions">
+                <Form.Item name="instructions" label="Instructions"
+                  rules={[{ required: true, message: 'Please enter instruction' }]}
+                >
                   <Input.TextArea placeholder="Enter instructions" rows={4} />
                 </Form.Item>
+
+
+                <Form.Item name="select" label="Select"
+                  rules={[{ required: true, message: 'Please select an option!' }]}
+                >
+                  <Select
+                    showSearch
+                    style={{ width: 470 }}
+                    placeholder="Search to Select"
+                    optionFilterProp="label"
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    onChange={handleChange}
+                    options={options}
+
+                  />
+                </Form.Item>
+
+
                 <Form.Item
                   name="lastDate"
                   label="Last Date to Assign"
@@ -345,6 +389,28 @@ const ALL_task = () => {
                 <Form.Item name="instructions" label="Instructions">
                   <Input.TextArea placeholder="Enter instructions" rows={4} />
                 </Form.Item>
+
+
+
+                <Form.Item name="select" label="Select">
+                  <Select
+                    showSearch
+                    style={{ width: 470 }}
+                    placeholder="Search to Select"
+                    optionFilterProp="label"
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    onChange={handleChange}
+                    options={options}
+                  />
+                </Form.Item>
+
+
+
+
+
+
                 <Form.Item
                   name="lastDate"
                   label="Last Date to Assign"
