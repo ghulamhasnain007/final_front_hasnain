@@ -16,7 +16,7 @@ const QuizForm = () => {
       options: [question.option1, question.option2, question.option3, question.option4],
     }));
 
-const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacherId = teacherData.userData.id;
     let chart = async () => {
       

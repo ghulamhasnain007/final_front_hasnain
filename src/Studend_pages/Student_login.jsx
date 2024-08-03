@@ -4,19 +4,19 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Import a logo image
 const img = 'https://img.freepik.com/free-photo/computer-security-with-login-password-padlock_107791-16191.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=sph';
-let url = 'http://localhost:3000/api'
+let url = 'http://localhost:3000/api';
+
 const Student_login = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     const regdata = {
       email: values.email,
       password: values.password,
     };
-
+  
     try {
       const response = await axios.post(`${url}/login/student`, regdata);
       notification.success({
@@ -24,8 +24,14 @@ const Student_login = () => {
         description: response.data.message,
       });
       localStorage.setItem('user', JSON.stringify(response.data));
-      navigate('/student/dashboard')
+     localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
+      
+
+      setTimeout(() => {
+          window.location.href = '/student/dashboard';
+        
+      }, 1000);
     } catch (error) {
       notification.error({
         message: 'Login Failed',
@@ -33,15 +39,21 @@ const Student_login = () => {
       });
     }
   };
+  
+
+
+
+
+
 
   const handleBackToHome = () => {
-    navigate('/'); 
+    navigate('/');
   };
 
   return (
     <Row style={{ minHeight: '100vh' }}>
       <Col xs={0} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img src={img} alt="Logo" style={{ width: '80%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)' , marginBottom : 10 }} />
+        <img src={img} alt="Logo" style={{ width: '80%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 }} />
       </Col>
       <Col xs={24} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Card

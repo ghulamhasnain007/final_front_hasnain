@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, List, Modal, Image, Input, Button, InputNumber, Tooltip, Spin, Row, Col, message } from 'antd';
+import { Card, List, Modal, Image, Input, Button, InputNumber, Tooltip, Spin, Row, Col, message ,Avatar} from 'antd';
 import Tnavi from '../Teachercomp/Tnavi';
 import { FaRobot } from "react-icons/fa";
 import axios from 'axios';
@@ -152,7 +152,7 @@ const App = () => {
 
   const handleAddPoint = () => {
     console.log(selectedItem._id, selectedItem.point)
-    
+
     axios.put(`${url}/createtask/point/${selectedItem._id}`, { point: selectedItem.point, message: messagee ? messagee : selectedItem.message })
 
       .then(response => {
@@ -208,7 +208,8 @@ const App = () => {
       <Tnavi /><br /><br /><br /><br /><br />
       <div style={{ padding: '20px', backgroundColor: '#f0f2f5', borderRadius: "45px 10px 52px 24px" }}>
         <center>
-          <Input
+          {/* <Input
+          
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder='Check by AI'
@@ -218,9 +219,19 @@ const App = () => {
               borderRadius: '8px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
-          />
+          /> */}
+
+          <TextArea value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder='Write a prompt to check assigment"s'
+            style={{
+              width: 400,
+              marginBottom: '10px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            }} autoSize />
           <Button
-            style={{ marginLeft: 10, borderRadius: '8px' }}
+            style={{ marginLeft: 10, borderRadius: '8px', marginBottom: 10 }}
             type="primary"
             onClick={handleCheckByAI}
             disabled={pending.length === 0 ? true : false}
@@ -342,7 +353,7 @@ const App = () => {
         )}
 
         <Modal
-          title={`Student Name: ${selectedItem.student_name ? selectedItem.student_name : ''}`}
+          title={`Student Name: ${selectedItem.student_name ? selectedItem.student_name : ''}`  }
           open={isModalOpen}
           onCancel={handleModalClose}
           footer={null}
@@ -397,25 +408,33 @@ const App = () => {
           </div>
 
 
- <div>
-          {textmessage ?
+          <div>
+            <h4 style={{ color: '#4caf50' }}>Write Review</h4>
+            {textmessage ?
               <>
-              
-              
-              <TextArea defaultValue={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
-                placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />
-            </>: <> <TextArea value={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
-              placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />  </>  }
-         </div> <br />
+
+
+                <TextArea defaultValue={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
+                  placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />
+              </> : <> <TextArea value={selectedItem.message} onChange={(e) => setmessage(e.target.value)}
+                placeholder='Write message' onClick={() => settextMessage(true)} rows={7} />  </>}
+          </div>
+
+          <br />
           <div style={{ textAlign: 'center' }}>
+
+
+
             <InputNumber
               max={selectedItem.total_points}
               value={selectedItem.point || 0}
               onChange={handlePointChange}
-              style={{ marginRight: '10px' }}
+            // style={{ marginRight: '10px' }}
             /> / {selectedItem.total_points}
+
+
             <br /><br />
-            <Button onClick={handleAddPoint} style={{ borderRadius: '8px' }}>
+            <Button onClick={handleAddPoint} style={{ borderRadius: '8px', width: 200 }}>
               Add Point
             </Button>
           </div>

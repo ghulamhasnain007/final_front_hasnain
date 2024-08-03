@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { Button, Card, Spin, Alert, Input, InputNumber, Form, Row, Col, message } from 'antd';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams ,Link } from 'react-router-dom';
 import { VscOutput } from 'react-icons/vsc';
 
 const { Meta } = Card;
@@ -26,6 +26,7 @@ const CodeExecutionComponent = () => {
             const files = response.data.submission.files;
             setSubmissionData(files);
             setSubmission(response.data.submission);
+            console.log(response.data)
         } catch (error) {
             setError(error.message);
             console.error('Failed to fetch submission data:', error);
@@ -40,7 +41,7 @@ const CodeExecutionComponent = () => {
 
     const handleAddPoint = () => {
         console.log(messagee, numberInput);
-        axios.put(`${url}/createtask/point/${submission._id}`, { point: numberInput, message: messagee })
+        axios.put(`${url}/createtask/point/${submission._id}`, { point: numberInput ? numberInput : submission.point, message: messagee ? messagee : submission.message })
             .then(response => {
                 message.success('Point updated successfully');
             })
@@ -130,6 +131,7 @@ const CodeExecutionComponent = () => {
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#e8f5e9' }}>
+            <Button><Link to={`/teacher/createclasswork/${submission.class_id}/task/${submission.task_id}`} >Go to submmision's</Link></Button>
             {error && <Alert type="error" message={`Code execution error: ${error}`} showIcon />}
             {submissionData && (
                 <Card
@@ -211,10 +213,10 @@ const CodeExecutionComponent = () => {
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
                                     <Form>
-                                        <h4 style={{ color: '#4caf50' }}>Add Review</h4>
+                                        <h4 style={{ color: '#4caf50' }}>Write Review</h4>
                                         <TextArea
                                             rows={4}
-                                            value={submission.message}
+                                            defaultValue={submission.message}
                                             onChange={(e) => setMessagee(e.target.value)}
                                             placeholder="Enter review"
                                             style={{ borderRadius: '8px', borderColor: '#4caf50' }}
@@ -222,19 +224,24 @@ const CodeExecutionComponent = () => {
                                         <div style={{ marginTop: '10px', color: '#4caf50' }}>
                                             {messagee && <p><strong>Current Review:</strong> {messagee}</p>}
                                         </div>
-                                        <h4 style={{ color: '#4caf50' }}>Enter Points</h4>
+                                        
+                                        <center>
+<h4 style={{ color: '#4caf50' }}>Enter Points</h4>
+                                        
                                         <InputNumber
-                                      
-                                            max={submission.total_points || 0 }
+
+                                            max={submission.total_points || 0}
                                             value={submission.point}
                                             onChange={(value) => setNumberInput(value)}
-                                            style={{ width: '100%', borderRadius: '8px', borderColor: '#4caf50' }}
+                                            style={{ width: 120, borderRadius: '8px', borderColor: '#4caf50',marginRight : 10 }}
                                             placeholder="Enter points"
-                                        />
+                                        /> /  {submission.total_points} 
+</center>
+
                                         <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                                            <Button 
-                                                onClick={handleAddPoint} 
-                                                style={{ borderRadius: '8px', backgroundColor: '#4caf50', color: '#fff' }}>
+                                            <Button
+                                                onClick={handleAddPoint}
+                                                style={{ borderRadius: '8px', backgroundColor: '#4caf50', color: '#fff',width : 200  }}>
                                                 Add Point
                                             </Button>
                                         </div>

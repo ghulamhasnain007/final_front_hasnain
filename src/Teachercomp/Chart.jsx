@@ -14,7 +14,7 @@ const DashboardPage = () => {
 
   const fetchData = async () => {
     try {
-      const id = JSON.parse(localStorage.getItem('techerdata')).userData.id
+      const id = JSON.parse(localStorage.getItem('user')).userData.id
 
       const response = await teacher.get(`/tchart/chart/${id}`);
       // console.log('Fetched data:', response.data); // Log fetched data

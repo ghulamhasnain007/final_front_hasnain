@@ -13,7 +13,7 @@ const QuizList = () => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const fetchQuizzes = async () => {
-    let id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    let id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
       const response = await axios.get(`${url}/quiz/teacher/${id}`);
       setQuizzes(response.data);

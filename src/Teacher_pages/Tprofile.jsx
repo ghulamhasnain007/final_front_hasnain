@@ -44,7 +44,7 @@ const Tprofile = () => {
   };
 
   const fetchUserData = async () => {
-    const techerId = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    const techerId = JSON.parse(localStorage.getItem('user')).userData.id;
     setLoading(true); // Show loader while fetching data
     try {
       const response = await axios.get(`${url}/users/${techerId}`);

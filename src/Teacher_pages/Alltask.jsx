@@ -82,7 +82,7 @@ const ALL_task = () => {
 
   const handleOk = (values) => {
 
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacher_name = teacherData.userData.teacher_name;
     const teacher_id = teacherData.userData.id;
     const newTask = {

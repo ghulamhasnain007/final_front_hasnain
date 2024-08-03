@@ -20,12 +20,12 @@ const TeacherLogin = () => {
         message: 'Login Successful',
         description: response.data.message,
       });
-      navigate('/teacher/dashboard')
+      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
-      // Save user data to localStorage
-      localStorage.setItem('techerdata', JSON.stringify(response.data));
-
-      // Optionally, redirect to another page or perform additional actions
+      setTimeout(() => {
+        window.location.href = '/teacher/dashboard';
+      }, 1000);
     } catch (error) {
       notification.error({
         message: 'Login Failed',

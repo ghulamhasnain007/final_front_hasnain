@@ -45,7 +45,7 @@ const CreateClassComponent = () => {
   };
 
   const getuserdatbyid = () => {
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherData = JSON.parse(localStorage.getItem('user'));
     const id = teacherData.userData.id;
     try {
       axios.get(`${url}/users/${id}`)
@@ -62,7 +62,7 @@ const CreateClassComponent = () => {
     let totalTasks = 0;
     let totalClasses = 1;
     let totalquiz = 0;
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacherId = teacherData.userData.id;
     await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId, totalquiz })
       .then((res) => {
@@ -73,7 +73,7 @@ const CreateClassComponent = () => {
   };
 
   const handleOk = () => {
-    const teacherData = JSON.parse(localStorage.getItem('techerdata'));
+    const teacherData = JSON.parse(localStorage.getItem('user'));
     form.validateFields().then((values) => {
       const generatedClassDetails = {
         className: values.className,

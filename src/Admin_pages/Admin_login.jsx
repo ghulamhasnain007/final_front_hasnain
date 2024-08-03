@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title } = Typography;
@@ -22,14 +22,15 @@ const AdminLogin = () => {
         description: response.data.message,
       });
 
-        localStorage.setItem('admin', JSON.stringify(response.data));
-
-          navigate('/admin/dashboard');
- 
-      
-
-
+      localStorage.setItem('admin', JSON.stringify(response.data));
+      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
+      const timer = setTimeout(() => {
+        window.location.href = '/admin/dashboard';
+      }, 1000); 
+
+
+
       // Redirect or perform actions after successful login
     } catch (error) {
       notification.error({

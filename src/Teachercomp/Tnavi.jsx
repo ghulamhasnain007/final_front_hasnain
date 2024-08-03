@@ -17,7 +17,8 @@ const Navi = () => {
   const [data, setData] = useState('');
 
   const logout = () => {
-    localStorage.removeItem('techerdata');
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
     // console.log('Logout clicked');
     navigate('/');
   };
@@ -40,7 +41,7 @@ const Navi = () => {
   ];
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    const id = JSON.parse(localStorage.getItem('user')).userData.id;
     const getUserData = () => {
       axios.get(`${url}/users/${id}`)
         .then((res) => {

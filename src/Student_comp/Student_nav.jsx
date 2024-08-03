@@ -20,8 +20,9 @@ const Navi = () => {
 
   const logout = () => {
     localStorage.removeItem('user');
-    console.log('Logout clicked');
+    localStorage.removeItem('role');
     navigate('/');
+    // window.location.href = '/';
   };
 
   const menuItems = [

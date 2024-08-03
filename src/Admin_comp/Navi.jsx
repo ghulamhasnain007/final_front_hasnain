@@ -17,7 +17,7 @@ const Navi = () => {
   const handleMenuClick = (e) => {
    
       localStorage.removeItem('admin');
-      // console.log('Logout clicked');
+      localStorage.removeItem('role');
       navigate('/');
     }
   

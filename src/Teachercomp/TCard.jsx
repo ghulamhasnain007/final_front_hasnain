@@ -13,7 +13,7 @@ const DashboardPage = () => {
   const totalTasks = data.totaltask ? data.totaltask : '0';
 
   let get = () => {
-    const teacher_id = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    const teacher_id = JSON.parse(localStorage.getItem('user')).userData.id;
     teacher.get(`/joinclass/get/${teacher_id}`)
       .then((res) => {
         // console.log(res.data);

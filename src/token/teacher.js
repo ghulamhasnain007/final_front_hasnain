@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Get the token from localStorage (or any other storage)
-    const techerdata = JSON.parse(localStorage.getItem('techerdata'))
+    const techerdata = JSON.parse(localStorage.getItem('user'))
    const token = techerdata.token
     // console.log(token);
     // If the token exists, include it in the headers
