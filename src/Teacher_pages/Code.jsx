@@ -4,7 +4,7 @@ import { Button, Card, Spin, Alert, Input, InputNumber, Form, Row, Col, message 
 import axios from 'axios';
 import { useParams ,Link } from 'react-router-dom';
 import { VscOutput } from 'react-icons/vsc';
-
+import url from '../api/api.js'
 const { Meta } = Card;
 const { TextArea } = Input;
 
@@ -17,7 +17,7 @@ const CodeExecutionComponent = () => {
     const [messagee, setMessagee] = useState('');
     const [submission, setSubmission] = useState({});
     const { task_id, student_id } = useParams();
-    const url = 'http://localhost:3000/api';
+    // const url = 'http://localhost:3000/api';
 
     const fetchAndRunCode = async () => {
         setLoading(true);

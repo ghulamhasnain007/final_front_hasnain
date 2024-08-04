@@ -3,7 +3,8 @@ import { Card, Radio, Button, message, Alert, Progress } from 'antd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import QuizResult from '../Student_comp/Result';
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const Quiz = () => {
   const { id } = useParams();
   const [btn, setBtn] = useState(false);
@@ -292,7 +293,16 @@ const Quiz = () => {
   // };
 
 
-
+  const cardStyle = {
+    borderRadius: '7px 32px 7px 46px', // Rounded corners
+    padding: '30px', // Padding inside the div
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Box shadow for a 3D effect
+    background: '#40a9ff', // Gradient background
+    color: '#333', // Text color
+    textAlign: 'center', // Center the text
+    maxWidth: '400px', // Maximum width of the div
+    margin: 'auto', // Center ional: Set a background color
+  };
 
   const showExitFullScreenWarning = () => {
     setExitFullScreenWarning(true);
@@ -334,13 +344,16 @@ const Quiz = () => {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Card
           title={`Quiz Result`}
-          style={{ width: 350, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius: 8 }}
+          style={{ width: 350, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius:'44px 46px 0px 0px' }}
         >
           <p>
             <strong>Teacher :</strong> {previousResult.teacherName}
           </p>
           <p>
             <strong>Quiz :</strong> {previousResult.quizName}
+          </p>
+          <p>
+            <strong>passing Score:</strong> {previousResult.passing_point}
           </p>
           <p>
             <strong>Your Score:</strong> {previousResult.score}
@@ -363,8 +376,8 @@ const Quiz = () => {
 
   if (!quizStarted) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Card title={`Quiz Name: ${quizDetails.quizName}`} style={{ width: 350, textAlign: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
+        <Card title={`Quiz Name: ${quizDetails.quizName}`} style={{ width: 350, textAlign: 'center' ,...cardStyle}}>
           <p>
             <strong>Teacher Name :</strong> {quizDetails.teacherName}
           </p>

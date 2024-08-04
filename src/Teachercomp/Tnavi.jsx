@@ -4,12 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
 import { CgProfile } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
-import { FaHandsClapping } from "react-icons/fa6";
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
-
-let url = 'http://localhost:3000/api';
+import url from '../api/api.js'
+// let url = 'http://localhost:3000/api';
 const { Header } = Layout;
 
 const Navi = () => {

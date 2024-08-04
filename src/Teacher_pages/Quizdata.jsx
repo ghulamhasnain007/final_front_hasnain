@@ -5,7 +5,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Nav from '../Teachercomp/Tnavi';
 const { Meta } = Card;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);

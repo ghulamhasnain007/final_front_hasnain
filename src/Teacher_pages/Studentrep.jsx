@@ -4,7 +4,8 @@ import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import Navi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
+// let url = 'http://localhost:3000/api'
 const { Header, Content, Footer } = Layout;
 
 const UserReports = () => {

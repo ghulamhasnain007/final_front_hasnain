@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
 import { FaHandsClapping } from "react-icons/fa6";
 import axios from 'axios';
-
+import url from '../api/api';
 const { Header } = Layout;
 
 const Navi = () => {
@@ -47,14 +47,15 @@ const Navi = () => {
     {
       label: 'Logout',
       key: '3',
-      icon: <CiLogout  onClick={handleMenuClick}  />
+      icon: <CiLogout />,
+      onClick: handleMenuClick,
     },
   ];
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem('admin')).userData.id;
     const getUserData = () => {
-      axios.get(`http://localhost:3000/api/users/${id}`)
+      axios.get(`${url}/users/${id}`)
         .then((res) => {
           setData(res.data);
         })

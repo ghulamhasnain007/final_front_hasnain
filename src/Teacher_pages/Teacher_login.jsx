@@ -4,7 +4,8 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
 const { Title } = Typography;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const TeacherLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ const TeacherLogin = () => {
     try {
       const response = await axios.post(`${url}/login/teacher`, loginData);
       notification.success({
-        message: 'Login Successful',
+        message:` Welcome Sir ${response.data.userData.teacher_name}`,
         description: response.data.message,
       });
       localStorage.setItem('user', JSON.stringify(response.data));

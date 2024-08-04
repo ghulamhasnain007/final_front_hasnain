@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Space, Modal, notification } from 'antd';
 import axios from 'axios';
 import TeacherData from '../Admin_comp/Teacherdata'
-let url = 'http://localhost:3000/api'
+import url from '../api/api';
+// let url = 'http://localhost:3000/api'
 
 const SubmitButton = ({ form, children }) => {
   const [submittable, setSubmittable] = useState(false);

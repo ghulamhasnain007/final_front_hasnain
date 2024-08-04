@@ -3,9 +3,9 @@ import { Card, Form, Input, Button, Row, Col, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import url from '../api/api.js'
 const img = 'https://img.freepik.com/free-photo/computer-security-with-login-password-padlock_107791-16191.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=sph';
-let url = 'http://localhost:3000/api';
+// let url = 'http://localhost:3000/api';
 
 const Student_login = () => {
   const [form] = Form.useForm();
@@ -20,9 +20,12 @@ const Student_login = () => {
     try {
       const response = await axios.post(`${url}/login/student`, regdata);
       notification.success({
-        message: 'Login Successful',
+        message:` Welcome ${response.data.userData.username}`,
         description: response.data.message,
       });
+      console.log(response.data.userData.username
+        );
+      
       localStorage.setItem('user', JSON.stringify(response.data));
      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
@@ -31,7 +34,7 @@ const Student_login = () => {
       setTimeout(() => {
           window.location.href = '/student/dashboard';
         
-      }, 1000);
+      }, 3000);
     } catch (error) {
       notification.error({
         message: 'Login Failed',

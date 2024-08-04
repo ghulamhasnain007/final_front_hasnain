@@ -4,7 +4,8 @@ import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import student from '../token/student.js';
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,

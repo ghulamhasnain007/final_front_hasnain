@@ -11,7 +11,8 @@ import { MdAssignment } from "react-icons/md";
 import { MdOutlineQuiz } from "react-icons/md"
 import axios from 'axios';
 import MessageDropdown from './Noti'
-let url = 'http://localhost:3000/api';
+// let url = 'http://localhost:3000/api';
+import url from '../api/api.js'
 const { Header } = Layout;
 
 const Navi = () => {
@@ -113,7 +114,7 @@ const Navi = () => {
               {
                 key: '/student/join',
                 icon: <SiGoogleclassroom />,
-                label: ' class Room',
+                label: 'Join class',
                 // Add to property for future use (optional)
                 to: '/student/join', // Replace with your desired route path
               },{

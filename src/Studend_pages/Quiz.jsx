@@ -3,7 +3,8 @@ import { Modal, Form, Input, Button, message, Row, Col, Card } from 'antd';
 import axios from 'axios';
 import { Link,useParams } from 'react-router-dom';
 import Navi from '../Student_comp/Student_nav';
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quizzes, setQuizzes] = useState([]);

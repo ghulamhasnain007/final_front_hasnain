@@ -8,7 +8,8 @@ import { RxReload } from "react-icons/rx";
 import { Link, useParams } from 'react-router-dom';
 import teacher from '../token/teacher.js';
 import Loader3D from '../loader/Loader.jsx';
-let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
+// let url = 'http://localhost:3000/api'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 const App = () => {

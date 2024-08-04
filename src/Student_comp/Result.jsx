@@ -18,11 +18,12 @@ const QuizResult = ({ quizDetails, score }) => {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}  >
       <Card
       title={`Quiz Results`}
-      style={{ width: 350, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius: 8 }}
+      style={{ width: 350, textAlign: 'center', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '39px 39px 9px 9px' }}
     //   bodyStyle={{ padding: '20px' }}
     >
       <p><strong>Teacher:</strong> {quizDetails.teacherName}</p>
-      <p><strong>Your Total Score:</strong> {score}</p> <br />
+      <p><strong>passing Score:</strong> {quizDetails.passingScore}</p>
+      <p><strong>Your Total Score:</strong> {score}</p>
       {score >= quizDetails.passingScore ?
         <p style={{ color: 'green' }} ><strong>Congratulations you pass</strong></p> :
         <p style={{ color: 'red' }} ><strong >Sorry you Fail</strong></p>

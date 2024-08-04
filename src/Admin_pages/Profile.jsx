@@ -3,9 +3,9 @@ import { Form, Input, Button, Upload, Select, Card, Avatar, message, Spin } from
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TNavi from '../Admin_comp/Navi';
-
+import url from '../api/api';
 const { Option } = Select;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 const Tprofile = () => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();

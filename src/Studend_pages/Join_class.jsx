@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import student from '../token/student.js'
 import axios from 'axios';
-let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
+// let url = 'http://localhost:3000/api'
 const { Title } = Typography;
 const { Meta } = Card;
 
@@ -66,6 +67,20 @@ const Join_class = () => {
     }
    }
 
+
+  //  const adminchart = async () => {
+  //   try {
+  //     await axios.post(`${url}/adminuser/chartdetail`, {
+  //       Total_Students: 0,
+  //       Total_Tasks: 0,
+  //       Total_Classes: 1,
+  //       Total_submissions: 0,
+  //       Total_teacher: 0
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const handleOk = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -79,6 +94,7 @@ const Join_class = () => {
           joininguserdata(res.data.class._id, userId)
           chart(res.data.class.teacher_id)
           studentcard(res.data.class._id)
+          // adminchart()
         })
         .catch((error) => message.error(error.response.data.message))
     } catch (error) {

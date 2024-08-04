@@ -4,7 +4,7 @@ import { Button, Row, Col, Select, Spin, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import admin from '../token/admin.js';
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 const { Option } = Select;
 
 const BarChart = () => {
@@ -31,7 +31,7 @@ const BarChart = () => {
 
   const filterData = (days) => {
     const filtered = data.filter(item => {
-      const itemDate = moment(item.created_at);
+      const itemDate = moment(item.created_at.slice(0,10));
       return itemDate.isSameOrAfter(moment().subtract(days, 'days'), 'day');
     });
     setFilteredData(filtered);
@@ -113,7 +113,7 @@ const BarChart = () => {
       <Card style={{ marginBottom: 16,  borderRadius: "36px 5px 59px 4px" }}>
         <Row gutter={16} justify="space-between" align="middle">
           <Col>
-            <Select defaultValue="today" style={{ width: 150 }} onChange={handleSelectChange}>
+            <Select  style={{ width: 150 }} onChange={handleSelectChange}>
               <Option value="today">Today</Option>
               <Option value="last3days">Last 3 Days</Option>
               <Option value="last7days">Last 7 Days</Option>

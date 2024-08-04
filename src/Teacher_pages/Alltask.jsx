@@ -6,9 +6,9 @@ import Tnavi from '../Teachercomp/Tnavi';
 import axios from 'axios';
 import { CopyOutlined } from '@ant-design/icons';
 import teacher from '../token/teacher.js';
-
+import url from '../api/api.js'
 const { Title, Paragraph } = Typography;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 
 const ALL_task = () => {
   const [tasks, setTasks] = useState([]);
@@ -79,7 +79,19 @@ const ALL_task = () => {
     { value: '2', label: 'URL' },
     { value: '3', label: 'CODE' },
   ];
-
+  const adminchart = async () => {
+    try {
+      await axios.post(`${url}/adminuser/chartdetail`, {
+        Total_Students: 0,
+        Total_Tasks: 1,
+        Total_Classes: 0,
+        Total_submissions: 0,
+        Total_teacher: 0
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleOk = (values) => {
 
     const teacherData = JSON.parse(localStorage.getItem('user'));
@@ -121,6 +133,7 @@ const ALL_task = () => {
       .then((response) => {
         message.success('Task created successfully');
         getTasks();
+        adminchart()
         // console.log(response.data.Task.teacher_id);
         chart(response.data.Task.teacher_id)
       })

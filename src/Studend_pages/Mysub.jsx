@@ -6,7 +6,8 @@ import Nav from '../Student_comp/Student_nav';
 import { Link } from 'react-router-dom';
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 const { Title, Text } = Typography;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const SubmissionData = () => {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
   const [checkedSubmissions, setCheckedSubmissions] = useState([]);

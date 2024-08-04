@@ -3,17 +3,19 @@ import { Dropdown, Menu, Avatar, Badge, Space } from 'antd';
 import { BellTwoTone, DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import url from '../api/api.js'
 const MessageDropdown = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-  const id = JSON.parse(localStorage.getItem('user'))?.userData?.id;
-  const url = `http://localhost:3000/api/noti/${id}`;
 
+  // const url = `http://localhost:3000/api/noti/${id}`;
   useEffect(() => {
     // Fetch notifications on component mount
+    
     const fetchNotifications = async () => {
+     const id = JSON.parse(localStorage.getItem('user'))?.userData?.id; 
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(`${url}/noti/${id}`);
         const data = response.data;
 
         // Ensure data.tasks is an array
@@ -28,8 +30,9 @@ const MessageDropdown = () => {
   }, [url]);
 
   const handleMarkAsRead = async () => {
+    const id = JSON.parse(localStorage.getItem('user'))?.userData?.id;
     try {
-      await axios.put(url, { status: 'read' });
+      await axios.put(`${url}/noti/${id}`, { status: 'read' });
       // Update state or refetch notifications
       setNotifications(notifications.map(notification => ({
         ...notification,

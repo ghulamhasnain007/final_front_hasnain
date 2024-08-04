@@ -6,7 +6,8 @@ import Student_nav from '../Student_comp/Student_nav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import student from '../token/student.js';
-let hosturl = 'http://localhost:3000/api'
+import hosturl from '../api/api.js'
+// let hosturl = 'http://localhost:3000/api'
 const { TextArea } = Input;
 
 const TaskSubmission = () => {
@@ -47,7 +48,19 @@ const TaskSubmission = () => {
       console.error('Error in studentCard:', error);
     }
   };
-
+  const adminchart = async () => {
+    try {
+      await axios.post(`${hosturl}/adminuser/chartdetail`, {
+        Total_Students: 0,
+        Total_Tasks: 0,
+        Total_Classes: 0,
+        Total_submissions: 1,
+        Total_teacher: 0
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleSubmit = async () => {
     const userid = JSON.parse(localStorage.getItem('user'));
     const formData = new FormData();
@@ -78,8 +91,9 @@ const TaskSubmission = () => {
         setImgFile(null);
         setUrl('');
         setFileList([]);
-        if (response.data.message == 'Submission sent successfully') {
+        if (response.data.message === 'Submission sent successfully') {
           studentCard(response.data.file)
+          adminchart()
         }
 
       } else {

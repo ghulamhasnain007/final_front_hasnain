@@ -4,7 +4,8 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
+import url from '../api/api.js'
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');

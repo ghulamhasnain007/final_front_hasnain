@@ -3,9 +3,9 @@ import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'a
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import url from '../api/api.js'
 const { Title } = Typography;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 const RegistrationForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate('')

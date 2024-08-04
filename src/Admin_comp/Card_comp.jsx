@@ -51,7 +51,7 @@ const Dashboard = () => {
        <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>Admin Dashboard</Title>
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#1890ff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Teachers"
               value={data.totalTeachers}
@@ -60,7 +60,7 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#40a9ff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Students"
               value={data.totalStudents}
@@ -69,7 +69,7 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#69c0ff' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Quizzes"
               value={data.totalQuizzes}
@@ -78,7 +78,7 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#95de64' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Tasks"
               value={data.totalTasks}
@@ -96,7 +96,7 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} md={8} lg={8}>
-          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#389e0d' }}>
+          <Card bordered={false} style={{ ...cardStyle, backgroundColor: '#52c41a' }}>
             <Statistic
               title="Total Submissions"
               value={data.totalSubmissions}

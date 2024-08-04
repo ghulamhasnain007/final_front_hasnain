@@ -7,9 +7,9 @@ import { PiDotsSixVertical } from "react-icons/pi";
 import axios from 'axios';
 import Tnavi from '../Teachercomp/Tnavi';
 import teacher from '../token/teacher.js';
-
+import url from '../api/api.js'
 const { Option } = Select;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 const CreateClassComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
@@ -71,7 +71,19 @@ const CreateClassComponent = () => {
         console.log(err);
       });
   };
-
+  const adminchart = async () => {
+    try {
+      await axios.post(`${url}/adminuser/chartdetail`, {
+        Total_Students: 0,
+        Total_Tasks: 0,
+        Total_Classes: 1,
+        Total_submissions: 0,
+        Total_teacher: 0
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleOk = () => {
     const teacherData = JSON.parse(localStorage.getItem('user'));
     form.validateFields().then((values) => {
@@ -93,6 +105,7 @@ const CreateClassComponent = () => {
           form.resetFields();
           getData();
           chart();
+          adminchart()
         })
         .catch(error => {
           console.error('Error creating class:', error);

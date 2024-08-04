@@ -55,9 +55,16 @@ function App() {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Spin size="large" />
-      </div>
+      <div style={{ textAlign: 'center', padding: '30px 50px' }}>
+      <Spin
+        size="large"
+        indicator={
+          <div style={{ color: 'green', fontSize: '24px' }}>
+            <i className="anticon anticon-loading anticon-spin"></i>
+          </div>
+        }
+      />
+    </div>
     );
   }
 
@@ -69,7 +76,7 @@ function App() {
         <Route path="/student/login" element={<Student_login />} />
         <Route path="teacher/login" element={<Teacher_login />} />
         <Route path="admin/login" element={<Admin_login />} />
-        <Route path="register" element={<Student_reg />} />
+        <Route path="student/register" element={<Student_reg />} />
 
         {/* Protected Routes */}
         <Route path="/admin/*" element={auth.role == 'admin' ? <AdminRoutes /> : <Navigate to="/admin/login" />} />

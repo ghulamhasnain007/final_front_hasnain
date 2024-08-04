@@ -3,9 +3,9 @@ import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'a
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import url from '../api/api';
 const { Title } = Typography;
-let url = 'http://localhost:3000/api'
+// let url = 'http://localhost:3000/api'
 const AdminLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate('')
@@ -18,7 +18,7 @@ const AdminLogin = () => {
     try {
       const response = await axios.post(`${url}/login/admin`, loginData)
       notification.success({
-        message: 'Login Successful',
+        message:` Welcome ${response.data.userData.username}`,
         description: response.data.message,
       });
 

@@ -31,7 +31,7 @@ const Dashboard = () => {
           <Card
             title="Total Class Join"
             bordered={false}
-            style={{ backgroundColor: '#1890ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+            style={{ backgroundColor: '#40a9ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
             <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.class_join || 0}</p>
           </Card>
@@ -40,7 +40,7 @@ const Dashboard = () => {
           <Card
             title="Total Submission"
             bordered={false}
-            style={{ backgroundColor: '#ff4d4f', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+            style={{ backgroundColor: '#40a9ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
             <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.submission || 0}</p>
           </Card>
@@ -49,7 +49,7 @@ const Dashboard = () => {
           <Card
             title="Total Points"
             bordered={false}
-            style={{ backgroundColor: '#52c41a', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+            style={{ backgroundColor: '#40a9ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
             <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.total_point || 0}</p>
           </Card>
@@ -58,7 +58,7 @@ const Dashboard = () => {
           <Card
             title="Total Quiz Score"
             bordered={false}
-            style={{ backgroundColor: '#fa8c16', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+            style={{ backgroundColor: '#40a9ff', color: '#fff', borderRadius: "39px 12px 74px 0px", boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
           >
             <p style={{ fontSize: '24px', textAlign: 'center' }}>{data.totalQuizScore || 0}</p>
           </Card>
