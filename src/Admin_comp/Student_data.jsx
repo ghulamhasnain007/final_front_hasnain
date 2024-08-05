@@ -166,7 +166,7 @@ const App = () => {
           <p><strong>Student Name:</strong> {modalData.username ? modalData.username : '' }</p>
           <p><strong>Email:</strong> {modalData.email ? modalData.email : ''}</p>
           <p><strong>Gender:</strong> {modalData.gender ? modalData.gender : '' }</p>
-          <p><strong>Joined date :</strong> {modalData.created_at ? modalData.created_at : '' }</p>
+          <p><strong>Joined date :</strong> {modalData.created_at?.slice(0,10) ? modalData.created_at?.slice(0,10) : '' }</p>
           
         </Modal>
       )}

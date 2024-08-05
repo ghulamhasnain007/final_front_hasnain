@@ -21,7 +21,7 @@ const TaskSubmission = () => {
   const [isLoadingTask, setIsLoadingTask] = useState(true); // Loader for task fetching
   const { id, classid } = useParams();
   const [fileList, setFileList] = useState([]);
-  console.log(task)
+
   const handleBeforeUpload = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -63,6 +63,7 @@ const TaskSubmission = () => {
   };
   const handleSubmit = async () => {
     const userid = JSON.parse(localStorage.getItem('user'));
+    const profile = JSON.parse(localStorage.getItem('user'))?.userData.profileurl
     const formData = new FormData();
     // formData.append('text', text);
     formData.append('file', imgFile);
@@ -74,6 +75,9 @@ const TaskSubmission = () => {
     formData.append('total_points', task.points);
     formData.append('class_name', task.class_name);
     formData.append('task_name', task.title);
+    formData.append('teacher_id', task.teacher_id);
+    formData.append('student_profile', profile);
+
     // html css js file uploade 
     
 
@@ -145,7 +149,7 @@ const TaskSubmission = () => {
       message.error('You can only upload up to 3 files.');
     }
     setFileList(newFileList);
-    console.log(newFileList)
+    // console.log(newFileList)
   };
 
   return (

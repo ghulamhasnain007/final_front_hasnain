@@ -8,7 +8,9 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { MdQuiz } from "react-icons/md";
 import axios from 'axios';
 import url from '../api/api.js'
+import Tnoti from './Tnoti.jsx'
 // let url = 'http://localhost:3000/api';
+
 const { Header } = Layout;
 
 const Navi = () => {
@@ -82,8 +84,8 @@ const Navi = () => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: 20,
-          marginTop: 20,
+          borderRadius: '5px 5px 20px 20px',
+          marginTop: 3,
           padding: '0 24px',
         }}
       >
@@ -99,7 +101,9 @@ const Navi = () => {
           }}
           items={menuItemsNav}
         />
-
+        
+       <Tnoti />
+        
         <Dropdown menu={{ items: menuItems }}>
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
             <Space style={{ color: 'white' }}>

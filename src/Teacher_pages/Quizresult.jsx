@@ -3,8 +3,7 @@ import { Table, Card, Row, Col, Spin, Button, Modal, message } from 'antd';
 import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 import { useParams } from 'react-router-dom';
-import url from '../api/api.js'
-// let url = 'http://localhost:3000/api';
+import url from '../api/api.js';
 
 const QuizResults = () => {
     const [results, setResults] = useState([]);
@@ -12,30 +11,29 @@ const QuizResults = () => {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [selectedResult, setSelectedResult] = useState(null);
     const { id } = useParams();
-
-    useEffect(() => {
-        fetchResults();
-    }, []);
-
     const fetchResults = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`${url}/quiz/${id}`);
-            // console.log('Quiz results fetched:', response.data); // Debugging
             setResults(response.data);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching quiz results:', error);
+            message.error('Failed to fetch quiz results');
+        } finally {
             setLoading(false);
         }
     };
 
+    useEffect(() => {
+        fetchResults();
+    }, []); // Fetch results when id changes
+
+
     const handleDelete = async () => {
         if (!selectedResult) return;
-
+        setDeleteModalVisible(false);
         try {
             await axios.delete(`${url}/result/result_delete/${selectedResult._id}`);
-            // console.log('Quiz result deleted:', selectedResult._id); // Debugging
-            setDeleteModalVisible(false);
             message.success('Quiz result deleted successfully!');
             fetchResults(); // Refresh results after deletion
         } catch (error) {
@@ -59,7 +57,7 @@ const QuizResults = () => {
             title: 'Student Name',
             dataIndex: 'student_name',
             key: 'student_name',
-            width: '20%',
+            width: '25%',
         },
         {
             title: 'Quiz',
@@ -78,9 +76,9 @@ const QuizResults = () => {
             title: 'Score',
             dataIndex: 'score',
             key: 'score',
-            width: '10%',
+            width: '15%',
             render: (score, record) => {
-                const passingPoint = record.passing_point; // Assuming passing_point is part of each record
+                const passingPoint = record.passing_point;
                 return (
                     <span style={{ color: score >= passingPoint ? 'green' : 'red' }}>
                         {score}
@@ -91,7 +89,7 @@ const QuizResults = () => {
         {
             title: 'Action',
             key: 'action',
-            width: '20%',
+            width: '10%',
             render: (text, record) => (
                 <Button type="link" onClick={() => showDeleteModal(record)}>Delete</Button>
             ),
@@ -99,17 +97,20 @@ const QuizResults = () => {
     ];
 
     if (loading) {
-        return <Spin size="large" />;
+        return (
+            <div style={{ textAlign: 'center', padding: '30px' }}>
+                <Spin size="large" />
+            </div>
+        );
     }
 
     return (
         <>
-            <Nav />
-            <br /><br /><br /><br /><br /><br /><br />
-            <div>
-                <center>
-                    <h1>Student Result</h1>
-                </center>
+            <Nav /> <br /><br /><br /><br /><br />
+            <center>
+                <h2>Student Quiz result</h2>
+            </center>
+            <div style={{ padding: '20px' }}>
                 <Row gutter={16}>
                     <Col span={24}>
                         <Card title="Quiz Results">
@@ -117,10 +118,10 @@ const QuizResults = () => {
                                 dataSource={results}
                                 columns={columns}
                                 pagination={{ pageSize: 10 }}
-                                scroll={{ y: 240 }}
+                                scroll={{ x: 'max-content' }} // Horizontal scroll for responsiveness
                                 size="middle"
                                 bordered
-                                rowKey="_id" // Assigning _id as the unique key for each row
+                                rowKey="_id"
                             />
                         </Card>
                     </Col>
@@ -128,7 +129,7 @@ const QuizResults = () => {
 
                 {/* Delete Modal */}
                 <Modal
-                    title={`Delete Quiz Result`}
+                    title="Delete Quiz Result"
                     open={deleteModalVisible}
                     onOk={handleDelete}
                     onCancel={hideDeleteModal}

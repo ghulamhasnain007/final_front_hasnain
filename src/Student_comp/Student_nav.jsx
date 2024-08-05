@@ -86,8 +86,8 @@ const Navi = () => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: 20,
-          marginTop: 20,
+          borderRadius: '5px 5px 20px 20px',
+          marginTop: 3,
           padding: '0 24px',
         }}
       >

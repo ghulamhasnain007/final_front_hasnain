@@ -113,7 +113,7 @@ const BarChart = () => {
       <Card style={{ marginBottom: 16,  borderRadius: "36px 5px 59px 4px" }}>
         <Row gutter={16} justify="space-between" align="middle">
           <Col>
-            <Select  style={{ width: 150 }} onChange={handleSelectChange}>
+            <Select defaultValue={"last30days"}  style={{ width: 150 }} onChange={handleSelectChange}>
               <Option value="today">Today</Option>
               <Option value="last3days">Last 3 Days</Option>
               <Option value="last7days">Last 7 Days</Option>

@@ -36,7 +36,7 @@ const UserReports = () => {
       const response = await axios.get(`${url}/classjoininguser/${id}`);
       const updatedData = response.data.map(user => ({
         ...user,
-        className: user.className || 'Default Class Name',
+        className: user.className || code.className,
         key: user._id, // Adding unique key for each row
       }));
       setData(updatedData);
@@ -80,6 +80,7 @@ const UserReports = () => {
           const userId = record._id;
           await axios.delete(`${url}/joinclass/delete`, { data: { classCode, userId } });
           message.success('Delete successful');
+          setModalOpen(false);
           getClassData(); // Refresh data after deletion
         } catch (error) {
           console.error('Error deleting user:', error);
@@ -90,6 +91,7 @@ const UserReports = () => {
   };
 
   const handleView = (record) => {
+    // console.log(record)
     setSelectedUser(record);
     setModalOpen(true);
   };
@@ -137,9 +139,9 @@ const UserReports = () => {
 
   return (
     <>
-      <Navi /><br /><br /><br /><br />
+      <Navi /><br /><br /><br /><br /> <br />
       <Layout style={{ minHeight: '100vh', borderRadius: 30 }}>
-        <h2 style={{ textAlign: 'center' }}>All Students</h2>
+        <h2 style={{ textAlign: 'center' ,marginTop : 10}}>All Students</h2>
         <Content style={{ margin: '16px 16px', borderRadius: 30 }}>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             <div style={{ marginBottom: 16, textAlign: 'center' }}>
@@ -152,7 +154,7 @@ const UserReports = () => {
               <Button type="primary" onClick={handleSearch} icon={<SearchOutlined />}>
                 Search
               </Button><br />
-              <h2>Class Name: {code.className}</h2>
+              <h2 style={{marginTop : 20 , marginBottom : 20 }} >Class: {code.className}</h2>
             </div>
             <div style={{ overflowX: 'auto', backgroundColor: 'white', borderRadius: 30 }}>
               <Table columns={columns} dataSource={data} pagination={{ pageSize: 10 }} />

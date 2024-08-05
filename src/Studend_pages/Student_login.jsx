@@ -34,7 +34,7 @@ const Student_login = () => {
       setTimeout(() => {
           window.location.href = '/student/dashboard';
         
-      }, 3000);
+      }, 1000);
     } catch (error) {
       notification.error({
         message: 'Login Failed',

@@ -74,11 +74,11 @@ const Navi = () => {
           position: 'fixed',
           top: 0,
           zIndex: 1,
-          width: '98%',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: 20,
-          marginTop: 20
+          borderRadius: '5px 5px 20px 20px',
+          marginTop: 3
         }}
       >
         <div className="demo-logo" />

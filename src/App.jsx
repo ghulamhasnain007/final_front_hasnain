@@ -49,7 +49,7 @@ function App() {
     };
 
     checkAuth();
-    console.log(auth.role);
+    // console.log(auth.role);
     
   }, []);
 

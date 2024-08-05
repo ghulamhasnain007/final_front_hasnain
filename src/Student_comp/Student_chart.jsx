@@ -130,7 +130,7 @@ const Dashboard = () => {
 
         const response = await student.get(`/point/${id}`);
         setData(response.data);
-        // console.log(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Menu, Avatar, Badge, Space } from 'antd';
-import { BellTwoTone } from '@ant-design/icons';
+import { BellOutlined  } from '@ant-design/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import url from '../api/api.js';
@@ -14,7 +14,7 @@ const MessageDropdown = () => {
     const fetchNotifications = async () => {
       const id = JSON.parse(localStorage.getItem('user'))?.userData?.id; 
       try {
-        const response = await axios.get(`${url}/noti/${id}`);
+        const response = await axios.get(`${url}/noti/get/${id}`);
         const data = response.data;
         
         // console.log('API Response:', data.count); // Log API response for debugging
@@ -32,38 +32,50 @@ const MessageDropdown = () => {
   }, [url]);
 
   const handleMarkAsRead = async () => {
-    const id = JSON.parse(localStorage.getItem('user'))?.userData?.id;
-    try {
-      await axios.put(`${url}/noti/${id}`, { status: 'read' });
-      // Update state or refetch notifications
-      setNotifications(notifications.map(notification => ({
-        ...notification,
-        read: true
-      })));
-      setUnreadCount(0); // Assuming all notifications are marked as read
-    } catch (error) {
-      console.error('Error updating notification status:', error);
+    const userId = JSON.parse(localStorage.getItem('user'))?.userData?.id;
+    
+    if (!userId) {
+        console.error('User ID is not available.');
+        return;
     }
-  };
+
+    try {
+        // Send the request to mark notifications as read
+        const response = await axios.put(`${url}/noti/update/${userId}`, { status: 'read' });
+
+        if (response.status === 200) {
+            // Update the notifications state
+            setNotifications(notifications.map(notification => ({
+                ...notification,
+                read: true
+            })));
+
+            // Reset unread count
+            setUnreadCount(0);
+        } else {
+            console.error('Failed to update notification status:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error updating notification status:', error);
+    }
+};
+
 
   const items = notifications.map((notification) => ({
     key: notification.id,
     label: (
       <div style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', backgroundColor: '#fff', display: 'flex', alignItems: 'center', borderRadius: "39px 12px 74px 0px" }}>
-        <Link to={`/student/join/${notification.class_id}`} >
-          <Avatar src={notification.teacher_profile || 'https://via.placeholder.com/40'} style={{ backgroundColor: '#f56a00', color: '#fff' }} />
+        <Link to={`/teacher/createclasswork/${notification.class_id}/task/${notification.task_id}`} >
+          <Avatar src={notification.student_profile || 'https://via.placeholder.com/40'} style={{ backgroundColor: '#f56a00', color: '#fff' }} />
           <div style={{ marginLeft: 12, flex: 1 }}>
             <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>
-              {notification.teacher_name} posted a new assignment
+              {notification.student_name} submitted an assignment
             </p>
             <p style={{ margin: '4px 0', fontSize: '13px', color: '#595959' }}>
-              Assignment name: {notification.title}
+              Assignment: {notification.task_name }
             </p>
             <p style={{ margin: '4px 0', fontSize: '13px', color: '#000' }}>
-              Last Date: {notification.last_date.slice(0, 10)}
-            </p>
-            <p style={{ margin: 0, fontSize: '12px', color: '#1890ff' }}>
-              {notification.points} points
+              Date: {notification.created_at?.slice(0, 10)}
             </p>
           </div>
         </Link>
@@ -81,7 +93,7 @@ const MessageDropdown = () => {
     >
       <Space>
         <Badge count={unreadCount} style={{ backgroundColor: '#52c41a', marginRight: '20px', marginTop: '23px' }}>
-          <BellTwoTone
+          <BellOutlined 
             style={{ fontSize: '24px', color: '#fff', cursor: 'pointer', marginRight: '20px', marginTop: '23px' }}
             onClick={unreadCount > 0 ? handleMarkAsRead : null} // Only call handleMarkAsRead if there are unread notifications
           />
