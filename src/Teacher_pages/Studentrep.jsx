@@ -14,6 +14,7 @@ const UserReports = () => {
   const [searchText, setSearchText] = useState('');
   const [data, setData] = useState([]);
   const [code, setCode] = useState('');
+  const [student_id , setid] = useState('')
   const { id } = useParams();
 
   useEffect(() => {
@@ -36,11 +37,10 @@ const UserReports = () => {
       const response = await axios.get(`${url}/classjoininguser/${id}`);
       const updatedData = response.data.map(user => ({
         ...user,
-        className: user.className || code.className,
         key: user._id, // Adding unique key for each row
       }));
       setData(updatedData);
-      // console.log(response.data);
+      console.log(updatedData);
     } catch (error) {
       console.error('Error fetching class details:', error);
     }
@@ -57,11 +57,11 @@ const UserReports = () => {
 
         const updatedData = response.data.map(user => ({
           ...user,
-          className: user.className || 'Default Class Name',
+
           key: user._id, // Adding unique key for each row
         }));
         setData(updatedData);
-        // console.log(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching class details:', error);
       }
@@ -90,12 +90,14 @@ const UserReports = () => {
     });
   };
 
-  const handleView = (record) => {
-    // console.log(record)
+  const handleView = async(record) => {
+    const res = await axios.get(`${url}/tasksubmit/${id}/${record._id}`);
+    setid(res.data)
     setSelectedUser(record);
     setModalOpen(true);
-  };
 
+    
+  };
   const closeModal = () => {
     setModalOpen(false);
     setSelectedUser(null);
@@ -180,8 +182,9 @@ const UserReports = () => {
             <center><Avatar src={selectedUser.profileurl} size={64} /></center>
             <p><strong>Name:</strong> {selectedUser.username}</p>
             <p><strong>Email:</strong> {selectedUser.email}</p>
-            <p><strong>Class Name:</strong> {selectedUser.className}</p>
-            {/* <p><strong>Join Date:</strong> {selectedUser.datereport}</p> */}
+            <p><strong>Class Name:</strong> {code.className}</p>
+            <p><strong>Total assigemnt : </strong> {`${student_id.total_assigemnt ? student_id.total_assigemnt : 0}`}</p>
+            <p><strong>Submitted  : </strong> {`${student_id.student_submissions ? student_id.student_submissions: 0}`}</p>
           </>
         )}
       </Modal>
