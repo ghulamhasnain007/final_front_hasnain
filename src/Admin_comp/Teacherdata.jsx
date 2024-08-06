@@ -15,7 +15,7 @@ const App = (refresh) => {
       const response = await admin.get('/users');
       const teacherWithKeys = response.data.teacher.map((teacher, index) => ({
         ...teacher,
-        key: index.toString(),
+        key: index + 1 ,
       }));
       setTeacher(teacherWithKeys);
     } catch (error) {
@@ -46,7 +46,7 @@ const App = (refresh) => {
     try {
       await admin.delete(`/users/delete/${id}`);
       // console.log('Teacher deleted successfully');
-      fetchTeacher(); // Refresh teacher data after deletion
+      fetchTeacher(); 
     } catch (error) {
       console.error('Error deleting teacher:', error);
     }
@@ -60,7 +60,7 @@ const App = (refresh) => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        handleDelete(record._id); // Call handleDelete with the teacher's ID
+        handleDelete(record._id); 
       },
       onCancel() {
         // console.log('Cancel');
@@ -70,7 +70,6 @@ const App = (refresh) => {
 
   const handleSearch = (value) => {
     if (value) {
-      // Perform filtering based on the search value (username)
       const filteredTeacher = teacher.filter(teacher =>
         teacher.username.toLowerCase().includes(value.toLowerCase())
       );
@@ -81,6 +80,11 @@ const App = (refresh) => {
   };
 
   const columns = [
+    {
+      title: '#',
+      dataIndex: 'key',
+      key: 'key',
+    },
     {
       title: 'Profile Image',
       dataIndex: 'profileurl',
@@ -117,7 +121,7 @@ const App = (refresh) => {
           <Button
             type="danger"
             icon={<DeleteOutlined style={{ color: 'red' }} />}
-            onClick={() => showDeleteConfirm(record)} // Show delete confirmation modal
+            onClick={() => showDeleteConfirm(record)} 
           >
             Delete
           </Button>
@@ -128,14 +132,16 @@ const App = (refresh) => {
 
   return (
     <div>
-      <br /><br /><br /><br />
+      <br /><br />
+      {/* <br /><br /> */}
       <center>
         <h3 style={{ textAlign: 'center' }}>Manage All Teachers</h3>
         <Search
           placeholder="Search teacher by name"
           style={{ width: '60%', marginBottom: 10 }}
           onSearch={handleSearch}
-        /> <br />
+        />
+         <br />
        
       </center>
       <br />
@@ -149,7 +155,7 @@ const App = (refresh) => {
       {modalData && (
         <Modal
           title="Teacher Details"
-          open={isModalOpen} // Use visible instead of open
+          open={isModalOpen} 
           onCancel={handleCancel}
           footer={[
             <Button key="back" onClick={handleCancel}>
@@ -163,10 +169,10 @@ const App = (refresh) => {
           <center>
             <Avatar src={modalData.profileurl ? modalData.profileurl : ''} size={64} />
           </center>
-          <p><strong>Teacher Name:</strong> {modalData.username ? modalData.username : ''}</p>
+          <p><strong>Teacher Name:</strong> Sir  {modalData.username ? modalData.username : ''}</p>
           <p><strong>Email:</strong> {modalData.email ? modalData.email : ''}</p>
           <p><strong>Gender:</strong> {modalData.gender ? modalData.gender : ''}</p>
-          <p><strong>Joined date :</strong> {modalData.created_at ? modalData.created_at : ''}</p>
+          <p><strong>Joined date :</strong> {modalData.created_at?.slice(0,10) ? modalData.created_at?.slice(0,10) : ''}</p>
         </Modal>
       )}
     </div>
