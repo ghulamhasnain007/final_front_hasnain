@@ -205,8 +205,9 @@ const CodeExecutionComponent = () => {
                     />
 
                     <center>
-                        <h4>Teacher review</h4>
-                        <p>{submission.message}</p>
+
+                        <h4>{ submission.message ? 'Teacher review' : ''}</h4>
+                        <p>{submission.message ? submission.message : ''}</p>
                         <h4>Point</h4> 
                         <p>{submission.point}/{submission.total_points}</p>
                         

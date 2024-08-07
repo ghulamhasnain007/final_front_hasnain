@@ -149,7 +149,12 @@ const App = () => {
       key: 'key',
     },
     {
-      title: 'Quiz_Name',
+      title: 'Teacher',
+      dataIndex: 'teacherName',
+      key: 'teacherName',
+    },
+    {
+      title: 'Quiz',
       dataIndex: 'quizName',
       key: 'quizName',
     },
@@ -191,6 +196,7 @@ const App = () => {
         quizName : quiz.quizName, 
         passing_point: quiz.passing_point,
         score: quiz.score, 
+        teacherName : `Sir ${quiz.teacherName}`,
         date : quiz.date.slice(0,10),
       }))
     : [];

@@ -26,7 +26,7 @@ const QuizResults = () => {
 
     useEffect(() => {
         fetchResults();
-    }, []); // Fetch results when id changes
+    }, []); 
 
 
     const handleDelete = async () => {
@@ -118,7 +118,7 @@ const QuizResults = () => {
                                 dataSource={results}
                                 columns={columns}
                                 pagination={{ pageSize: 10 }}
-                                scroll={{ x: 'max-content' }} // Horizontal scroll for responsiveness
+                                scroll={{ x: 'max-content' }} 
                                 size="middle"
                                 bordered
                                 rowKey="_id"

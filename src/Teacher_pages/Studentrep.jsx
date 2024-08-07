@@ -185,6 +185,7 @@ const UserReports = () => {
             <p><strong>Class Name:</strong> {code.className}</p>
             <p><strong>Total assigemnt : </strong> {`${student_id.total_assigemnt ? student_id.total_assigemnt : 0}`}</p>
             <p><strong>Submitted  : </strong> {`${student_id.student_submissions ? student_id.student_submissions: 0}`}</p>
+            <p><strong> Not Submitted  : </strong> {`${student_id.total_assigemnt -  student_id.student_submissions ? student_id.total_assigemnt -  student_id.student_submissions  : 0   }`}</p>
           </>
         )}
       </Modal>
