@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
-
+import Smit from './Smit'
 const getItems = (panelStyle) => [
   {
     key: '1',
@@ -81,11 +81,13 @@ const ContentComponent = () => {
 
   return (
     <div className="content">
-    
       <div className="home-container" style={{ backgroundColor: '#f0f2f5', padding: '50px 20px' }}>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} md={12}>
-            <h1 className="home-title" data-aos="fade-right" style={{ color: '#40a9ff', fontSize: '2.5rem',textShadow : '-5px 6px 6px rgba(66, 68, 90, 1)' }}>
+            <h1 className="home-title" data-aos="fade-right"
+             style={{ color: '#40a9ff', fontSize: '2.5rem',
+              textShadow : '-5px 6px 6px rgba(66, 68, 90, 1)' }}
+             >
               Welcome to the SMIT Assignment Submission Portal
             </h1>
             <p className="home-description" data-aos="fade-up-right" style={{ color: '#52c41a', fontSize: '1.2rem'  ,textShadow : '-5px 6px 6px rgba(66, 68, 90, 1)'}}>
@@ -103,19 +105,27 @@ const ContentComponent = () => {
               </Button>
             </Link>
           </Col>
+          
           <Col xs={24} md={12}>
-            <img
+            {/* <img
               className="home-image"
               data-aos="fade-down-left"
               src="https://tse4.mm.bing.net/th?id=OIG2.ghqug.oXg8fzA9zIh0xA&pid=ImgGn"
               alt="Assignment Submission"
               style={{ width: '100%', borderRadius: '10px' }}
-            />
+            /> */}
+
+            <Smit />
           </Col>
         </Row>
       </div>
 
-      <section className="main-feature" style={{ margin: '50px 0', padding: '50px 20px' }}>
+      <section className="main-feature" 
+      
+      // style={{ margin: '50px 0', padding: '50px 20px' }}
+
+
+      >
         <center>
           <h2 data-aos="zoom-in-down" style={{ color: '#1890ff', marginBottom: '20px' }}>OUR MAIN FEATURE</h2>
           <Card
@@ -123,10 +133,10 @@ const ContentComponent = () => {
             style={{
               borderRadius: '30px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-              padding: '40px',
+              padding: '10px',
               maxWidth: '800px',
               margin: '20px 0',
-              backgroundColor: '#fff',
+              backgroundColor: 'transparent',
             }}
           >
             <h1 style={{ color: '#40a9ff' }}>AI Integration</h1>
