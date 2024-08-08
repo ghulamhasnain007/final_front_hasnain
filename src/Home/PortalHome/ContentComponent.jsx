@@ -106,7 +106,7 @@ const ContentComponent = () => {
             </Link>
           </Col>
           
-          <Col xs={24} md={12}>
+          <Col xs={24} sm={12} md={12} lg={12}   >
             {/* <img
               className="home-image"
               data-aos="fade-down-left"
