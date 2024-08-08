@@ -81,7 +81,7 @@ const App = () => {
   const updateScoresInMongoDB = async (data) => {
     try {
       const res = await axios.post(`${url}/ai/update-scores`, { assignments: data });
-      console.log('Updated in MongoDB:', res.data);
+      // console.log('Updated in MongoDB:', res.data);
       getSubmissions(); // Refresh submissions list
       setailoader(false);
       setPrompt('')
@@ -127,7 +127,7 @@ const App = () => {
   };
 
   const handlePointChange = (value) => {
-    console.log(value);
+    // console.log(value);
     setSelectedItem(prev => ({ ...prev, point: value }));
   };
 
@@ -152,7 +152,7 @@ const App = () => {
 
 
   const handleAddPoint = () => {
-    console.log(selectedItem._id, selectedItem.point)
+    // console.log(selectedItem._id, selectedItem.point)
 
     axios.put(`${url}/createtask/point/${selectedItem._id}`, { point: selectedItem.point, message: messagee ? messagee : selectedItem.message })
 
@@ -160,7 +160,7 @@ const App = () => {
         message.success('Point updated successfully');
         getSubmissions();
         setIsModalOpen(false);
-        console.log(response.data);
+        // console.log(response.data);
         studentcard(response.data)
         // Update the data to reflect the changes
         setData(prevData => prevData.map(item => item._id === selectedItem._id ? { ...item, point: selectedItem.point } : item));
@@ -176,7 +176,7 @@ const App = () => {
     axios.get(`${url}/createtask/submittask/${taskId}`)
       .then((res) => {
         setIns(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -191,7 +191,7 @@ const App = () => {
         setPending(res.data.pending);
         setChecked(res.data.checked);
         setLoading(false);
-        console.log(submissions);
+        // console.log(submissions);
       })
       .catch((err) => {
         console.log(err);
