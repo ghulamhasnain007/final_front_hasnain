@@ -4,6 +4,7 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
 const { Title } = Typography;
+import Animation from '../Teachercomp/Particle.jsx'
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
 const TeacherLogin = () => {
@@ -38,6 +39,7 @@ const TeacherLogin = () => {
   return (
 
     <>
+<Animation/>
     <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' , borderRadius : 20 }}>
       <Row justify="center" style={{ width: '100%' }}>
         <Col xs={24} sm={20} md={16} lg={12} xl={10}>

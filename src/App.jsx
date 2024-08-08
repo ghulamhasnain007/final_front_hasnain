@@ -34,7 +34,7 @@ import Result from './Student_comp/Result';
 import Studentresult from './Teacher_pages/Quizresult';
 import Code from './Teacher_pages/Code';
 import Mycode from './Studend_pages/Mycode';
-
+import Cha from './Admin_comp/Cha'
 function App() {
   const [auth, setAuth] = useState({ user: '', role: '' });
   const [loading, setLoading] = useState(true);
@@ -73,6 +73,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/cha" element={<Cha />} />
         <Route path="/student/login" element={<Student_login />} />
         <Route path="teacher/login" element={<Teacher_login />} />
         <Route path="admin/login" element={<Admin_login />} />

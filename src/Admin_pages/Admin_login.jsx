@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import url from '../api/api';
 const { Title } = Typography;
+import Particle from '../Admin_comp/Animation'
 // let url = 'http://localhost:3000/api'
 const AdminLogin = () => {
   const [form] = Form.useForm();
@@ -42,6 +43,7 @@ const AdminLogin = () => {
 
   return (
     <>
+    <Particle/>
       <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: 450, padding: '30px', borderRadius: 20 }}>
           <Link to={'/'}>

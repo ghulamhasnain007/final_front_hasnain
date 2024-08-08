@@ -43,11 +43,11 @@ const ParticlesComponent = (props) => {
         events: {
           onClick: {
             enable: true,
-            mode: "repulse",
+            mode: "push",
           },
           onHover: {
             enable: true,
-            mode: 'grab',
+            mode: 'repulse',
           },
         },
         modes: {
@@ -62,14 +62,14 @@ const ParticlesComponent = (props) => {
       },
       particles: {
         color: {
-          value: "#FFFFFF",
+          value: "#52c41a",
         },
         links: {
-          color: "#FFFFFF",
+          color: "#52c41a",
           distance: 150,
           enable: true,
           opacity: 0.3,
-          width: 1,
+          width: 3,
         },
         move: {
           direction: "none",

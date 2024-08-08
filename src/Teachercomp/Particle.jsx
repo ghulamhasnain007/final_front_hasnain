@@ -43,7 +43,7 @@ const ParticlesComponent = (props) => {
         events: {
           onClick: {
             enable: true,
-            mode: "repulse",
+            mode: "push",
           },
           onHover: {
             enable: true,
@@ -62,10 +62,10 @@ const ParticlesComponent = (props) => {
       },
       particles: {
         color: {
-          value: "#FFFFFF",
+          value: "#52c41a",
         },
         links: {
-          color: "#FFFFFF",
+          color: "#52c41a",
           distance: 150,
           enable: true,
           opacity: 0.3,
@@ -85,7 +85,7 @@ const ParticlesComponent = (props) => {
           density: {
             enable: true,
           },
-          value: 150,
+          value: 350,
         },
         opacity: {
           value: 1.0,
@@ -94,7 +94,7 @@ const ParticlesComponent = (props) => {
           type: "circle",
         },
         size: {
-          value: { min: 1, max: 3 },
+          value: { min: 5, max: 6 },
         },
       },
       detectRetina: true,

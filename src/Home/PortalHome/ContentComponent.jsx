@@ -81,6 +81,7 @@ const ContentComponent = () => {
 
   return (
     <div className="content">
+    
       <div className="home-container" style={{ backgroundColor: '#f0f2f5', padding: '50px 20px' }}>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} md={12}>

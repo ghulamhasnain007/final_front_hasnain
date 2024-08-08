@@ -5,6 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import url from '../api/api.js'
 const { Title } = Typography;
+import ParticlesComponent from '../Student_comp/Animation.jsx';
 // let url = 'http://localhost:3000/api'
 const RegistrationForm = () => {
   const [form] = Form.useForm();
@@ -50,16 +51,21 @@ const RegistrationForm = () => {
   };
 
   return (
+
+    <>
+    
+    {/* <Header/> */}
+    <ParticlesComponent/>
     <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-      <Row justify="center" style={{ width: '100%' }} gutter={16}>
+    
+     
+      <Row justify="center" style={{ width: '100%' }} gutter={20}>
+         
         {/* Left Column with Image */}
-        <Col xs={0} sm={0} md={12} lg={12} xl={10} style={{ paddingRight: '20px' }}>
-          <img
-            src="https://media.istockphoto.com/id/1328208611/vector/homework-assignment-concept-of-e-learning-online-education-home-schooling-web-courses.jpg?s=612x612&w=0&k=20&c=c4Kkn-8vtY82xm4Q69-0cX9DSFujE-PYCpl8MJn8wUA="
-            alt="Registration Illustration"
-            style={{ width: '100%', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' , height : 450 }}
-          />
-        </Col>
+        <Col xs={0} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+       <h1 style={{ width: '100%',  borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 , color : 'white',marginBottom : 30  }} >Welcome! We're excited to have you join our community. To get started, please fill out the registration form below. </h1>
+      
+      </Col>
 
         {/* Right Column with Form */}
         <Col xs={24} sm={24} md={12} lg={10} xl={8}>
@@ -133,6 +139,8 @@ const RegistrationForm = () => {
         </Col>
       </Row>
     </div>
+
+    </>
   );
 };
 

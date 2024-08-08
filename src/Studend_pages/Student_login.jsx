@@ -6,7 +6,7 @@ import axios from 'axios';
 import url from '../api/api.js'
 const img = 'https://img.freepik.com/free-photo/computer-security-with-login-password-padlock_107791-16191.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=sph';
 // let url = 'http://localhost:3000/api';
-
+import ParticlesComponent from '../Student_comp/Animation.jsx';
 const Student_login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -54,9 +54,16 @@ const Student_login = () => {
   };
 
   return (
+
+   
+
     <Row style={{ minHeight: '100vh' }}>
+       <ParticlesComponent/>
       <Col xs={0} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img src={img} alt="Logo" style={{ width: '80%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 }} />
+        {/* <img src={img} alt="Logo" style={{ width: '80%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 }} /> */}
+       
+       <h1 style={{ width: '100%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 , color : 'white' ,fontSize : 30 }} >Welcome back! Please enter your credentials to access your account. </h1>
+      
       </Col>
       <Col xs={24} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Card
@@ -96,11 +103,13 @@ const Student_login = () => {
               <Button type="primary" htmlType="submit" style={{ width: '100%', marginBottom: 10 }}>
                 Login
               </Button>
+<br />
+              <p>Don't have an account? <Link to={'/student/register'}>Register</Link></p>
+ <br /><br />
               <Button type="default" onClick={handleBackToHome} style={{ width: '100%', marginBottom: 10 }}>
                 Back to Home
               </Button>
-              <br />
-              <p>Don't have an account? <Link to={'/student/register'}>Register</Link></p>
+              
             </Form.Item>
           </Form>
         </Card>
