@@ -269,9 +269,9 @@ const CreateClassComponent = () => {
                   </p>
                   <p style={{ marginBottom: 10 }}><strong>Create date:</strong> {`${classDetails.created_at ? classDetails.created_at.slice(0, 10) : 'N/A'} `}</p>
                   <div>
-                    <Tooltip title="Go to the task">
+                    <Tooltip title="Go to the Assigment">
                       <Link style={{ textDecorationLine: 'none' }} to={`/teacher/createclasswork/${classDetails._id}`} onClick={() => setClickedCardIndex(index)}>
-                        Go to the Task
+                        Go to the Assigment
                       </Link>
                     </Tooltip>
                     <br />

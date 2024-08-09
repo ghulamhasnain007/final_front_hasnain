@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, Row, Col, notification } from 'antd';
+import { Card, Form, Input, Button, Row, Col, notification, Typography } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import ParticlesComponent from '../Student_comp/Animation.jsx';
 const Student_login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
+  const { Title } = Typography;
   const onFinish = async (values) => {
     const regdata = {
       email: values.email,
@@ -56,31 +56,36 @@ const Student_login = () => {
   return (
 
 
-
-    <Row style={{ minHeight: '100vh'   }}  >
+<div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+    <Row style={{ minHeight: '100vh' }}  >
       <ParticlesComponent />
       <Col xs={0} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {/* <img src={img} alt="Logo" style={{ width: '80%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 }} /> */}
+        <center>
 
-        <h1 style={{ width: '100%', maxWidth: 400, borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10, color: 'white', fontSize: 30 }} >Welcome back! Please enter your credentials to access your account. </h1>
 
+          <h1 style={{ width: '100%',  borderRadius: 20,  marginBottom: 30 , color : 'white' }} >Welcome back! Please enter your credentials to access your account. </h1>
+        </center>
       </Col>
       <Col xs={24} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Card
-          title="Login"
+          // title="Login"
           style={{
-            width: '100%',
+            width: '90%',
             maxWidth: 400,
             borderRadius: 20,
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
             padding: '20px',
+            marginBottom: 50
           }}
         >
+           <Title level={3} style={{ textAlign: 'center', color: '#1890ff' }}>Login</Title>
           <Form
             form={form}
             name="login_form"
             initialValues={{ remember: true }}
             onFinish={onFinish}
+            
           >
             <Form.Item
               name="email"
@@ -103,18 +108,23 @@ const Student_login = () => {
               <Button type="primary" htmlType="submit" style={{ width: '100%', marginBottom: 10 }}>
                 Login
               </Button>
-              <br />
-              <p>Don't have an account? <Link to={'/student/register'}>Register</Link></p>
-              <br /><br />
-              <Button type="default" onClick={handleBackToHome} style={{ width: '100%', marginBottom: 10 }}>
-                Back to Home
-              </Button>
 
+              <center>
+                <br /> 
+                <p>Don't have an account? <Link to={'/student/register'}>Register</Link></p>
+                <br />
+
+                <Button type="default" onClick={handleBackToHome} style={{ marginBottom: 10 }}>
+                  Back to Home
+                </Button>
+              </center>
             </Form.Item>
           </Form>
         </Card>
       </Col>
     </Row>
+</div>
+    
   );
 };
 

@@ -131,14 +131,14 @@ const ALL_task = () => {
 
     teacher.post('/createtask', newTask)
       .then((response) => {
-        message.success('Task created successfully');
+        message.success('Assigment created successfully');
         getTasks();
         adminchart()
         // console.log(response.data.Task.teacher_id);
         chart(response.data.Task.teacher_id)
       })
       .catch((error) => {
-        console.error('Error adding task:', error);
+        console.error('Error adding Assigment:', error);
         message.error(error.response.data.message);
       });
 
@@ -158,7 +158,7 @@ const ALL_task = () => {
     };
     teacher.put(`/createtask/update`, updatedTask)
       .then((response) => {
-        message.success('Task updated successfully');
+        message.success('Assigment updated successfully');
         getTasks();
       })
       .catch(error => {
@@ -184,7 +184,7 @@ const ALL_task = () => {
         getTasks();
       })
       .catch(error => {
-        console.error('Error deleting task:', error);
+        console.error('Error deleting Assigment:', error);
         message.error(error.response.data.message);
       });
   };
@@ -220,7 +220,7 @@ const ALL_task = () => {
         ) : (
           <>
             <Card
-              title={<Title level={3} style={{ color: '#ffffff', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}>Teacher Name: {classdata.teacher_name}</Title>}
+              title={<Title level={3} style={{ color: '#ffffff', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}>Teacher : Sir {classdata.teacher_name}</Title>}
               style={{
                 marginBottom: '20px',
                 borderRadius: '35px 31px 31px 23px',
@@ -230,7 +230,7 @@ const ALL_task = () => {
               }}
             >
               <Paragraph>
-                <strong>Class Name: </strong> {classdata.className}
+                <strong>Class : </strong> {classdata.className}
               </Paragraph>
               <Paragraph>
                 <strong>Description: </strong> {classdata.description}
@@ -256,7 +256,7 @@ const ALL_task = () => {
             </Card>
             <center>
               <Button type="primary" onClick={showModal} style={{ marginTop: '20px' }}>
-                Add New Task
+                Add New Assigment
               </Button>
             </center>
 
@@ -270,12 +270,12 @@ const ALL_task = () => {
                         <Card
                           className="card-hover"
                           hoverable
-                          title={`Task Name: ${task.title}`}
+                          title={`Assigment : ${task.title}`}
                           style={{ height: '100%', backgroundColor: '#f9f9f9' }}
                         >
                           {isPastDate(task.last_date) && (
                             <Alert
-                              message="Task Submission Closed"
+                              message="Submission Closed"
                               type="error"
                               showIcon
                               style={{ marginBottom: '10px' }}
@@ -322,7 +322,7 @@ const ALL_task = () => {
             )}
 
             <Modal
-              title='Add New Task'
+              title='Add New Assigment'
               open={isModalOpen}
               onOk={() => form.submit()}
               onCancel={handleCancel}
@@ -332,10 +332,10 @@ const ALL_task = () => {
               <Form form={form} layout="vertical" onFinish={handleOk} onFinishFailed={onFinishFailed}>
                 <Form.Item
                   name="taskTitle"
-                  label="Task Title"
-                  rules={[{ required: true, message: 'Please enter task title' }]}
+                  label="Assigment Title"
+                  rules={[{ required: true, message: 'Please enter assigment title' }]}
                 >
-                  <Input placeholder="Enter task title" />
+                  <Input placeholder="Enter assigment title" />
                 </Form.Item>
                 <Form.Item name="instructions" label="Instructions"
                   rules={[{ required: true, message: 'Please enter instruction' }]}
@@ -384,7 +384,7 @@ const ALL_task = () => {
             </Modal>
 
             <Modal
-              title='Edit Task'
+              title='Edit Assigment'
               open={isEditModalOpen}
               onOk={() => editForm.submit()}
               onCancel={handleEditCancel}
@@ -394,10 +394,10 @@ const ALL_task = () => {
               <Form form={editForm} layout="vertical" onFinish={handleEditOk} onFinishFailed={onFinishFailed}>
                 <Form.Item
                   name="taskTitle"
-                  label="Task Title"
-                  rules={[{ required: true, message: 'Please enter task title' }]}
+                  label="Assigment Title"
+                  rules={[{ required: true, message: 'Please enter assigment title' }]}
                 >
-                  <Input placeholder="Enter task title" />
+                  <Input placeholder="Enter assigment title" />
                 </Form.Item>
                 <Form.Item name="instructions" label="Instructions">
                   <Input.TextArea placeholder="Enter instructions" rows={4} />

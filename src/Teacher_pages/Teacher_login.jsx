@@ -41,7 +41,7 @@ const TeacherLogin = () => {
     <>
 <Animation/>
     <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' , borderRadius : 20 }}>
-      <Row justify="center" style={{ width: '100%' }}>
+      <Row justify="center" style={{ width: '80%' }}>
         <Col xs={24} sm={20} md={16} lg={12} xl={10}>
          <Link to={'/'}>
             <Button style={{ marginBottom: 20 }}>Back to Home</Button>

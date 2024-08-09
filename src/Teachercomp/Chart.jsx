@@ -82,7 +82,7 @@ const DashboardPage = () => {
       >
         <Option value="all">All</Option>
         <Option value="totalStudents">Total Students</Option>
-        <Option value="totalTasks">Total Tasks Created</Option>
+        <Option value="totalTasks">Total Assigment Created</Option>
         <Option value="totalClasses">Total Classes Created</Option>
         <Option value="totalquiz">Total Quiz</Option>
       </Select>

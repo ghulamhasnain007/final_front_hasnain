@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Card, Collapse } from 'antd';
+import { Row, Col, Button, Card, Collapse, Typography } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
 import Smit from './Smit'
+const { Title, Paragraph } = Typography;
 const getItems = (panelStyle) => [
   {
     key: '1',
@@ -106,7 +107,7 @@ const ContentComponent = () => {
             </Link>
           </Col>
           
-          <Col xs={24} sm={12} md={12} lg={12}   >
+          <Col xs={24} sm={12} md={12} lg={12} style={{width : '80%'}}   >
             {/* <img
               className="home-image"
               data-aos="fade-down-left"
@@ -251,7 +252,49 @@ const ContentComponent = () => {
           />
         </center>
       </section>
-    </div>
+      <br /><br />
+      <Card title="Why Choose Our Portal?" style={{ margin: '20px', backgroundColor: 'transparent' }}>
+      <Row gutter={[16, 16]}>
+        <Col xs={24}>
+          <p>
+            Our portal is a comprehensive and user-friendly solution designed to streamline the assignment submission process for students and teachers alike. Here's why you should choose our portal:
+          </p>
+        </Col>
+
+        <Col xs={24}>
+          <h3>Key Features</h3>
+        </Col>
+
+        <Col xs={24} md={12}>
+          <Card type="inner" title="Our Portal" bordered={false}>
+            <ul>
+              <li><strong>AI-Powered Assignment Evaluation:</strong> Ensures assignments are evaluated with precision, providing instant and accurate feedback.</li>
+              <li><strong>Real-Time Collaboration:</strong> Allows for seamless communication with features like instant feedback and real-time updates.</li>
+              <li><strong>Efficient Task Management:</strong> Simplifies task management with deadline tracking, progress monitoring, and easy submission options.</li>
+              <li><strong>Performance Analytics:</strong> Offers advanced tools to track student progress and make data-driven decisions.</li>
+              <li><strong>Role-Based Access Control:</strong> Provides secure, role-based access to the most relevant features.</li>
+              <li><strong>Easy Integration:</strong> Integrates seamlessly with existing tools, including popular platforms like Google Classroom.</li>
+              <li><strong>User-Friendly Interface:</strong> Designed for users of all tech-savviness levels with a clean, intuitive layout.</li>
+            </ul>
+          </Card>
+        </Col>
+
+        <Col xs={24} md={12}>
+          <Card type="inner" title="Google Classroom" bordered={false}>
+            <ul>
+              <li>Basic assignment submission and feedback options without AI-powered precision.</li>
+              <li>Real-time collaboration limited to comments and document sharing.</li>
+              <li>Standard task management with basic deadline and submission tracking.</li>
+              <li>Limited analytics tools with basic performance tracking.</li>
+              <li>Standard role-based access, but less customizable.</li>
+              <li>Primarily focused on Google ecosystem integration, limiting flexibility with other tools.</li>
+              <li>User-friendly interface but may lack advanced customization options.</li>
+            </ul>
+          </Card>
+        </Col>
+      </Row>
+    </Card>
+    </div> 
   );
 };
 

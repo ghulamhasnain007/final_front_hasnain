@@ -99,7 +99,7 @@ const DashboardPage = () => {
               onMouseLeave={(e) => (e.currentTarget.style = { ...cardStyle })}
             >
               <Statistic
-                title="Total Tasks Created"
+                title="Total Assigment Created"
                 value={totalTasks}
                 valueStyle={{ color: '#722ed1' }}
               />

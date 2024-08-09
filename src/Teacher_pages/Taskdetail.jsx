@@ -246,7 +246,7 @@ const App = () => {
 
         <Row justify="space-between" align="middle" style={{ padding: '0 20px', marginTop: '20px' }}>
           <Col>
-            <h3>Task Instruction: {ins.instructions}</h3>
+            <h3> Instruction: {ins.instructions}</h3>
           </Col>
           <Col>
             <Button

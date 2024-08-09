@@ -62,9 +62,12 @@ const App = () => {
   }
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
-      <Student_nav />
+    <>
+    
+    <Student_nav />
       <br /><br /><br /><br /><br />
+    <div style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
+      
       {data.length > 0 ? (
         <Card title={`Class Name: ${classData.className}`} style={{ backgroundColor: '#fff',borderRadius: "6px 14px 66px 38px" }}>
           {data.map((item, index) => (
@@ -129,6 +132,8 @@ const App = () => {
         <Empty description="No Task Available" />
       )}
     </div>
+</>
+
   );
 };
 

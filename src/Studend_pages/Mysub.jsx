@@ -80,7 +80,7 @@ const SubmissionData = () => {
                 >
                   <div style={{ height: 150 }}>
                     <Title level={4} style={{ marginBottom: 0 }}>Class: {submission.class_name || ''}</Title>
-                    <p style={{ marginTop: 8 }}><strong>Task Name:</strong> {submission.task_name || ''}</p>
+                    <p style={{ marginTop: 8 }}><strong>Assigment :</strong> {submission.task_name || ''}</p>
                     <p><strong>Points:</strong> {`${submission.point} / ${submission.total_points}`}</p>
                     <p>
                       <ClockCircleOutlined style={{ color: '#faad14' }} /> Pending
@@ -112,7 +112,7 @@ const SubmissionData = () => {
                 >
                   <div style={{ height: 150 }}>
                     <Title level={4} style={{ marginBottom: 0 }}>Class: {submission.class_name || ''}</Title>
-                    <p style={{ marginTop: 8 }}><strong>Task Name:</strong> {submission.task_name || ''}</p>
+                    <p style={{ marginTop: 8 }}><strong>Assigment :</strong> {submission.task_name || ''}</p>
                     <p><strong>Points:</strong> {`${submission.point} / ${submission.total_points}`}</p>
                     <p>
                       <CheckCircleOutlined style={{ color: '#52c41a' }} /> Checked
@@ -140,7 +140,7 @@ const SubmissionData = () => {
           {currentSubmission && (
             <div>
               <Title level={4}>Class: {currentSubmission.class_name}</Title>
-              <p><strong>Task Name:</strong> {currentSubmission.task_name}</p>
+              <p><strong>Assigment :</strong> {currentSubmission.task_name}</p>
               <p><strong>Points:</strong> {`${currentSubmission.point} / ${currentSubmission.total_points}`}</p>
               {currentSubmission.img && (
                 <>

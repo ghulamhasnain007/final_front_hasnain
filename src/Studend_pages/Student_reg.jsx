@@ -63,8 +63,11 @@ const RegistrationForm = () => {
          
         {/* Left Column with Image */}
         <Col xs={0} sm={12} md={12} lg={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-       <h1 style={{ width: '100%',  borderRadius: 20, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', marginBottom: 10 , color : 'white',marginBottom : 30  }} >Welcome! We're excited to have you join our community. To get started, please fill out the registration form below. </h1>
-      
+        <center>
+
+       
+       <h1 style={{ width: '100%',  borderRadius: 20,  marginBottom: 80 , color : 'white' }} >Welcome! We're excited to have you join our community. To get started, please fill out the registration form below. </h1>
+       </center>
       </Col>
 
         {/* Right Column with Form */}
@@ -131,8 +134,8 @@ const RegistrationForm = () => {
             </Form>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <p>Already have an account? <Link to="/student/login">Login</Link></p>
-              <Link to="/" style={{ display: 'inline-block', marginTop: '10px' }}>
-                <Button style={{ borderRadius: '5px' }}>Back to Home</Button>
+              <Link to="/" style={{ display: 'inline-block', marginTop: '10px' , width: '50%' }}>
+                <Button type="default" style={{ borderRadius: '5px' ,  }}>Back to Home</Button>
               </Link>
             </div>
           </Card>

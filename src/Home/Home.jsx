@@ -12,7 +12,7 @@ export default function Home() {
       <Header/>    
       <Content>
         <ContentComponent/>
-      </Content>
+      </Content> <br /><br />
       <Foter/>
     </Layout>
     </>

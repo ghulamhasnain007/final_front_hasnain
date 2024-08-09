@@ -174,7 +174,7 @@ const TaskSubmission = () => {
                 />
               )}
               <Card
-                title={`Teacher Name: ${task.teacher_name}`}
+                title={`Teacher : Sir  ${task.teacher_name}`}
                 style={{ borderRadius: "13px 31px 50px 12px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#ffffff' }}
               >
                 <Card
@@ -183,9 +183,9 @@ const TaskSubmission = () => {
                   // title={`Last Date of Assignment: ${task.last_date?.slice(0, 10) || 'N/A'}`}
                   style={{ borderRadius: "13px 31px 50px 12px", marginBottom: '20px' }}
                 >
-                  <h3 style={{ color: '#1890ff' }}>Task Instructions</h3>
+                  <h3 style={{ color: '#1890ff' }}>Assigment Instructions</h3>
                   <p>{task.instructions}</p>
-                  <p> <strong style={{ color: '#1890ff' }}>Task Created :</strong> {task.created_at.slice(0, 10)}</p>
+                  <p> <strong style={{ color: '#1890ff' }}>Assigment Created :</strong> {task.created_at.slice(0, 10)}</p>
                   <p> <strong style={{ color: 'red' }}>Last Date :</strong> {`${task.last_date?.slice(0, 10) || 'N/A'}`}</p>
 
                   {task.IMAGE &&
