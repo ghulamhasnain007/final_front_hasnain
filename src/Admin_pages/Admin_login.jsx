@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext} from '../Context/AuthContext'
 import axios from 'axios';
 import url from '../api/api';
 const { Title } = Typography;
@@ -10,6 +11,7 @@ import Particle from '../Admin_comp/Animation'
 const AdminLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate('')
+  const {login} = useContext(AuthContext)
   const onFinish = async (values) => {
     const loginData = {
       email: values.email,
@@ -23,8 +25,9 @@ const AdminLogin = () => {
         description: response.data.message,
       });
 
-      localStorage.setItem('admin', JSON.stringify(response.data));
-      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
+      login('admin', response.data)
+      // localStorage.setItem('admin', JSON.stringify(response.data));
+      // localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
       const timer = setTimeout(() => {
         window.location.href = '/admin/dashboard';

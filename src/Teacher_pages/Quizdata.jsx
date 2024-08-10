@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Row, Col, Spin, Modal, Button, message, Tooltip } from 'antd';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -7,14 +7,18 @@ import Nav from '../Teachercomp/Tnavi';
 const { Meta } = Card;
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
+  const { auth } = useContext(AuthContext)
 
   const fetchQuizzes = async () => {
-    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    let id = auth.teacher.userData.id;
+    // let id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
       const response = await axios.get(`${url}/quiz/teacher/${id}`);
       setQuizzes(response.data);

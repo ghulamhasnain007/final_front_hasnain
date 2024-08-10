@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Layout, Menu, Space, Dropdown, Avatar } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
@@ -13,15 +13,19 @@ import axios from 'axios';
 import MessageDropdown from './Noti'
 // let url = 'http://localhost:3000/api';
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const { Header } = Layout;
 
 const Navi = () => {
   const navigate = useNavigate();
   const [data, setData] = useState('');
+  const { logout, auth } = useContext(AuthContext)
 
-  const logout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('role');
+  const logoutFun = () => {
+    // localStorage.removeItem('user');
+    // localStorage.removeItem('role');
+    logout('user')
     navigate('/');
     // window.location.href = '/';
   };
@@ -39,12 +43,13 @@ const Navi = () => {
       key: '3',
       icon: <CiLogout />,
       label: 'Logout',
-      onClick: logout,
+      onClick: logoutFun,
     },
   ];
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem('user')).userData.id;
+    // const id = JSON.parse(localStorage.getItem('user')).userData.id;
+    const id = auth.student.userData.id
     const getUserData = () => {
       axios.get(`${url}/users/${id}`)
         .then((res) => {

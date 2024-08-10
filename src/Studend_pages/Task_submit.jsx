@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Upload, Button, Input, Image, message, Alert, Spin } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { PiBracketsCurlyLight } from "react-icons/pi";
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import student from '../token/student.js';
 import hosturl from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
 // let hosturl = 'http://localhost:3000/api'
 const { TextArea } = Input;
 
@@ -21,6 +22,7 @@ const TaskSubmission = () => {
   const [isLoadingTask, setIsLoadingTask] = useState(true); // Loader for task fetching
   const { id, classid } = useParams();
   const [fileList, setFileList] = useState([]);
+  const { auth } = useContext(AuthContext)
 
   const handleBeforeUpload = (file) => {
     const reader = new FileReader();
@@ -62,8 +64,10 @@ const TaskSubmission = () => {
     }
   };
   const handleSubmit = async () => {
-    const userid = JSON.parse(localStorage.getItem('user'));
-    const profile = JSON.parse(localStorage.getItem('user'))?.userData.profileurl
+    const userid = auth.student;
+    // const userid = JSON.parse(localStorage.getItem('user'));
+    const profile = auth.student?.userData.profileurl
+    // const profile = JSON.parse(localStorage.getItem('user'))?.userData.profileurl
     const formData = new FormData();
     // formData.append('text', text);
     formData.append('file', imgFile);

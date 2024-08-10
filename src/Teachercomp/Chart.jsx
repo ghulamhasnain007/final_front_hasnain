@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Select, Spin, Button } from 'antd';
 import axios from 'axios';
 import { Line } from '@ant-design/charts';
 import teacher from '../token/teacher.js';
+import { AuthContext } from '../Context/AuthContext.jsx';
 
 const { Option } = Select;
 
@@ -11,13 +12,16 @@ const DashboardPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
+  const { auth } = useContext(AuthContext)
 
   const fetchData = async () => {
     try {
-      const id = JSON.parse(localStorage.getItem('user')).userData.id
-
+      // const id = JSON.parse(localStorage.getItem('teacher')).userData.id
+      const id = auth.teacher.userData.id
+      console.log(id)
       const response = await teacher.get(`/tchart/chart/${id}`);
-      // console.log('Fetched data:', response.data); // Log fetched data
+      console.log('Fetched data:', response.data); // Log fetched data
+
       setData(response.data);
       setFilteredData(response.data);
       setLoading(false);

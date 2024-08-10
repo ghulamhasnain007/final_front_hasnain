@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Row, Col, Typography, Empty, Modal, Button, Spin, Alert } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
@@ -8,17 +8,21 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 const { Title, Text } = Typography;
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const SubmissionData = () => {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
   const [checkedSubmissions, setCheckedSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentSubmission, setCurrentSubmission] = useState(null);
+  const { auth } = useContext(AuthContext)
   // console.log(currentSubmission.files?.length);
 
 
   const fetchSubmissions = async () => {
-    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    let id = auth.student.userData.id;
+    // let id = JSON.parse(localStorage.getItem('user')).userData.id;
 
     try {
       const response = await axios.get(`${url}/tasksubmit/mysubmissions/${id}`);

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal, Input, Typography, Avatar, Card, message, Tooltip, Empty } from 'antd';
 import { Link } from 'react-router-dom';
 import Student_nav from '../Student_comp/Student_nav';
 import student from '../token/student.js'
 import axios from 'axios';
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
 // let url = 'http://localhost:3000/api'
 const { Title } = Typography;
 const { Meta } = Card;
@@ -13,6 +14,7 @@ const Join_class = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [classCode, setClassCode] = useState('');
   const [classDetails, setClassDetails] = useState([]);
+  const { auth } = useContext(AuthContext)
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -48,7 +50,8 @@ const Join_class = () => {
   }
 
   let studentcard = (classid) =>{
-    const userid = JSON.parse(localStorage.getItem('user')).userData.id
+    const userid = auth.student.userData.id
+    // const userid = JSON.parse(localStorage.getItem('user')).userData.id
       // console.log(userid.userData.id);
     try {
       axios.post(`${url}/point/student/${userid}`, {
@@ -83,7 +86,8 @@ const Join_class = () => {
   // };
   const handleOk = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      // const user = JSON.parse(localStorage.getItem('user'));
+      const user = auth.student;
       let userId = user.userData.id
       const response = await student.post('/joinclass', { classCode, userId })
         .then((res) => {
@@ -111,7 +115,8 @@ const Join_class = () => {
 
   const getClassData = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = auth.student;
+      // const user = JSON.parse(localStorage.getItem('user'));
       let userId = user.userData.id
       const response = await student.get(`/joinclass/${userId}`);
       setClassDetails(response.data)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Input, Button, Row, Col, message,Spin } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link,useNavigate } from 'react-router-dom';
@@ -6,10 +6,13 @@ import axios from 'axios';
 import Nav from '../Teachercomp/Tnavi';
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const QuizForm = () => {
   const [form] = Form.useForm();
   const [quizKey, setQuizKey] = useState('');
   const navigate = useNavigate()
+  const { auth } = useContext(AuthContext)
   const onFinish = async (values) => {
     // Transform options into an array
     const questions = values.questions.map((question) => ({
@@ -17,7 +20,8 @@ const QuizForm = () => {
       options: [question.option1, question.option2, question.option3, question.option4],
     }));
 
-const teacherData = JSON.parse(localStorage.getItem('user'));
+    const teacherData = auth.teacher
+// const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacherId = teacherData.userData.id;
     let chart = async () => {
       

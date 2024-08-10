@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Card, Radio, Button, message, Alert, Progress } from 'antd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import QuizResult from '../Student_comp/Result';
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const Quiz = () => {
   const { id } = useParams();
   const [btn, setBtn] = useState(false);
@@ -32,12 +34,14 @@ const Quiz = () => {
   const [active, setactive] = useState('')
   const [point, setpasing_point] = useState('')
   const exitFullScreenTimer = useRef(null);
+  const { auth } = useContext(AuthContext)
   useEffect(() => {
     setLoading(false);
   }, []);
   useEffect(() => {
     const checkQuizTaken = async () => {
-      const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
+      const studentId = auth.student.userData.id;
+      // const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
 
       try {
         const response = await axios.get(`${url}/result/check-result/${id}/${studentId}`);
@@ -239,8 +243,10 @@ const Quiz = () => {
         localStorage.removeItem('quizState');
   
         // Fetch user details
-        const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
-        const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
+        const studentId = auth.studenth.userData.id;
+        // const studentId = JSON.parse(localStorage.getItem('user')).userData.id;
+        const studentName = auth.student.userData.username;
+        // const studentName = JSON.parse(localStorage.getItem('user')).userData.username;
   
         // Save the result
         await axios.post(`${url}/result/save-result`, {

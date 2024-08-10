@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Modal, Form, Input, Card, message, Tooltip, Empty, Dropdown, Select } from 'antd';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,9 @@ import axios from 'axios';
 import Tnavi from '../Teachercomp/Tnavi';
 import teacher from '../token/teacher.js';
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
+
 const { Option } = Select;
 // let url = 'http://localhost:3000/api'
 const CreateClassComponent = () => {
@@ -17,7 +20,7 @@ const CreateClassComponent = () => {
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [dropid, setDropid] = useState('');
   const [teacherprofile, setteacherprofile] = useState('');
-
+  const { auth } = useContext(AuthContext)
   const themes = [
     { name: 'Theme 1', url: 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/free-google-classroom-banner-template-design-df5e76bfa478908057fd215227e2c284_screen.jpg?ts=1614075608' },
     { name: 'Theme 2', url: 'https://storage.googleapis.com/kami-uploads-public/library-resource-egxYhSV74CxA-vdSy9m-google-classroom-banner-paint-splats-png' },
@@ -45,7 +48,8 @@ const CreateClassComponent = () => {
   };
 
   const getuserdatbyid = () => {
-    const teacherData = JSON.parse(localStorage.getItem('user'));
+    const teacherData = auth.teacher;
+    // const teacherData = JSON.parse(localStorage.getItem('user'));
     const id = teacherData.userData.id;
     try {
       axios.get(`${url}/users/${id}`)
@@ -62,7 +66,8 @@ const CreateClassComponent = () => {
     let totalTasks = 0;
     let totalClasses = 1;
     let totalquiz = 0;
-    const teacherData = JSON.parse(localStorage.getItem('user'));
+    const teacherData = auth.teacher
+    // const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacherId = teacherData.userData.id;
     await axios.post(`${url}/tchart/teacher`, { totalStudents, totalTasks, totalClasses, teacherId, totalquiz })
       .then((res) => {
@@ -85,7 +90,8 @@ const CreateClassComponent = () => {
     }
   };
   const handleOk = () => {
-    const teacherData = JSON.parse(localStorage.getItem('user'));
+    const teacherData = auth.teacher
+    // const teacherData = JSON.parse(localStorage.getItem('user'));
     form.validateFields().then((values) => {
       const generatedClassDetails = {
         className: values.className,

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, Card, Avatar, message, Spin } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TNavi from '../Teachercomp/Tnavi';
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
+
 const { Option } = Select;
 // let url = 'http://localhost:3000/api'
 const Tprofile = () => {
@@ -12,6 +15,7 @@ const Tprofile = () => {
   const [initialValues, setInitialValues] = useState({});
   const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
   const [loading, setLoading] = useState(true); // State for loader
+  const { auth } = useContext(AuthContext)
 
   const handleImageUpload = ({ fileList }) => {
     setFileList(fileList);
@@ -26,7 +30,8 @@ const Tprofile = () => {
     formData.append('username', values.name);
     formData.append('gender', values.gender);
 
-    const techerId = JSON.parse(localStorage.getItem('techerdata')).userData.id;
+    const techerId = auth.teacher.userData.id;
+    // const techerId = JSON.parse(localStorage.getItem('techerdata')).userData.id;
 
     try {
       await axios.put(`${url}/users/profileupdate/${techerId}`, formData, {
@@ -44,7 +49,8 @@ const Tprofile = () => {
   };
 
   const fetchUserData = async () => {
-    const techerId = JSON.parse(localStorage.getItem('user')).userData.id;
+    const techerId = auth.teacher.userData.id;
+    // const techerId = JSON.parse(localStorage.getItem('user')).userData.id;
     setLoading(true); // Show loader while fetching data
     try {
       const response = await axios.get(`${url}/users/${techerId}`);

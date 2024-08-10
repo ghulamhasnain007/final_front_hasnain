@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Col, Row, Statistic, Typography } from 'antd';
 import axios from 'axios';
 import teacher from '../token/teacher.js';
+import { AuthContext } from '../Context/AuthContext.jsx';
 
 const DashboardPage = () => {
   const [data, setData] = useState('');
   const { Title } = Typography;
+  const { auth } = useContext(AuthContext)
   // Mock data for total counts
   const totalStudent = data.totalstudent ? data.totalstudent : '0';
   const totalClasses = data.totalclass ? data.totalclass : '0';
@@ -13,7 +15,8 @@ const DashboardPage = () => {
   const totalTasks = data.totaltask ? data.totaltask : '0';
 
   let get = () => {
-    const teacher_id = JSON.parse(localStorage.getItem('user')).userData.id;
+    const teacher_id = auth.teacher.userData.id;
+    // const teacher_id = JSON.parse(localStorage.getItem('user')).userData.id;
     teacher.get(`/joinclass/get/${teacher_id}`)
       .then((res) => {
         // console.log(res.data);

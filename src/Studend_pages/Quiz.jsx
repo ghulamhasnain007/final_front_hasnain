@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Form, Input, Button, message, Row, Col, Card } from 'antd';
 import axios from 'axios';
 import { Link,useParams } from 'react-router-dom';
 import Navi from '../Student_comp/Student_nav';
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
   const [form] = Form.useForm();
   const id = useParams();
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
     fetchQuizzes();
@@ -17,7 +20,8 @@ const App = () => {
 
   const fetchQuizzes = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = auth.student;
+      // const user = JSON.parse(localStorage.getItem('user'));
       if (!user || !user.userData || !user.userData.id) {
         console.error('User data or ID not found in localStorage.');
         return;
@@ -37,7 +41,8 @@ const App = () => {
   };
 
   const onFinish = async (values) => {
-    const id = JSON.parse(localStorage.getItem('user')).userData.id;
+    const id = auth.student.userData.id;
+    // const id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
       const response = await axios.post(`${url}/quiz/join`, {
         quizKey: values.quizKey,

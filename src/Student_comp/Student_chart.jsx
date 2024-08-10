@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Row, Col, Input, Button, List, message, Spin } from 'antd';
 import { Pie } from '@ant-design/charts';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -6,6 +6,9 @@ import axios from 'axios';
 import student from '../token/student.js';
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
+
 const DashboardChart = ({ data }) => {
   const config = {
     appendPadding: 10,
@@ -24,14 +27,16 @@ const TodoList = () => {
   const [items, setItems] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const { auth } = useContext(AuthContext)
+  
   useEffect(() => {
     fetchItems();
   }, []);
-
+  
   const fetchItems = async () => {
     setLoading(true);
-    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    let id = auth.student.userData.id;
+    // let id = JSON.parse(localStorage.getItem('user')).userData.id;
     try {
       const response = await axios.get(`${url}/todo/${id}`);
       setItems(response.data);
@@ -44,7 +49,9 @@ const TodoList = () => {
   };
 
   const addItem = async () => {
-    let id = JSON.parse(localStorage.getItem('user')).userData.id;
+    // const { auth } = useContext(AuthContext)
+    let id = auth.student.userData.id;
+    // let id = JSON.parse(localStorage.getItem('user')).userData.id;
     if (inputValue) {
       try {
         const response = await axios.post(`${url}/todo`, { task: inputValue, user_id: id });
@@ -121,11 +128,13 @@ const TodoList = () => {
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = auth.student;
+        // const user = JSON.parse(localStorage.getItem('user'));
         const id = user.userData.id;
 
         const response = await student.get(`/point/${id}`);

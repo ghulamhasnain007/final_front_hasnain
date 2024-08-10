@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, Card, Avatar, message, Spin } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TNavi from '../Admin_comp/Navi';
 import url from '../api/api';
+import { AuthContext } from '../Context/AuthContext';
 const { Option } = Select;
 // let url = 'http://localhost:3000/api'
 const Tprofile = () => {
@@ -12,6 +13,7 @@ const Tprofile = () => {
   const [initialValues, setInitialValues] = useState({});
   const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
   const [loading, setLoading] = useState(true); // State to manage loading
+  const { auth } = useContext(AuthContext)
 
   const handleImageUpload = ({ fileList }) => {
     setFileList(fileList);
@@ -26,7 +28,8 @@ const Tprofile = () => {
     formData.append('username', values.name);
     formData.append('gender', values.gender);
 
-    const admin = JSON.parse(localStorage.getItem('admin')).userData.id;
+    const admin = auth.admin.userData.id;
+    // const admin = JSON.parse(localStorage.getItem('admin')).userData.id;
 
     try {
       await axios.put(`${url}/users/profileupdate/${admin}`, formData, {
@@ -44,7 +47,8 @@ const Tprofile = () => {
   };
 
   const fetchUserData = async () => {
-    const admin = JSON.parse(localStorage.getItem('admin')).userData.id;
+    const admin = auth.admin.userData.id;
+    // const admin = JSON.parse(localStorage.getItem('admin')).userData.id;
     try {
       const response = await axios.get(`${url}/users/${admin}`);
       const userData = response.data;

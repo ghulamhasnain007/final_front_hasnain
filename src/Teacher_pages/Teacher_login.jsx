@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -7,9 +7,12 @@ const { Title } = Typography;
 import Animation from '../Teachercomp/Particle.jsx'
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const TeacherLogin = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
   const onFinish = async (values) => {
     const loginData = {
       email: values.email,
@@ -22,8 +25,10 @@ const TeacherLogin = () => {
         message:` Welcome Sir ${response.data.userData.teacher_name}`,
         description: response.data.message,
       });
-      localStorage.setItem('user', JSON.stringify(response.data));
-      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
+
+      login('teacher', response.data)
+      // localStorage.setItem('user', JSON.stringify(response.data));
+      // localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
       setTimeout(() => {
         window.location.href = '/teacher/dashboard';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Layout, Menu, Space, Dropdown, Avatar } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, TeamOutlined, DownOutlined, SettingOutlined } from '@ant-design/icons';
@@ -8,16 +8,20 @@ import { CiLogout } from "react-icons/ci";
 import { FaHandsClapping } from "react-icons/fa6";
 import axios from 'axios';
 import url from '../api/api';
+import { AuthContext } from '../Context/AuthContext';
+
 const { Header } = Layout;
 
 const Navi = () => {
   const navigate = useNavigate();
   const [data, setData] = useState('');
+  const { auth, logout } = useContext(AuthContext)
 
   const handleMenuClick = (e) => {
    
-      localStorage.removeItem('admin');
-      localStorage.removeItem('role');
+    logout('admin')
+      // localStorage.removeItem('admin');
+      // localStorage.removeItem('role');
       navigate('/');
     }
   
@@ -53,7 +57,7 @@ const Navi = () => {
   ];
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem('admin')).userData.id;
+    const id = auth.admin.userData.id;
     const getUserData = () => {
       axios.get(`${url}/users/${id}`)
         .then((res) => {

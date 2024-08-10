@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Card, Row, Col, Modal, Form, Input, DatePicker, Button, message, Tooltip, Empty, Alert, Spin, Typography, Select, Space } from 'antd';
 import moment from 'moment';
 import { Link, useParams } from 'react-router-dom';
@@ -7,6 +7,8 @@ import axios from 'axios';
 import { CopyOutlined } from '@ant-design/icons';
 import teacher from '../token/teacher.js';
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx'
+
 const { Title, Paragraph } = Typography;
 // let url = 'http://localhost:3000/api'
 
@@ -21,6 +23,7 @@ const ALL_task = () => {
   const [editForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [optionValue, setoptionvalue] = useState('')
+  const { auth } = useContext(AuthContext)
   const showModal = () => {
     setIsModalOpen(true);
     form.resetFields();
@@ -94,7 +97,8 @@ const ALL_task = () => {
   };
   const handleOk = (values) => {
 
-    const teacherData = JSON.parse(localStorage.getItem('user'));
+    const teacherData = auth.teacher
+    // const teacherData = JSON.parse(localStorage.getItem('user'));
     const teacher_name = teacherData.userData.teacher_name;
     const teacher_id = teacherData.userData.id;
     const newTask = {

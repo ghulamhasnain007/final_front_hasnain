@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Row, Col, Typography } from 'antd';
 import axios from 'axios';
 import student from '../token/student.js';
+import { AuthContext } from '../Context/AuthContext.jsx';
 
 const { Title } = Typography;
 
 const Dashboard = () => {
   const [data, setData] = useState({});
+  const { auth} = useContext(AuthContext)
 
   const totalClasses = async () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const id = user.userData.id;
+    const user = auth.student;
+    // console.log(auth);
+    
+    // const user = JSON.parse(localStorage.getItem('user'));
+    const id = user?.userData.id;
     try {
       const response = await student.get(`/point/get/${id}`);
       setData(response.data);

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Spin } from 'antd';
 import ReactECharts from 'echarts-for-react';
 import axios from 'axios';
 // let url = 'http://localhost:3000/api'
 import url from '../api/api.js'
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const ColumnChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchData = async () => {
-      let id = JSON.parse(localStorage.getItem('user')).userData.id;
+      let id = auth.student.userData.id;
+      // let id = JSON.parse(localStorage.getItem('user')).userData.id;
       try {
         const response = await axios.get(`${url}/result/${id}`);
         // console.log('Fetched data:', response.data); // Log fetched data

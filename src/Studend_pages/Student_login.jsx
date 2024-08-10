@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Form, Input, Button, Row, Col, notification, Typography } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,10 +7,13 @@ import url from '../api/api.js'
 const img = 'https://img.freepik.com/free-photo/computer-security-with-login-password-padlock_107791-16191.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=sph';
 // let url = 'http://localhost:3000/api';
 import ParticlesComponent from '../Student_comp/Animation.jsx';
+import { AuthContext } from '../Context/AuthContext.jsx';
+
 const Student_login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { Title } = Typography;
+  const {login} = useContext(AuthContext)
   const onFinish = async (values) => {
     const regdata = {
       email: values.email,
@@ -25,9 +28,10 @@ const Student_login = () => {
       });
       console.log(response.data.userData.username
       );
-
-      localStorage.setItem('user', JSON.stringify(response.data));
-      localStorage.setItem('role', JSON.stringify(response.data.userData.role));
+      
+      login('student', response.data)
+      // localStorage.setItem('user', JSON.stringify(response.data));
+      // localStorage.setItem('role', JSON.stringify(response.data.userData.role));
       form.resetFields();
 
 

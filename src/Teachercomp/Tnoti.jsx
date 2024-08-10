@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dropdown, Menu, Avatar, Badge, Space } from 'antd';
 import { BellOutlined  } from '@ant-design/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import url from '../api/api.js';
+import { AuthContext } from '../Context/AuthContext.jsx';
 
 const MessageDropdown = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-
+  const { auth } = useContext(AuthContext)
   useEffect(() => {
     // Fetch notifications on component mount
     const fetchNotifications = async () => {
-      const id = JSON.parse(localStorage.getItem('user'))?.userData?.id; 
+      const id = auth.teacher.userData.id; 
+      // const id = JSON.parse(localStorage.getItem('user'))?.userData?.id; 
       try {
         const response = await axios.get(`${url}/noti/get/${id}`);
         const data = response.data;
@@ -32,7 +34,8 @@ const MessageDropdown = () => {
   }, [url]);
 
   const handleMarkAsRead = async () => {
-    const userId = JSON.parse(localStorage.getItem('user'))?.userData?.id;
+    const userId = auth.teacher?.userData?.id;
+    // const userId = JSON.parse(localStorage.getItem('user'))?.userData?.id;
     
     if (!userId) {
         console.error('User ID is not available.');
